@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AI Readiness Checklist  Responsible AI Toolkit</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+:root {
+  --bg:           #ffffff;
+  --bg-content:   #ffffff;
+  --bg-sidebar:   #f8f9fa;
+  --bg-infobox:   #f8f9fa;
+  --bg-hover:     #eaf3ff;
+  --border:       #d4d5d9;
+  --border-light: #eaecf0;
+  --border-blue:  #72acf7;
+  --text:         #202122;
+  --text-sub:     #36454f;
+  --text-muted:   #54595d;
+  --text-dim:     #72777d;
+  --text-link:    #3366cc;
+  --accent:       #3366cc;
+  --accent-hover: #2a55a5;
+  --green:        #096450;
+  --green-bg:     #d5fdf4;
+  --amber:        #783f04;
+  --amber-bg:     #fef3c7;
+  --red:          #b32424;
+  --red-bg:       #fee7e6;
+  --purple:       #4e2a84;
+  --purple-bg:    #ede7f6;
+  --font:         -apple-system, 'Linux Libertine', Georgia, Times, serif;
+  --font-ui:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --radius:       2px;
+}
+[data-theme="dark"] {
+  --bg:           #11131a;
+  --bg-content:   #11131a;
+  --bg-sidebar:   #1a1d24;
+  --bg-infobox:   #1e2229;
+  --bg-hover:     #1e2d45;
+  --border:       #3a3d45;
+  --border-light: #2a2d36;
+  --border-blue:  #4a6fa8;
+  --text:         #eaecf0;
+  --text-sub:     #c8ccd1;
+  --text-muted:   #a2a9b1;
+  --text-dim:     #72777d;
+  --text-link:    #6ea8fe;
+  --accent:       #6ea8fe;
+  --accent-hover: #4a84d8;
+  --green:        #4ac79a;
+  --green-bg:     #0d2b24;
+  --amber:        #f5c06a;
+  --amber-bg:     #2a1f0c;
+  --red:          #f87171;
+  --red-bg:       #2a0f0f;
+  --purple:       #b39ddb;
+  --purple-bg:    #1e1630;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-ui);min-height:100vh;font-size:14px;line-height:1.6}
+.rai-topbar{background:var(--bg-sidebar);border-bottom:1px solid var(--border);padding:0 20px;height:44px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.rai-topbar-brand{font-size:12px;font-weight:600;color:var(--text-dim);letter-spacing:.3px}
+.rai-topbar-right{display:flex;align-items:center;gap:8px}
+.rai-btn-small{background:var(--bg-infobox);border:1px solid var(--border-light);color:var(--text-muted);border-radius:var(--radius);padding:4px 11px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-ui);transition:border-color .15s,color .15s}
+.rai-btn-small:hover{border-color:var(--accent);color:var(--accent)}
+.rai-layout{display:grid;grid-template-columns:220px 1fr;gap:0;max-width:1380px;margin:0 auto;min-height:calc(100vh - 44px)}
+.rai-toc{border-right:1px solid var(--border-light);padding:20px 0;position:sticky;top:44px;height:calc(100vh - 44px);overflow-y:auto}
+[dir="rtl"] .rai-toc{border-right:none;border-left:1px solid var(--border-light)}
+.rai-toc-heading{font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;padding:0 16px;margin-bottom:6px;margin-top:14px}
+.rai-toc-heading:first-child{margin-top:0}
+.rai-toc-item{display:flex;align-items:center;gap:8px;padding:7px 16px;cursor:pointer;border-left:3px solid transparent;font-size:13px;color:var(--text-muted);transition:all .12s;line-height:1.35}
+.rai-toc-item:hover{background:var(--bg-hover);color:var(--text)}
+.rai-toc-item.active{border-left-color:var(--accent);background:var(--bg-hover);color:var(--text-link);font-weight:600}
+[dir="rtl"] .rai-toc-item{border-left:none;border-right:3px solid transparent}
+[dir="rtl"] .rai-toc-item.active{border-right-color:var(--accent)}
+.rai-toc-num{font-size:11px;color:var(--text-dim);min-width:16px}
+.rai-toc-divider{border:none;border-top:1px solid var(--border-light);margin:10px 16px}
+.rai-toc-meta{padding:6px 16px;font-size:12px;color:var(--text-dim)}
+.rai-toc-progress-bar{height:4px;background:var(--border-light);border-radius:2px;margin:5px 16px 10px}
+.rai-toc-progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+.rai-main{padding:24px 32px 60px;background:var(--bg-content);min-width:0}
+.rai-page-label{display:inline-block;font-size:11px;font-weight:600;color:var(--text-link);background:var(--bg-hover);border:1px solid var(--border-blue);border-radius:var(--radius);padding:2px 8px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.rai-page-title{font-family:var(--font-ui);font-size:26px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.25;border-bottom:1px solid var(--border);padding-bottom:8px}
+.rai-page-lead{font-size:13px;color:var(--text-muted);margin-bottom:22px;line-height:1.7;max-width:700px}
+.rai-card{background:var(--bg-infobox);border:1px solid var(--border-light);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.rai-btn{border:1px solid var(--border);background:var(--bg-infobox);color:var(--text-muted);border-radius:var(--radius);padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-ui);transition:all .15s}
+.rai-btn:hover{border-color:var(--accent);color:var(--accent)}
+.rai-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.rai-btn-primary:hover{opacity:.9}
+.ans-btn{border:1px solid var(--border-light);border-radius:var(--radius);padding:6px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-ui);transition:all .12s;background:var(--bg-content);color:var(--text-muted)}
+.ans-btn:hover{border-color:var(--border-blue)}
+.ans-btn.yes.sel{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.ans-btn.partial.sel{background:var(--amber-bg);border-color:var(--amber);color:var(--amber)}
+.ans-btn.no.sel{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.dim-bar-track{height:5px;background:var(--border-light);border-radius:2px;overflow:hidden;margin-top:5px;flex:1}
+.dim-bar-fill{height:100%;border-radius:2px;transition:width .4s}
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}
+@media(max-width:768px){.rai-layout{grid-template-columns:1fr}.rai-toc{display:none}.rai-main{padding:20px 16px}.stat-grid{grid-template-columns:repeat(2,1fr)}.results-grid{grid-template-columns:1fr}}
+</style>
+<script>
+  (function(){
+    var l = localStorage.getItem('rai-lang') || 'en';
+    document.documentElement.dir  = l === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = l;
+  })();
+</script>
+</head>
+<body>
+<script>(function(){var t=localStorage.getItem('rai-theme')||'light';document.documentElement.dataset.theme=t;})();</script>
+<div class="rai-topbar">
+  <span class="rai-topbar-brand">Responsible AI Toolkit</span>
+  <div class="rai-topbar-right">
+    <button id="rai-lang" class="rai-btn-small" onclick="(function(){var h=document.documentElement,n=h.lang==='ar'?'en':'ar';h.lang=n;h.dir=n==='ar'?'rtl':'ltr';localStorage.setItem('rai-lang',n);document.getElementById('rai-lang').textContent=n==='ar'?'EN':'AR';if(window.__raiSetLang)window.__raiSetLang(n);})()" >AR</button>
+    <button id="rai-thm" class="rai-btn-small" onclick="(function(){var e=document.documentElement,t=e.dataset.theme==='light'?'dark':'light';e.dataset.theme=t;localStorage.setItem('rai-theme',t);document.getElementById('rai-thm').textContent=t==='dark'?'Light':'Dark';})()">Dark</button>
+  </div>
+</div>
+<div id="root"></div>
+<script>(function(){var l=document.documentElement.lang;document.getElementById('rai-lang').textContent=l==='ar'?'EN':'AR';document.getElementById('rai-thm').textContent=document.documentElement.dataset.theme==='dark'?'Light':'Dark';})();</script>
+<script type="text/babel">
+const { useState, useEffect, useMemo } = React;
+
+/* ── BILINGUAL STRINGS ─────────────────────────────────────────── */
+const T = {
+  en:{
+    brand:"Responsible AI Toolkit", toolkit:"Responsible AI Toolkit", toolLabel:"Readiness Checklist",
+    title:"AI Readiness Checklist",
+    lead:"Assess your organisation's readiness to develop and deploy AI responsibly across seven dimensions. Takes 10–15 minutes.",
+    selfAssessment:"Self-Assessment",
+    questionsAnswered:"Questions Answered", completion:"Completion",
+    currentScore:"Current Score", readinessTier:"Readiness Tier",
+    viewResults:"View Results", viewPartialResults:"View Partial Results",
+    retakeAssessment:"Retake Assessment", back:"Back",
+    readinessResults:"Readiness Results",
+    readinessProfile:"Readiness Profile",
+    dimensionScores:"Dimension Scores",
+    priorityRecs:"Priority Recommendations",
+    nextStep:"Next step",
+    remaining:"questions remaining",
+    scoreOptions:{ no:"No", partial:"Partial", yes:"Yes" },
+    scoreDesc:{ no:"Not in place", partial:"In progress or incomplete", yes:"Fully in place" },
+    tiers:[
+      { label:"AI Leader",      desc:"Your organisation demonstrates mature, comprehensive AI readiness across all dimensions. You are positioned to deploy AI responsibly at scale and can act as an industry benchmark.", action:"Focus on continuous improvement, external audit, and knowledge-sharing with peers." },
+      { label:"AI Capable",     desc:"Strong foundations exist in most areas with identifiable gaps in a few dimensions. You can deploy AI in lower-risk contexts while addressing remaining gaps.", action:"Prioritise your two lowest-scoring dimensions and set 90-day improvement targets." },
+      { label:"AI Developing",  desc:"Meaningful progress has been made in some areas but significant gaps remain. AI deployment should be limited to low-risk, well-governed pilot projects.", action:"Address foundational gaps, particularly data governance and ethics policy, before scaling." },
+      { label:"AI Foundation",  desc:"Basic elements are in place in some areas but overall readiness is limited. AI deployment beyond simple automation carries meaningful risk.", action:"Invest in a structured AI readiness programme before deploying consequential AI systems." },
+      { label:"Pre-Foundation", desc:"Critical prerequisites for responsible AI are largely absent. Attempting to deploy AI now creates significant governance, legal, and reputational risk.", action:"Commission an AI readiness assessment and establish foundations across all seven dimensions before any deployment." },
+    ],
+    dimensions:[
+      { label:"Strategic Alignment",     description:"How well AI ambitions are anchored in organisational strategy, leadership commitment, and clear business case.", questions:["Leadership has articulated a clear AI vision that is documented and communicated across the organisation.","AI initiatives are explicitly linked to measurable business outcomes, not deployed for their own sake.","A board-level or executive sponsor is accountable for AI strategy and investment.","There is a prioritised pipeline of AI use cases, assessed for feasibility and value.","The organisation has conducted an honest assessment of where AI adds value versus where simpler solutions suffice."] },
+      { label:"Data Readiness",          description:"Whether the organisation has the data quality, governance, and infrastructure needed to develop and operate AI systems.", questions:["Relevant data sources are identified, accessible, and of sufficient quality for intended AI use cases.","A data governance framework exists covering ownership, quality standards, and access controls.","The organisation understands the legal basis for using personal data in AI systems (GDPR, PDPL, etc.).","Data lineage and versioning practices are in place so models can be reproduced and audited.","Known data biases and limitations are documented and communicated to model development teams."] },
+      { label:"Talent & Skills",         description:"Whether the organisation has the human capability (internally or through partners) to develop, deploy, and oversee AI systems.", questions:["Data science and ML engineering capability exists internally or through trusted partnerships.","Domain experts who understand the business context are involved in AI development, not just data scientists.","There is a plan to upskill non-technical staff who will work alongside AI systems.","Responsible AI skills (fairness, explainability, governance) are represented in the AI team.","The organisation has or is developing AI literacy at the leadership and board level."] },
+      { label:"Governance & Ethics",     description:"The policies, processes, and oversight structures needed to ensure AI is developed and deployed responsibly.", questions:["An AI ethics policy or principles document exists and has been reviewed by legal and leadership.","A process exists for ethical review of AI use cases before development begins.","There are defined roles accountable for AI governance (not just development), such as an AI ethics board or officer.","Incident response procedures for AI failures or harmful outcomes are documented and tested.","There is a process for communicating to affected individuals when AI is used in consequential decisions about them."] },
+      { label:"Technical Infrastructure",description:"Whether the organisation's technology stack can support AI development, deployment, monitoring, and maintenance at the required scale.", questions:["Compute infrastructure (cloud or on-premise) is sufficient for training and serving models at the required scale.","MLOps tooling exists for model versioning, experiment tracking, and deployment pipelines.","Monitoring infrastructure can detect model performance drift and data distribution shifts in production.","Security controls protect AI model artefacts, training data, and inference infrastructure.","There is a tested rollback procedure for AI systems that fail or degrade in production."] },
+      { label:"Change & Adoption",       description:"Organisational capacity to integrate AI into workflows, manage the human impact of automation, and sustain adoption over time.", questions:["Frontline staff who will work alongside AI systems have been involved in design and testing.","There is a clear communication plan for how AI will change roles, responsibilities, and workflows.","Training and support programmes exist to help staff work effectively with AI tools.","The organisation has a process for gathering and acting on feedback from AI system users.","Leadership models are in place to manage workforce concerns about automation, displacement, and accountability."] },
+      { label:"Risk & Compliance",       description:"How well the organisation understands its regulatory obligations, risk exposure, and liability posture for AI deployment.", questions:["The organisation has mapped its AI use cases against applicable regulatory frameworks (EU AI Act, PDPL, sector-specific rules).","Risk classification has been performed for each AI use case to determine the level of governance required.","Third-party AI vendors are assessed for compliance, security, and alignment with organisational AI policies.","There is legal review of AI-related contracts, liability clauses, and indemnification arrangements.","Insurance and liability frameworks have been reviewed to ensure AI-related risks are adequately covered."] },
+    ]
+  },
+  ar:{
+    brand:"مجموعة أدوات الذكاء الاصطناعي المسؤول", toolkit:"مجموعة أدوات الذكاء الاصطناعي المسؤول", toolLabel:"قائمة التحقق من الجاهزية",
+    title:"قائمة التحقق من جاهزية الذكاء الاصطناعي",
+    lead:"قيّم جاهزية مؤسستك لتطوير الذكاء الاصطناعي ونشره بمسؤولية عبر سبعة أبعاد. يستغرق 10–15 دقيقة.",
+    selfAssessment:"تقييم ذاتي",
+    questionsAnswered:"الأسئلة المُجاب عنها", completion:"الاكتمال",
+    currentScore:"الدرجة الحالية", readinessTier:"مستوى الجاهزية",
+    viewResults:"عرض النتائج", viewPartialResults:"عرض النتائج الجزئية",
+    retakeAssessment:"إعادة التقييم", back:"رجوع",
+    readinessResults:"نتائج الجاهزية",
+    readinessProfile:"ملف الجاهزية",
+    dimensionScores:"درجات الأبعاد",
+    priorityRecs:"التوصيات ذات الأولوية",
+    nextStep:"الخطوة التالية",
+    remaining:"أسئلة متبقية",
+    scoreOptions:{ no:"لا", partial:"جزئي", yes:"نعم" },
+    scoreDesc:{ no:"غير متوفر", partial:"قيد التنفيذ أو غير مكتمل", yes:"متوفر بالكامل" },
+    tiers:[
+      { label:"قائد في الذكاء الاصطناعي",    desc:"تُظهر مؤسستك جاهزية شاملة وناضجة في مجال الذكاء الاصطناعي عبر جميع الأبعاد. أنت في وضع يمكّنك من نشر الذكاء الاصطناعي بمسؤولية وعلى نطاق واسع ويمكن أن تكون مرجعاً للصناعة.", action:"ركّز على التحسين المستمر والتدقيق الخارجي وتبادل المعرفة مع الأقران." },
+      { label:"قادر على الذكاء الاصطناعي",   desc:"توجد أسس قوية في معظم المجالات مع فجوات قابلة للتحديد في بعض الأبعاد. يمكنك نشر الذكاء الاصطناعي في السياقات منخفضة المخاطر مع معالجة الفجوات المتبقية.", action:"أعطِ الأولوية لأدنى بُعدين حصلا على درجات وحدد أهدافاً للتحسين خلال 90 يوماً." },
+      { label:"في طور التطوير",              desc:"تم إحراز تقدم ملموس في بعض المجالات لكن لا تزال توجد فجوات كبيرة. ينبغي تحديد نشر الذكاء الاصطناعي بمشاريع تجريبية منخفضة المخاطر وجيدة الحوكمة.", action:"عالج الفجوات الأساسية (لا سيما حوكمة البيانات وسياسة الأخلاقيات) قبل التوسع." },
+      { label:"تأسيس الجاهزية",              desc:"العناصر الأساسية متوفرة في بعض المجالات لكن الجاهزية الإجمالية محدودة. نشر الذكاء الاصطناعي بما يتجاوز الأتمتة البسيطة ينطوي على مخاطر ملموسة.", action:"استثمر في برنامج منظم للجاهزية في مجال الذكاء الاصطناعي قبل نشر أنظمة ذكاء اصطناعي جوهرية." },
+      { label:"ما قبل التأسيس",              desc:"المتطلبات الأساسية للذكاء الاصطناعي المسؤول غائبة إلى حد بعيد. محاولة نشر الذكاء الاصطناعي الآن تخلق مخاطر جسيمة في الحوكمة والجانب القانوني والسمعة.", action:"كلّف بإجراء تقييم لجاهزية الذكاء الاصطناعي وأرسِ الأسس عبر جميع الأبعاد السبعة قبل أي نشر." },
+    ],
+    dimensions:[
+      { label:"التوافق الاستراتيجي",        description:"مدى ارتباط طموحات الذكاء الاصطناعي باستراتيجية المؤسسة والتزام القيادة وحالة العمل الواضحة.", questions:["أعربت القيادة عن رؤية واضحة للذكاء الاصطناعي موثقة ومبلَّغ عنها في جميع أنحاء المؤسسة.","مبادرات الذكاء الاصطناعي مرتبطة صراحةً بنتائج أعمال قابلة للقياس، ولا تُنشَر لذاتها.","يتحمل مسؤول تنفيذي أو راعٍ على مستوى مجلس الإدارة مسؤولية استراتيجية الذكاء الاصطناعي والاستثمار فيها.","توجد قائمة مرتبة حسب الأولوية لحالات استخدام الذكاء الاصطناعي، مقيَّمة من حيث الجدوى والقيمة.","أجرت المؤسسة تقييماً صريحاً لمواطن إضافة الذكاء الاصطناعي للقيمة مقابل المواطن التي تكفي فيها الحلول الأبسط."] },
+      { label:"جاهزية البيانات",            description:"ما إذا كانت المؤسسة تمتلك جودة البيانات والحوكمة والبنية التحتية اللازمة لتطوير أنظمة الذكاء الاصطناعي وتشغيلها.", questions:["مصادر البيانات ذات الصلة محددة ومتاحة وذات جودة كافية لحالات الاستخدام المقصودة.","يوجد إطار لحوكمة البيانات يشمل الملكية ومعايير الجودة وضوابط الوصول.","تفهم المؤسسة الأساس القانوني لاستخدام البيانات الشخصية في أنظمة الذكاء الاصطناعي (GDPR وPDPL وغيرها).","ممارسات نسب البيانات وإصداراتها متوفرة حتى تتمكن النماذج من الاستنساخ والتدقيق.","التحيزات والقيود المعروفة في البيانات موثقة ومبلَّغ عنها لفرق تطوير النماذج."] },
+      { label:"الكفاءات والمهارات",         description:"ما إذا كانت المؤسسة تمتلك القدرة البشرية (داخلياً أو عبر شركاء) لتطوير أنظمة الذكاء الاصطناعي ونشرها والإشراف عليها.", questions:["توجد قدرة هندسة علوم البيانات والتعلم الآلي داخلياً أو عبر شراكات موثوقة.","خبراء المجال الذين يفهمون السياق التجاري مشاركون في تطوير الذكاء الاصطناعي، ليس علماء البيانات فحسب.","يوجد خطة لرفع مستوى مهارات الموظفين غير التقنيين الذين سيعملون جنباً إلى جنب مع أنظمة الذكاء الاصطناعي.","مهارات الذكاء الاصطناعي المسؤول (العدالة، قابلية التفسير، الحوكمة) ممثَّلة في فريق الذكاء الاصطناعي.","المؤسسة لديها أو تعمل على تطوير وعي بالذكاء الاصطناعي على مستوى القيادة ومجلس الإدارة."] },
+      { label:"الحوكمة والأخلاقيات",        description:"السياسات والعمليات وهياكل الرقابة اللازمة لضمان تطوير الذكاء الاصطناعي ونشره بمسؤولية.", questions:["توجد وثيقة سياسة أخلاقيات أو مبادئ للذكاء الاصطناعي خضعت لمراجعة قانونية وقيادية.","توجد عملية للمراجعة الأخلاقية لحالات استخدام الذكاء الاصطناعي قبل بدء التطوير.","توجد أدوار محددة مسؤولة عن حوكمة الذكاء الاصطناعي (ليس فقط التطوير) كمجلس أخلاقيات الذكاء الاصطناعي أو مسؤول مختص.","إجراءات الاستجابة للحوادث المتعلقة بإخفاقات الذكاء الاصطناعي أو النتائج الضارة موثقة ومختبرة.","توجد عملية للإبلاغ الأفراد المتأثرين عند استخدام الذكاء الاصطناعي في قرارات جوهرية تخصهم."] },
+      { label:"البنية التحتية التقنية",     description:"ما إذا كانت بنية تقنية المعلومات في المؤسسة قادرة على دعم تطوير الذكاء الاصطناعي ونشره ومراقبته وصيانته بالحجم المطلوب.", questions:["البنية التحتية الحاسوبية (السحابية أو المحلية) كافية لتدريب النماذج وتقديمها بالحجم المطلوب.","توجد أدوات MLOps لإصدار النماذج وتتبع التجارب وخطوط النشر.","يمكن للبنية التحتية للمراقبة الكشف عن انزياح أداء النماذج والانجراف في توزيع البيانات في بيئة الإنتاج.","ضوابط الأمان تحمي قطع نماذج الذكاء الاصطناعي وبيانات التدريب والبنية التحتية للاستدلال.","يوجد إجراء تراجع مختبَر لأنظمة الذكاء الاصطناعي التي تفشل أو تتدهور في الإنتاج."] },
+      { label:"التغيير والتبني",           description:"قدرة المؤسسة على دمج الذكاء الاصطناعي في سير العمل وإدارة الأثر البشري للأتمتة والحفاظ على التبني بمرور الوقت.", questions:["الموظفون في الخطوط الأمامية الذين سيعملون جنباً إلى جنب مع أنظمة الذكاء الاصطناعي شاركوا في التصميم والاختبار.","توجد خطة تواصل واضحة لكيفية تغيير الذكاء الاصطناعي للأدوار والمسؤوليات وسير العمل.","تتوفر برامج تدريب ودعم لمساعدة الموظفين على العمل بفاعلية مع أدوات الذكاء الاصطناعي.","للمؤسسة عملية لجمع التغذية الراجعة من مستخدمي أنظمة الذكاء الاصطناعي والتصرف بناءً عليها.","نماذج قيادية قائمة لإدارة مخاوف القوى العاملة حول الأتمتة والتهجير والمساءلة."] },
+      { label:"المخاطر والامتثال",          description:"مدى فهم المؤسسة لالتزاماتها التنظيمية وتعرضها للمخاطر وموقفها من المسؤولية في نشر الذكاء الاصطناعي.", questions:["المؤسسة رسمت خريطة لحالات استخدام الذكاء الاصطناعي لديها مقابل الأطر التنظيمية المنطبقة (قانون الذكاء الاصطناعي الأوروبي، PDPL، قواعد قطاعية محددة).","تم تصنيف المخاطر لكل حالة استخدام للذكاء الاصطناعي لتحديد مستوى الحوكمة المطلوب.","بائعو الذكاء الاصطناعي الخارجيون يُقيَّمون من حيث الامتثال والأمان والتوافق مع سياسات الذكاء الاصطناعي للمؤسسة.","توجد مراجعة قانونية للعقود المتعلقة بالذكاء الاصطناعي وبنود المسؤولية وترتيبات التعويض.","أُعيدت مراجعة أطر التأمين والمسؤولية لضمان التغطية الكافية للمخاطر المرتبطة بالذكاء الاصطناعي."] },
+    ]
+  }
+};
+
+const DIM_COLORS = ['var(--accent)','#0891b2','var(--green)','var(--amber)','var(--purple)','#ec4899','#f97316'];
+
+function getTierIdx(score) {
+  if(score>=56) return 0; if(score>=43) return 1; if(score>=29) return 2; if(score>=15) return 3; return 4;
+}
+const TIER_COLORS = ['var(--green)','var(--purple)','var(--amber)','#f97316','var(--red)'];
+
+function RadarChart({ scores, labels }) {
+  const N=7, cx=160, cy=160, r=110;
+  function polar(i,val){ const a=(Math.PI*2*i)/N-Math.PI/2, rv=(val/10)*r; return [cx+rv*Math.cos(a), cy+rv*Math.sin(a)]; }
+  const axisPts = Array.from({length:N},(_,i)=>polar(i,10));
+  const scorePts = scores.map((s,i)=>polar(i,s));
+  const toPath = pts=>pts.map((p,i)=>`${i===0?'M':'L'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ')+'Z';
+  return (
+    <svg width="320" height="320" viewBox="0 0 320 320" style={{maxWidth:'100%'}}>
+      {[2,4,6,8,10].map(lv=><polygon key={lv} points={Array.from({length:N},(_,i)=>polar(i,lv).join(',')).join(' ')} fill="none" stroke="var(--border-light)" strokeWidth="1"/>)}
+      {axisPts.map((pt,i)=><line key={i} x1={cx} y1={cy} x2={pt[0]} y2={pt[1]} stroke="var(--border-light)" strokeWidth="1"/>)}
+      <path d={toPath(scorePts)} fill="var(--bg-hover)" stroke="var(--accent)" strokeWidth="2"/>
+      {scorePts.map((pt,i)=><circle key={i} cx={pt[0]} cy={pt[1]} r="4" fill={DIM_COLORS[i]} stroke="var(--bg-content)" strokeWidth="2"/>)}
+      {Array.from({length:N},(_,i)=>{
+        const [lx,ly]=polar(i,10+16);
+        const anchor=lx<cx-5?'end':lx>cx+5?'start':'middle';
+        return <text key={i} x={lx} y={ly} textAnchor={anchor} fontSize="10" fontWeight="600" fill="var(--text-muted)" dominantBaseline="middle">{labels[i]}</text>;
+      })}
+    </svg>
+  );
+}
+
+function App() {
+  const [lang, setLang]       = useState(document.documentElement.lang || 'en');
+  const [answers, setAnswers] = useState({});
+  const [activeDim, setActiveDim] = useState(0);
+  const [phase, setPhase]     = useState('assess');
+
+  useEffect(()=>{
+    window.__raiSetLang=(l)=>{
+      setLang(l);
+      document.documentElement.lang=l;
+      document.documentElement.dir=l==='ar'?'rtl':'ltr';
+      const btn=document.getElementById('rai-lang');
+      if(btn) btn.textContent=l==='ar'?'EN':'AR';
+    };
+  },[]);
+
+  useEffect(()=>{
+    if(phase==='results' && window.RAIGate){
+      const summary = dims.map((d,i)=>((T2.domainLabels&&T2.domainLabels[d.id])||d.label)+': '+dimScores[i]+'/'+(d.questions.length*2)).join(' | ');
+      window.RAIGate.trigger({
+        score:    totalScore,
+        maxScore: maxTotal,
+        tier:     tier ? tier.label : '',
+        answers:  answers,
+        summary:  summary,
+      });
+    }
+  },[phase]);
+
+  const T2 = T[lang];
+  const dims = T2.dimensions;
+  const totalQ = dims.reduce((a,d)=>a+d.questions.length,0);
+  const answeredCount = Object.keys(answers).length;
+  const pct = Math.round(answeredCount/totalQ*100);
+
+  const dimScores = useMemo(()=>dims.map((d,di)=>d.questions.reduce((acc,_,qi)=>acc+(answers[`${di}_${qi}`]??0),0)),[answers,dims]);
+  const totalScore = dimScores.reduce((a,b)=>a+b,0);
+  const maxTotal = dims.length*10;
+
+  const tierIdx = getTierIdx(totalScore);
+  const tier = T2.tiers[tierIdx];
+  const tierColor = TIER_COLORS[tierIdx];
+
+  function setAnswer(di,qi,val){ setAnswers(p=>({...p,[`${di}_${qi}`]:val})); }
+  function reset(){ setAnswers({}); setActiveDim(0); setPhase('assess'); if(window.RAIGate) window.RAIGate.reset(); }
+
+  const dim = dims[activeDim];
+  const dimAnswered = dim.questions.filter((_,qi)=>answers[`${activeDim}_${qi}`]!==undefined).length;
+
+  const sortedIdxByScore = useMemo(()=>dimScores.map((s,i)=>({s,i})).sort((a,b)=>a.s-b.s),[dimScores]);
+
+  /* RESULTS */
+  if(phase==='results') return (
+    <div className="rai-layout">
+      <nav className="rai-toc">
+        <div className="rai-toc-heading">{T2.toolLabel}</div>
+        <div className="rai-toc-meta" style={{color:tierColor,fontWeight:700}}>{tier.label}</div>
+        <div className="rai-toc-meta">{totalScore}/{maxTotal}</div>
+        <hr className="rai-toc-divider"/>
+        {dims.map((d,i)=>(
+          <div key={i} className="rai-toc-item" onClick={()=>{setActiveDim(i);setPhase('assess');}}>
+            <span className="rai-toc-num">{i+1}</span>
+            <span style={{flex:1}}>{d.label}</span>
+            <span style={{fontSize:11,color:DIM_COLORS[i]}}>{dimScores[i]}/10</span>
+          </div>
+        ))}
+        <hr className="rai-toc-divider"/>
+        <div style={{padding:'8px 16px'}}><button onClick={reset} className="rai-btn" style={{width:'100%'}}>{T2.retakeAssessment}</button></div>
+      </nav>
+      <main className="rai-main">
+        <div className="rai-page-label">{T2.brand}</div>
+        <h1 className="rai-page-title">{T2.readinessResults}</h1>
+
+        {/* Tier verdict */}
+        <div className="rai-card" style={{background:tierColor+'11',border:'1px solid '+tierColor+'44',marginBottom:20,display:'flex',gap:20,alignItems:'flex-start',flexWrap:'wrap'}}>
+          <div style={{textAlign:'center',flexShrink:0}}>
+            <div style={{fontSize:48,fontWeight:900,color:tierColor,lineHeight:1}}>{totalScore}</div>
+            <div style={{fontSize:11,color:'var(--text-dim)',textTransform:'uppercase',letterSpacing:'.5px'}}>/{maxTotal}</div>
+          </div>
+          <div style={{flex:1}}>
+            <div style={{fontSize:20,fontWeight:800,color:tierColor,marginBottom:6}}>{tier.label}</div>
+            <p style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.65,marginBottom:10}}>{tier.desc}</p>
+            <div style={{background:'var(--bg-infobox)',borderRadius:'var(--radius)',padding:'9px 12px',fontSize:13,color:'var(--text-sub)'}}>
+              <strong style={{color:tierColor}}>{T2.nextStep}:</strong> {tier.action}
+            </div>
+          </div>
+        </div>
+
+        <div className="results-grid">
+          {/* Radar */}
+          <div className="rai-card" style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
+            <div style={{fontSize:14,fontWeight:700,color:'var(--text)',marginBottom:10}}>{T2.readinessProfile}</div>
+            <RadarChart scores={dimScores} labels={dims.map(d=>d.label)}/>
+          </div>
+          {/* Dimension bars */}
+          <div className="rai-card">
+            <div style={{fontSize:14,fontWeight:700,color:'var(--text)',marginBottom:14}}>{T2.dimensionScores}</div>
+            {dims.map((d,i)=>(
+              <div key={i} style={{display:'flex',alignItems:'center',gap:10,paddingBottom:9,marginBottom:9,borderBottom:i<dims.length-1?'1px solid var(--border-light)':'none'}}>
+                <span style={{width:8,height:8,borderRadius:'50%',background:DIM_COLORS[i],flexShrink:0}}/>
+                <span style={{fontSize:13,color:'var(--text-sub)',flex:1}}>{d.label}</span>
+                <div className="dim-bar-track" style={{width:80}}><div className="dim-bar-fill" style={{width:(dimScores[i]/10*100)+'%',background:DIM_COLORS[i]}}/></div>
+                <span style={{fontSize:12,fontWeight:700,color:DIM_COLORS[i],minWidth:28,textAlign:'end'}}>{dimScores[i]}/10</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Priority recs */}
+        <div className="rai-card">
+          <div style={{fontSize:15,fontWeight:700,color:'var(--text)',marginBottom:16}}>{T2.priorityRecs}</div>
+          {sortedIdxByScore.slice(0,3).map(({i},ri)=>{
+            const d=dims[i];
+            const gapQ=d.questions.filter((_,qi)=>(answers[`${i}_${qi}`]??0)<2);
+            return (
+              <div key={i} style={{borderBottom:ri<2?'1px solid var(--border-light)':'none',paddingBottom:ri<2?16:0,marginBottom:ri<2?16:0}}>
+                <div style={{display:'flex',gap:10,alignItems:'center',marginBottom:10}}>
+                  <div style={{width:26,height:26,borderRadius:'50%',background:DIM_COLORS[i]+'22',color:DIM_COLORS[i],display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:800,flexShrink:0}}>{ri+1}</div>
+                  <span style={{fontSize:14,fontWeight:700,color:DIM_COLORS[i]}}>{d.label}</span>
+                  <span style={{fontSize:11,background:DIM_COLORS[i]+'22',color:DIM_COLORS[i],border:'1px solid '+DIM_COLORS[i]+'33',borderRadius:2,padding:'1px 8px',fontWeight:700,marginInlineStart:'auto'}}>{dimScores[i]}/10</span>
+                </div>
+                {gapQ.slice(0,3).map((_,qi)=>{
+                  const actualQi = d.questions.indexOf(d.questions.filter((_2,qi2)=>(answers[`${i}_${qi2}`]??0)<2)[qi]);
+                  const val=answers[`${i}_${actualQi}`]??0;
+                  return (
+                    <div key={qi} style={{display:'flex',gap:8,alignItems:'flex-start',marginBottom:7,paddingInlineStart:36}}>
+                      <span style={{color:val===0?'var(--red)':'var(--amber)',flexShrink:0,fontSize:12,marginTop:2}}>{val===0?'✗':'~'}</span>
+                      <span style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.5}}>{d.questions.filter((_2,qi2)=>(answers[`${i}_${qi2}`]??0)<2)[qi]}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+        <div style={{marginTop:16}}><button onClick={reset} className="rai-btn">{T2.retakeAssessment}</button></div>
+      </main>
+    </div>
+  );
+
+  /* ASSESS */
+  return (
+    <div className="rai-layout">
+      <nav className="rai-toc">
+        <div className="rai-toc-heading">{T2.toolLabel}</div>
+        <div className="rai-toc-meta">{answeredCount}/{totalQ} · {pct}%</div>
+        <div className="rai-toc-progress-bar"><div className="rai-toc-progress-fill" style={{width:pct+'%'}}/></div>
+        <hr className="rai-toc-divider"/>
+        {dims.map((d,i)=>{
+          const da=d.questions.filter((_,qi)=>answers[`${i}_${qi}`]!==undefined).length;
+          const dp=Math.round(dimScores[i]/10*100);
+          return (
+            <div key={i} className={`rai-toc-item${i===activeDim?' active':''}`} onClick={()=>setActiveDim(i)}>
+              <span className="rai-toc-num">{i+1}</span>
+              <span style={{flex:1}}>{d.label}</span>
+              <span style={{fontSize:11,color:da===d.questions.length?'var(--green)':'var(--text-dim)'}}>{da}/{d.questions.length}</span>
+            </div>
+          );
+        })}
+        <hr className="rai-toc-divider"/>
+        <div style={{padding:'8px 16px',display:'flex',flexDirection:'column',gap:6}}>
+          {answeredCount>0&&<button onClick={()=>setPhase('results')} className="rai-btn rai-btn-primary" style={{width:'100%'}}>{answeredCount===totalQ?T2.viewResults:T2.viewPartialResults}</button>}
+        </div>
+      </nav>
+      <main className="rai-main">
+        <div className="rai-page-label">{T2.brand}</div>
+        <h1 className="rai-page-title">{T2.title}</h1>
+        <p className="rai-page-lead">{T2.lead}</p>
+
+        <div className="stat-grid">
+          {[
+            {label:T2.questionsAnswered, value:`${answeredCount}/${totalQ}`, color:'var(--accent)'},
+            {label:T2.completion,        value:`${pct}%`,                   color:'var(--green)'},
+            {label:T2.currentScore,      value:`${totalScore}/${maxTotal}`, color:'var(--amber)'},
+            {label:T2.readinessTier,     value:tier.label,                  color:tierColor},
+          ].map(m=>(
+            <div key={m.label} className="rai-card" style={{padding:'12px 14px'}}>
+              <div style={{fontSize:11,color:'var(--text-dim)',fontWeight:600,textTransform:'uppercase',letterSpacing:'.4px',marginBottom:3}}>{m.label}</div>
+              <div style={{fontSize:18,fontWeight:800,color:m.color}}>{m.value}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Score legend */}
+        <div style={{display:'flex',gap:16,marginBottom:18,flexWrap:'wrap'}}>
+          {['no','partial','yes'].map(k=>(
+            <div key={k} style={{display:'flex',gap:6,alignItems:'center'}}>
+              <div style={{width:8,height:8,borderRadius:'50%',background:k==='yes'?'var(--green)':k==='partial'?'var(--amber)':'var(--red)'}}/>
+              <span style={{fontSize:12,color:'var(--text-muted)'}}><strong style={{color:k==='yes'?'var(--green)':k==='partial'?'var(--amber)':'var(--red)'}}>{T2.scoreOptions[k]}</strong> - {T2.scoreDesc[k]}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Dimension description */}
+        <div className="rai-card" style={{borderLeft:'3px solid '+DIM_COLORS[activeDim],marginBottom:18}}>
+          <div style={{fontSize:14,fontWeight:700,color:DIM_COLORS[activeDim],marginBottom:5}}>{dim.label}</div>
+          <p style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.6}}>{dim.description}</p>
+        </div>
+
+        {/* Questions */}
+        {dim.questions.map((q,qi)=>{
+          const val=answers[`${activeDim}_${qi}`];
+          return (
+            <div key={qi} className="rai-card" style={{marginBottom:10,borderBottom:'1px solid var(--border-light)'}}>
+              <p style={{fontSize:13.5,color:'var(--text-sub)',lineHeight:1.65,marginBottom:10}}>
+                <span style={{fontWeight:700,color:DIM_COLORS[activeDim],marginInlineEnd:8}}>{qi+1}.</span>{q}
+              </p>
+              <div style={{display:'flex',gap:7,flexWrap:'wrap'}}>
+                {[{k:'no',v:0},{k:'partial',v:1},{k:'yes',v:2}].map(({k,v})=>(
+                  <button key={k} className={`ans-btn ${k}${val===v?' sel':''}`} onClick={()=>setAnswer(activeDim,qi,v)}>{T2.scoreOptions[k]}</button>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Dim navigation */}
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',paddingTop:12,borderTop:'1px solid var(--border-light)',gap:10,flexWrap:'wrap'}}>
+          {activeDim>0
+            ? <button className="rai-btn" onClick={()=>setActiveDim(i=>i-1)}>← {dims[activeDim-1].label}</button>
+            : <div/>}
+          {activeDim<dims.length-1
+            ? <button className="rai-btn rai-btn-primary" onClick={()=>setActiveDim(i=>i+1)}>{dims[activeDim+1].label} →</button>
+            : answeredCount===totalQ
+              ? <button className="rai-btn rai-btn-primary" onClick={()=>setPhase('results')}>{T2.viewResults} →</button>
+              : <span style={{fontSize:12,color:'var(--text-dim)'}}>{totalQ-answeredCount} {T2.remaining}</span>
+          }
+        </div>
+        {answeredCount>0&&answeredCount<totalQ&&(
+          <button className="rai-btn" onClick={()=>setPhase('results')} style={{width:'100%',marginTop:10}}>{T2.viewPartialResults}</button>
+        )}
+      </main>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+<script src="./gate.js"></script>
+<script>
+RAIGate.init({
+  linkedInUrl: 'https://www.linkedin.com/in/abbas-al-mahdi/',
+  toolNameEn:  'AI Readiness Checklist',
+  toolNameAr:  'قائمة جاهزية الذكاء الاصطناعي',
+});
+</script>
+</body>
+</html>

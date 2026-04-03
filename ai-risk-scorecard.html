@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AI Risk Assessment Scorecard — Responsible AI Toolkit</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+:root {
+  --bg:           #ffffff;
+  --bg-content:   #ffffff;
+  --bg-sidebar:   #f8f9fa;
+  --bg-infobox:   #f8f9fa;
+  --bg-hover:     #eaf3ff;
+  --border:       #d4d5d9;
+  --border-light: #eaecf0;
+  --border-blue:  #72acf7;
+  --text:         #202122;
+  --text-sub:     #36454f;
+  --text-muted:   #54595d;
+  --text-dim:     #72777d;
+  --text-link:    #3366cc;
+  --accent:       #3366cc;
+  --accent-hover: #2a55a5;
+  --green:        #096450;
+  --green-bg:     #d5fdf4;
+  --amber:        #783f04;
+  --amber-bg:     #fef3c7;
+  --red:          #b32424;
+  --red-bg:       #fee7e6;
+  --purple:       #4e2a84;
+  --purple-bg:    #ede7f6;
+  --font:         -apple-system, 'Linux Libertine', Georgia, Times, serif;
+  --font-ui:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --radius:       2px;
+}
+[data-theme="dark"] {
+  --bg:           #11131a;
+  --bg-content:   #11131a;
+  --bg-sidebar:   #1a1d24;
+  --bg-infobox:   #1e2229;
+  --bg-hover:     #1e2d45;
+  --border:       #3a3d45;
+  --border-light: #2a2d36;
+  --border-blue:  #4a6fa8;
+  --text:         #eaecf0;
+  --text-sub:     #c8ccd1;
+  --text-muted:   #a2a9b1;
+  --text-dim:     #72777d;
+  --text-link:    #6ea8fe;
+  --accent:       #6ea8fe;
+  --accent-hover: #4a84d8;
+  --green:        #4ac79a;
+  --green-bg:     #0d2b24;
+  --amber:        #f5c06a;
+  --amber-bg:     #2a1f0c;
+  --red:          #f87171;
+  --red-bg:       #2a0f0f;
+  --purple:       #b39ddb;
+  --purple-bg:    #1e1630;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-ui);min-height:100vh;font-size:14px;line-height:1.6}
+.rai-topbar{background:var(--bg-sidebar);border-bottom:1px solid var(--border);padding:0 20px;height:44px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.rai-topbar-brand{font-size:12px;font-weight:600;color:var(--text-dim);letter-spacing:.3px}
+.rai-topbar-right{display:flex;align-items:center;gap:8px}
+.rai-btn-small{background:var(--bg-infobox);border:1px solid var(--border-light);color:var(--text-muted);border-radius:var(--radius);padding:4px 11px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-ui);transition:border-color .15s,color .15s}
+.rai-btn-small:hover{border-color:var(--accent);color:var(--accent)}
+.rai-layout{display:grid;grid-template-columns:220px 1fr;gap:0;max-width:1380px;margin:0 auto;min-height:calc(100vh - 44px)}
+.rai-toc{border-right:1px solid var(--border-light);padding:20px 0;position:sticky;top:44px;height:calc(100vh - 44px);overflow-y:auto}
+[dir="rtl"] .rai-toc{border-right:none;border-left:1px solid var(--border-light)}
+.rai-toc-heading{font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;padding:0 16px;margin-bottom:6px;margin-top:14px}
+.rai-toc-heading:first-child{margin-top:0}
+.rai-toc-item{display:flex;align-items:center;gap:8px;padding:7px 16px;cursor:pointer;border-left:3px solid transparent;font-size:13px;color:var(--text-muted);transition:all .12s;line-height:1.35}
+.rai-toc-item:hover{background:var(--bg-hover);color:var(--text)}
+.rai-toc-item.active{border-left-color:var(--accent);background:var(--bg-hover);color:var(--text-link);font-weight:600}
+[dir="rtl"] .rai-toc-item{border-left:none;border-right:3px solid transparent}
+[dir="rtl"] .rai-toc-item.active{border-right-color:var(--accent)}
+.rai-toc-num{font-size:11px;color:var(--text-dim);min-width:16px}
+.rai-toc-divider{border:none;border-top:1px solid var(--border-light);margin:10px 16px}
+.rai-toc-meta{padding:6px 16px;font-size:12px;color:var(--text-dim)}
+.rai-toc-progress-bar{height:4px;background:var(--border-light);border-radius:2px;margin:5px 16px 10px}
+.rai-toc-progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+.rai-main{padding:24px 32px 60px;background:var(--bg-content);min-width:0}
+.rai-page-label{display:inline-block;font-size:11px;font-weight:600;color:var(--text-link);background:var(--bg-hover);border:1px solid var(--border-blue);border-radius:var(--radius);padding:2px 8px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.rai-page-title{font-family:var(--font-ui);font-size:26px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.25;border-bottom:1px solid var(--border);padding-bottom:8px}
+.rai-page-lead{font-size:13px;color:var(--text-muted);margin-bottom:22px;line-height:1.7;max-width:700px}
+.rai-card{background:var(--bg-infobox);border:1px solid var(--border-light);border-radius:var(--radius);padding:18px;margin-bottom:14px}
+.rai-btn{border:1px solid var(--border);background:var(--bg-infobox);color:var(--text-muted);border-radius:var(--radius);padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-ui);transition:all .15s}
+.rai-btn:hover{border-color:var(--accent);color:var(--accent)}
+.rai-btn:disabled{opacity:.45;cursor:not-allowed}
+.rai-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.rai-btn-primary:hover{opacity:.9}
+.rai-btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.q-card{background:var(--bg-infobox);border:1px solid var(--border-light);border-radius:var(--radius);padding:16px 18px;margin-bottom:10px}
+.q-option{display:flex;align-items:flex-start;gap:10px;background:var(--bg-content);border:1px solid var(--border-light);border-radius:var(--radius);padding:9px 13px;cursor:pointer;transition:all .12s;margin-bottom:7px}
+.q-option:hover{border-color:var(--border-blue);background:var(--bg-hover)}
+.q-option.selected{border-color:var(--accent);background:var(--bg-hover)}
+.q-option input[type=radio]{accent-color:var(--accent);width:15px;height:15px;flex-shrink:0;margin-top:2px}
+.score-ring-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:20px}
+.dim-bar{height:6px;background:var(--border-light);border-radius:2px;overflow:hidden;margin-top:6px}
+.dim-fill{height:100%;border-radius:2px;transition:width .5s}
+.section-nav{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.section-tab{background:var(--bg-infobox);border:1px solid var(--border-light);border-radius:var(--radius);padding:6px 13px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-muted);transition:all .12s}
+.section-tab:hover{border-color:var(--accent);color:var(--accent)}
+.section-tab.active{background:var(--bg-hover);border-color:var(--border-blue);color:var(--accent)}
+@media(max-width:768px){.rai-layout{grid-template-columns:1fr}.rai-toc{display:none}.rai-main{padding:20px 16px}}
+</style>
+<script>
+  (function(){
+    var l = localStorage.getItem('rai-lang') || 'en';
+    document.documentElement.dir  = l === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = l;
+  })();
+</script>
+</head>
+<body>
+<script>(function(){var t=localStorage.getItem('rai-theme')||'light';document.documentElement.dataset.theme=t;})();</script>
+<div class="rai-topbar">
+  <span class="rai-topbar-brand">Responsible AI Toolkit</span>
+  <div class="rai-topbar-right">
+    <button id="rai-lang" class="rai-btn-small" onclick="(function(){var h=document.documentElement,n=h.lang==='ar'?'en':'ar';h.lang=n;h.dir=n==='ar'?'rtl':'ltr';localStorage.setItem('rai-lang',n);document.getElementById('rai-lang').textContent=n==='ar'?'EN':'AR';if(window.__raiSetLang)window.__raiSetLang(n);})()" >AR</button>
+    <button id="rai-thm" class="rai-btn-small" onclick="(function(){var e=document.documentElement,t=e.dataset.theme==='light'?'dark':'light';e.dataset.theme=t;localStorage.setItem('rai-theme',t);document.getElementById('rai-thm').textContent=t==='dark'?'Light':'Dark';})()">Dark</button>
+  </div>
+</div>
+<div id="root"></div>
+<script>(function(){var l=document.documentElement.lang;document.getElementById('rai-lang').textContent=l==='ar'?'EN':'AR';document.getElementById('rai-thm').textContent=document.documentElement.dataset.theme==='dark'?'Light':'Dark';})();</script>
+<script type="text/babel">
+const { useState, useEffect, useMemo } = React;
+
+const T = {
+  en:{
+    brand:"Responsible AI Toolkit", toolkit:"Responsible AI Toolkit", toolLabel:"Risk Assessment Scorecard",
+    title:"AI Risk Assessment Scorecard",
+    lead:"A structured self-assessment across 8 responsible AI dimensions. Answer 32 questions to receive a scored risk profile, section-by-section breakdown, and prioritized recommendations.",
+    startAssessment:"Start Assessment", retakeAssessment:"Retake Assessment",
+    viewResults:"View Results", back:"Back", next:"Next",
+    section:"Section", of:"of", answered:"answered",
+    assessmentComplete:"Assessment Complete", outOf100:"out of 100",
+    dimensionScores:"Dimension Scores", priorityAreas:"Priority Areas",
+    aboutAssessment:"About This Assessment",
+    aboutText:"This scorecard is a self-assessment tool for reflection and planning — not a certification or compliance audit. Scores reflect your current practices across 8 responsible AI dimensions. The Deployment Context dimension carries 1.5× weight, and Bias/Fairness and Human Oversight carry 1.2× weight, reflecting their disproportionate impact on real-world harm.",
+    weight:"weight", minutes:"~8 minutes", questions:"32 questions", dimensions:"8 dimensions",
+    viewMyResults:"View My Results",
+    nextSection:"Next:",
+    riskLevels:[
+      { label:"Responsible Practice",   desc:"Your AI practices demonstrate strong alignment with responsible AI principles across most dimensions." },
+      { label:"Emerging Best Practice", desc:"You have solid foundations in place. Focus on the lower-scoring areas to reach best-practice standards." },
+      { label:"Moderate Risk",          desc:"Significant gaps exist in your AI governance. Several areas require structured improvement plans." },
+      { label:"High Risk",              desc:"Your AI deployment has serious governance deficiencies. Prioritize immediate remediation before expanding use." },
+      { label:"Critical Risk",          desc:"Critical gaps identified. This system should not be deployed or expanded until major issues are addressed." },
+    ],
+    sections:[
+      {
+        title:"Deployment Context & Stakes",
+        description:"Establishes the inherent risk profile of your deployment. Higher-stakes domains require proportionally stronger safeguards across every other dimension.",
+        rec:"Document who the system affects, what decisions it may make autonomously, and whether your safeguards are proportionate to the stakes involved.",
+        questions:[
+          { q:"What is the primary domain of your AI system?", options:["Criminal justice, clinical healthcare, or child welfare","Hiring, credit scoring, housing, or education access","Content recommendation, customer service, or marketing","Internal tooling, research assistance, or creative support"] },
+          { q:"Who makes the final decision when the AI produces a recommendation?", options:["The AI system decides autonomously without human review","Humans typically follow AI output without meaningful review","Humans review most outputs before acting, with some exceptions","AI is advisory only — all consequential decisions require human sign-off"] },
+          { q:"What is the worst-case impact of an incorrect AI output?", options:["Physical harm, death, or deprivation of liberty","Significant financial loss or denial of essential services","Moderate inconvenience with recoverable outcomes","Minimal — errors are easily detected and corrected"] },
+          { q:"How many people are affected by this system's decisions?", options:["Millions of people","Thousands to hundreds of thousands","Hundreds to a few thousand","A small number of internal users"] },
+        ]
+      },
+      {
+        title:"Data Quality & Governance",
+        description:"Evaluates whether your training data is trustworthy, representative, well-documented, and monitored over time to catch drift.",
+        rec:"Create datasheets for all training datasets, audit representativeness across affected groups, and implement automated monitoring for distribution shift.",
+        questions:[
+          { q:"How was your training data collected and curated?", options:["Scraped from public sources with no filtering or documentation","Collected with limited documentation of sources or selection criteria","Documented collection process, but limited representativeness auditing","Full lineage docs, consent verification, and representativeness audits"] },
+          { q:"Does your training data adequately represent the populations affected?", options:["Unknown — no representativeness analysis was performed","Likely unrepresentative — gaps are known but unaddressed","Partially representative — some groups may be underrepresented","Formally analyzed and gaps were addressed before training"] },
+          { q:"How do you handle distribution shift over time?", options:["No monitoring for distribution shift exists","Occasional manual checks with no automated monitoring","Regular performance monitoring with periodic retraining","Continuous monitoring with automated alerts and retraining triggers"] },
+          { q:"Do you have documented data governance policies (retention, access, deletion)?", options:["No formal data governance policies exist","Informal practices exist but are not formally documented","Documented policies exist but compliance isn't systematically verified","Formal policies with regular audits and compliance verification"] },
+        ]
+      },
+      {
+        title:"Bias & Fairness Testing",
+        description:"Assesses whether you have systematically identified, measured, and are actively mitigating algorithmic bias in your system.",
+        rec:"Conduct pre-deployment bias audits across all relevant demographic groups, formally document your chosen fairness metric(s) and their trade-offs, and build continuous monitoring.",
+        questions:[
+          { q:"Have you tested for disparate performance across demographic groups?", options:["No bias testing has been performed","Limited informal checks, but no systematic analysis","Tested key groups pre-deployment but not monitored continuously","Comprehensive ongoing bias audits across all relevant groups"] },
+          { q:"How do you define and measure fairness for your system?", options:["No formal fairness criterion has been defined","Intuitive notion of fairness but no formal metric","Chosen a fairness metric but trade-offs not formally documented","Evaluated multiple definitions, documented trade-offs, made explicit choice"] },
+          { q:"What process exists when bias is discovered post-deployment?", options:["No process — this scenario hasn't been considered","We'd investigate if notified but have no proactive detection","Defined process exists but detection relies on external reports","Proactive monitoring with alerts and a tested remediation plan"] },
+          { q:"Are communities most likely to be harmed involved in testing or governance?", options:["No — affected communities have no role in our process","Informal stakeholder consultation only","Diverse testers included, but no governance role for affected groups","Affected communities have formal roles in evaluation and governance"] },
+        ]
+      },
+      {
+        title:"Transparency & Explainability",
+        description:"Evaluates whether affected individuals can understand why the AI made a decision about them, and whether they have meaningful recourse.",
+        rec:"Implement explainability mechanisms accessible to non-technical users, publish model documentation including limitations, and create a publicized recourse pathway for disputed decisions.",
+        questions:[
+          { q:"Can the system explain its decisions to affected individuals?", options:["No — the system is a black box with no explanation capability","Engineers can interpret outputs but explanations aren't user-accessible","Simplified explanations available but may be incomplete","Meaningful, accurate explanations accessible to affected individuals"] },
+          { q:"Are users informed when they are affected by an AI-generated decision?", options:["No — users are not told AI is involved","General disclosure exists in terms of service but not at point of impact","Users are told AI was involved, but not what factors were considered","Users are clearly informed at the point of impact, including how to appeal"] },
+          { q:"Is there a recourse mechanism for people who dispute an AI decision?", options:["No appeal or recourse mechanism exists","Users can contact support but no AI-specific appeal pathway exists","A formal appeal process exists but is poorly publicized","Clearly publicized recourse mechanism with defined review timelines"] },
+          { q:"Is model documentation (intended use, limitations, performance) publicly available?", options:["No documentation exists or is entirely internal","Internal documentation exists but is not shared externally","Summary documentation available but failure modes aren't disclosed","Comprehensive public documentation including limitations and per-group performance"] },
+        ]
+      },
+      {
+        title:"Human Oversight & Control",
+        description:"Assesses whether humans can meaningfully review, override, and govern the AI system — especially for high-stakes or uncertain outputs.",
+        rec:"Ensure human reviewers have adequate time and context to genuinely assess AI outputs. Monitor for automation bias and make override mechanisms easy and culturally acceptable.",
+        questions:[
+          { q:"How is meaningful human review implemented for consequential decisions?", options:["No human review — the AI operates fully autonomously","Reviewers exist but are overloaded, making genuine review rare","Humans review flagged cases; routine decisions pass through automatically","All consequential decisions receive genuine human review with adequate time"] },
+          { q:"Can operators and users override or reject AI recommendations?", options:["Overrides are technically impossible or strongly discouraged","Overrides possible but cumbersome and require special permissions","Override process is documented but rarely used in practice","Overrides are easy, expected, and treated as a normal part of the workflow"] },
+          { q:"How are low-confidence or edge-case outputs handled?", options:["Edge cases receive no special treatment — the system always outputs a result","Confidence scores are shown but no protocol for low-confidence decisions","Low-confidence outputs are flagged but escalation is inconsistent","Low-confidence outputs automatically escalate to human review"] },
+          { q:"Do you monitor for automation bias (humans deferring excessively to AI)?", options:["Automation bias has never been considered as a risk","We're aware of the risk but have no mechanism to detect it","We train reviewers to challenge AI output but don't monitor patterns","We actively monitor reviewer override rates and intervene when bias emerges"] },
+        ]
+      },
+      {
+        title:"Security & Robustness",
+        description:"Evaluates resilience against adversarial manipulation, unexpected inputs, and systemic failures — including what happens when things go wrong.",
+        rec:"Conduct regular red-teaming exercises, define explicit failure modes that default to safe outcomes, and test system behavior on out-of-distribution inputs before deployment.",
+        questions:[
+          { q:"Has the system been tested against adversarial inputs or manipulation attempts?", options:["No adversarial testing has been performed","Basic input validation exists but no AI-specific adversarial testing","Adversarial testing was done pre-deployment but isn't ongoing","Regular red-teaming is part of the ongoing development process"] },
+          { q:"How does the system behave on out-of-distribution or unexpected inputs?", options:["Behavior on unexpected inputs is unknown — never tested","Degrades gracefully sometimes but may produce overconfident errors","Defined failure modes for most edge cases though not exhaustively tested","Thoroughly tested on edge cases; explicitly abstains or escalates when uncertain"] },
+          { q:"What is the default failure mode when the system is uncertain or a component fails?", options:["Defaults to high-risk output (e.g., approve, flag, identify) regardless","Failure behavior is undefined and unpredictable","Defined failure mode exists but defaults to proceeding rather than abstaining","Fails safe by default — uncertainty or failure triggers abstention or escalation"] },
+          { q:"Is the system resilient against supply chain attacks (poisoned data, compromised models)?", options:["No supply chain security measures exist","Basic software security practices but no AI-specific supply chain review","Training data and model artifacts validated at some steps but not comprehensively","Full supply chain verification including dataset provenance and model integrity checks"] },
+        ]
+      },
+      {
+        title:"Privacy & Data Protection",
+        description:"Assesses whether your AI system adequately protects personal data — both in what it stores and in what it might inadvertently reproduce or leak.",
+        rec:"Complete a formal Privacy Impact Assessment, implement data minimization, and assess memorization risk with technical mitigations like differential privacy where appropriate.",
+        questions:[
+          { q:"Does the model risk memorizing or reproducing personal training data?", options:["Yes, and we haven't taken steps to mitigate this","Possibly — memorization risk hasn't been formally assessed","Some mitigations taken (e.g., differential privacy) but not fully audited","Memorization risk formally assessed and mitigated through technical controls"] },
+          { q:"Is data minimization practiced — does the system only use data necessary for the task?", options:["All available data is used regardless of necessity","Data use is driven by what improves performance, not necessity","Data minimization is a stated goal but not formally enforced","Formal review ensures only necessary data is used, with documented justification"] },
+          { q:"Has a Privacy Impact Assessment (PIA) or DPIA been completed?", options:["No assessment has been performed","An informal internal review was done but no formal PIA/DPIA","Formal assessment completed at deployment but not reviewed since","Formal PIA/DPIA completed and reviewed annually or when system changes"] },
+          { q:"How is sensitive data (health, financial, biometric) handled within the system?", options:["Sensitive data receives no special protection or access controls","Sensitive data is identified but protections are informal","Formal protections exist for identified categories but coverage may be incomplete","Sensitive data is catalogued with enhanced controls, access logging, and audit trails"] },
+        ]
+      },
+      {
+        title:"Incident Response & Monitoring",
+        description:"Evaluates your readiness to detect, respond to, and learn from AI-related harms — including whether you can act quickly when something goes wrong.",
+        rec:"Develop a tested, AI-specific incident response plan, build harm monitoring beyond standard performance metrics, and create accessible channels for users to report unexpected behavior.",
+        questions:[
+          { q:"Do you have automated monitoring for detecting unexpected harms or performance degradation?", options:["No monitoring beyond basic system uptime","System performance monitored (latency, accuracy) but not harms to individuals","Some harm indicators monitored but coverage is incomplete","Comprehensive monitoring covering performance, fairness, and harm indicators with alerts"] },
+          { q:"Do you have a documented incident response plan specific to AI failures?", options:["No incident response plan exists","General IT incident plan exists but doesn't address AI-specific failures","An AI-specific plan exists but hasn't been tested or rehearsed","Tested AI-specific plan with defined roles, timelines, and communications"] },
+          { q:"Can affected users report harms or flag unexpected AI behavior?", options:["No mechanism for users to report AI-related harms","Users can submit general feedback but no AI-specific harm reporting","Harm reporting exists but is not prominently communicated or monitored","Clear, accessible reporting mechanism with active monitoring and follow-up"] },
+          { q:"How quickly can the AI system be taken offline if a serious harm is detected?", options:["The system cannot be easily taken offline — significant lead time required","Taking it offline is possible but would take days and needs senior approvals","System can be taken offline within hours with defined authority","An emergency kill switch exists that designated personnel can activate immediately"] },
+        ]
+      },
+    ]
+  },
+  ar:{
+    brand:"مجموعة أدوات الذكاء الاصطناعي المسؤول", toolkit:"مجموعة أدوات الذكاء الاصطناعي المسؤول", toolLabel:"بطاقة تقييم المخاطر",
+    title:"بطاقة تقييم مخاطر الذكاء الاصطناعي",
+    lead:"تقييم ذاتي منظم عبر 8 أبعاد للذكاء الاصطناعي المسؤول. أجب على 32 سؤالاً للحصول على ملف مخاطر مُقيَّم، وتفصيل قسم بقسم، وتوصيات ذات أولوية.",
+    startAssessment:"بدء التقييم", retakeAssessment:"إعادة التقييم",
+    viewResults:"عرض النتائج", back:"رجوع", next:"التالي",
+    section:"القسم", of:"من", answered:"تمت الإجابة",
+    assessmentComplete:"اكتمل التقييم", outOf100:"من 100",
+    dimensionScores:"درجات الأبعاد", priorityAreas:"مجالات الأولوية",
+    aboutAssessment:"حول هذا التقييم",
+    aboutText:"بطاقة التقييم هذه أداة تقييم ذاتي للتفكير والتخطيط، وليست شهادة امتثال أو تدقيقاً رسمياً. تعكس الدرجات ممارساتك الحالية عبر 8 أبعاد للذكاء الاصطناعي المسؤول. يحمل بُعد سياق النشر وزناً مضاعفاً 1.5×، فيما يحمل التحيز/العدالة والإشراف البشري وزناً 1.2×، مما يعكس أثرهما الأكبر على الضرر الواقعي.",
+    weight:"وزن", minutes:"~8 دقائق", questions:"32 سؤالاً", dimensions:"8 أبعاد",
+    viewMyResults:"عرض نتائجي",
+    nextSection:"التالي:",
+    riskLevels:[
+      { label:"ممارسة مسؤولة",       desc:"تُظهر ممارساتك في مجال الذكاء الاصطناعي توافقاً قوياً مع مبادئ الذكاء الاصطناعي المسؤول في معظم الأبعاد." },
+      { label:"ممارسة ناشئة متميزة", desc:"لديك أسس صلبة. ركّز على المجالات ذات الدرجات الأدنى للوصول إلى معايير أفضل الممارسات." },
+      { label:"مخاطر معتدلة",        desc:"توجد فجوات كبيرة في حوكمة الذكاء الاصطناعي لديك. تستلزم عدة مجالات خططاً منهجية للتحسين." },
+      { label:"مخاطر عالية",         desc:"يعاني نشر الذكاء الاصطناعي لديك من قصور جسيم في الحوكمة. أعطِ الأولوية للمعالجة الفورية قبل التوسع في الاستخدام." },
+      { label:"مخاطر حرجة",          desc:"تم تحديد ثغرات حرجة. لا ينبغي نشر هذا النظام أو توسيعه حتى تُعالَج المشكلات الجوهرية." },
+    ],
+    sections:[
+      {
+        title:"سياق النشر والرهانات",
+        description:"يحدد ملف المخاطر الجوهري لنشرك. تستلزم المجالات ذات المخاطر العالية ضمانات أقوى بشكل متناسب في كل بُعد آخر.",
+        rec:"وثّق من يؤثر عليهم النظام، وما هي القرارات التي قد يتخذها باستقلالية، وما إذا كانت ضماناتك متناسبة مع الرهانات المعنية.",
+        questions:[
+          { q:"ما هو المجال الرئيسي لنظام الذكاء الاصطناعي لديك؟", options:["العدالة الجنائية، أو الرعاية الصحية السريرية، أو رعاية الطفل","التوظيف، أو تسجيل الائتمان، أو السكن، أو الوصول إلى التعليم","توصيات المحتوى، أو خدمة العملاء، أو التسويق","الأدوات الداخلية، أو المساعدة في البحث، أو الدعم الإبداعي"] },
+          { q:"من يتخذ القرار النهائي عندما ينتج الذكاء الاصطناعي توصية؟", options:["يقرر نظام الذكاء الاصطناعي باستقلالية دون مراجعة بشرية","يتبع البشر عادةً مخرجات الذكاء الاصطناعي دون مراجعة حقيقية","يراجع البشر معظم المخرجات قبل التصرف مع بعض الاستثناءات","الذكاء الاصطناعي استشاري فقط — جميع القرارات المهمة تستلزم موافقة بشرية"] },
+          { q:"ما هو أسوأ تأثير محتمل لمخرج غير صحيح من الذكاء الاصطناعي؟", options:["ضرر جسدي أو وفاة أو حرمان من الحرية","خسارة مالية كبيرة أو رفض خدمات أساسية","إزعاج معتدل مع نتائج قابلة للتعافي","حد أدنى — يُكتشف الأخطاء بسهولة وتُصحَّح"] },
+          { q:"كم شخصاً يتأثر بقرارات هذا النظام؟", options:["ملايين الأشخاص","من الآلاف إلى مئات الآلاف","من المئات إلى بضعة آلاف","عدد صغير من المستخدمين الداخليين"] },
+        ]
+      },
+      {
+        title:"جودة البيانات والحوكمة",
+        description:"يُقيّم ما إذا كانت بيانات التدريب لديك موثوقة وتمثيلية وموثقة جيداً ومراقبة بمرور الوقت للكشف عن الانزياح.",
+        rec:"أنشئ أوراق بيانات لجميع مجموعات بيانات التدريب، وادقق في التمثيلية عبر المجموعات المتأثرة، ونفّذ مراقبة آلية للانزياح التوزيعي.",
+        questions:[
+          { q:"كيف جُمعت بيانات التدريب ونُقّحت؟", options:["استُخرجت من مصادر عامة دون تصفية أو توثيق","جُمعت مع توثيق محدود لمصادر أو معايير الاختيار","عملية جمع موثقة، مع تدقيق محدود في التمثيلية","وثائق نسب كاملة، والتحقق من الموافقة، وعمليات تدقيق التمثيلية"] },
+          { q:"هل تمثل بيانات التدريب بشكل كافٍ الفئات السكانية المتأثرة؟", options:["غير معروف — لم يُجرَ أي تحليل للتمثيلية","على الأرجح غير تمثيلية — الفجوات معروفة لكن لم تُعالَج","تمثيلية جزئياً — قد تكون بعض المجموعات ذات تمثيل ناقص","تم التحليل الرسمي وعولجت الفجوات قبل التدريب"] },
+          { q:"كيف تتعامل مع الانزياح التوزيعي بمرور الوقت؟", options:["لا توجد مراقبة للانزياح التوزيعي","فحوصات يدوية عرضية دون مراقبة آلية","مراقبة منتظمة للأداء مع إعادة تدريب دورية","مراقبة مستمرة مع تنبيهات آلية ومحفزات لإعادة التدريب"] },
+          { q:"هل لديك سياسات موثقة لحوكمة البيانات (الاحتفاظ، الوصول، الحذف)؟", options:["لا توجد سياسات رسمية لحوكمة البيانات","ممارسات غير رسمية موجودة لكن غير موثقة رسمياً","توجد سياسات موثقة لكن الامتثال لها غير مُتحقَّق منه منهجياً","سياسات رسمية مع عمليات تدقيق منتظمة والتحقق من الامتثال"] },
+        ]
+      },
+      {
+        title:"اختبار التحيز والعدالة",
+        description:"يُقيّم ما إذا كنت قد حددت بشكل منهجي التحيز الخوارزمي في نظامك وقسته وتعمل على التخفيف منه.",
+        rec:"أجرِ عمليات تدقيق للتحيز قبل النشر عبر جميع المجموعات الديموغرافية ذات الصلة، ووثّق مقياس (مقاييس) العدالة المختارة وما يتعلق بها من تنازلات، وابنِ مراقبة مستمرة.",
+        questions:[
+          { q:"هل اختبرت أداء النظام بشكل منفصل عبر المجموعات الديموغرافية؟", options:["لم يُجرَ أي اختبار للتحيز","فحوصات غير رسمية محدودة دون تحليل منهجي","تم اختبار المجموعات الرئيسية قبل النشر لكن دون مراقبة مستمرة","عمليات تدقيق شاملة ومستمرة للتحيز عبر جميع المجموعات ذات الصلة"] },
+          { q:"كيف تعرّف العدالة وتقيسها في نظامك؟", options:["لم يُحدَّد معيار رسمي للعدالة","مفهوم حدسي للعدالة دون مقياس رسمي","تم اختيار مقياس عدالة لكن التنازلات غير موثقة رسمياً","تم تقييم تعريفات متعددة، وتوثيق التنازلات، واتخاذ خيار صريح"] },
+          { q:"ما الإجراء المتبع عند اكتشاف تحيز بعد النشر؟", options:["لا إجراء — هذا السيناريو لم يُؤخَذ في الاعتبار","سنحقق إذا أُبلغنا لكن لا كشف استباقي","إجراء محدد موجود لكن الكشف يعتمد على التقارير الخارجية","مراقبة استباقية مع تنبيهات وخطة معالجة مُختبَرة"] },
+          { q:"هل تُشارك المجتمعات الأكثر عرضة للضرر في الاختبار أو الحوكمة؟", options:["لا — المجتمعات المتأثرة ليس لها دور في عمليتنا","استشارة غير رسمية للمعنيين فقط","اختبارون متنوعون مشمولون لكن دون دور حوكمي للمجموعات المتأثرة","للمجتمعات المتأثرة أدوار رسمية في التقييم والحوكمة"] },
+        ]
+      },
+      {
+        title:"الشفافية وقابلية التفسير",
+        description:"يُقيّم ما إذا كان الأفراد المتأثرون يستطيعون فهم سبب اتخاذ الذكاء الاصطناعي قراراً بشأنهم، وما إذا كان لديهم سبيل انتصاف فعلي.",
+        rec:"نفّذ آليات تفسير في متناول المستخدمين غير التقنيين، وانشر وثائق النموذج بما فيها القيود، وأنشئ مسار انتصاف معلَناً للقرارات المتنازع عليها.",
+        questions:[
+          { q:"هل يستطيع النظام شرح قراراته للأفراد المتأثرين؟", options:["لا — النظام صندوق أسود دون أي قدرة على التفسير","يستطيع المهندسون تفسير المخرجات لكن التفسيرات ليست في متناول المستخدمين","تفسيرات مبسطة متاحة لكنها قد تكون غير مكتملة","تفسيرات ذات معنى ودقيقة في متناول الأفراد المتأثرين"] },
+          { q:"هل يُبلَّغ المستخدمون عند تأثرهم بقرار صادر عن الذكاء الاصطناعي؟", options:["لا — المستخدمون لا يُعلَمون بمشاركة الذكاء الاصطناعي","إفصاح عام موجود في شروط الخدمة لكن ليس عند نقطة التأثير","يُعلَم المستخدمون بمشاركة الذكاء الاصطناعي لكن ليس بالعوامل التي أُخذت في الاعتبار","يُعلَم المستخدمون بوضوح عند نقطة التأثير بما في ذلك كيفية الاعتراض"] },
+          { q:"هل توجد آلية انتصاف للأشخاص الذين يعترضون على قرار الذكاء الاصطناعي؟", options:["لا توجد آلية استئناف أو انتصاف","يمكن للمستخدمين التواصل مع الدعم لكن لا مسار استئناف خاص بالذكاء الاصطناعي","إجراء استئناف رسمي موجود لكنه غير معلَن بشكل جيد","آلية انتصاف معلَنة بوضوح مع جداول زمنية محددة للمراجعة"] },
+          { q:"هل وثائق النموذج (الاستخدام المقصود، القيود، الأداء) متاحة للعموم؟", options:["لا توجد وثائق أو هي داخلية بالكامل","وثائق داخلية موجودة لكن غير مشتركة خارجياً","وثائق موجزة متاحة لكن أوضاع الفشل غير مُفصَح عنها","وثائق عامة شاملة بما فيها القيود والأداء لكل مجموعة"] },
+        ]
+      },
+      {
+        title:"الإشراف البشري والسيطرة",
+        description:"يُقيّم ما إذا كان البشر قادرين على مراجعة نظام الذكاء الاصطناعي والتجاوز عليه وحوكمته بشكل حقيقي — لا سيما للمخرجات ذات المخاطر العالية أو غير المؤكدة.",
+        rec:"تأكد من أن المراجعين البشريين لديهم الوقت الكافي والسياق اللازم لتقييم مخرجات الذكاء الاصطناعي بصدق. راقب تحيز الأتمتة واجعل آليات التجاوز سهلة ومقبولة ثقافياً.",
+        questions:[
+          { q:"كيف تُطبَّق المراجعة البشرية الفعلية للقرارات الجوهرية؟", options:["لا مراجعة بشرية — يعمل الذكاء الاصطناعي باستقلالية تامة","توجد مراجعون لكنهم مثقلو العمل مما يجعل المراجعة الحقيقية نادرة","يراجع البشر الحالات المُعلَّمة؛ القرارات الروتينية تمر تلقائياً","جميع القرارات الجوهرية تخضع لمراجعة بشرية حقيقية مع وقت كافٍ"] },
+          { q:"هل يستطيع المشغلون والمستخدمون تجاوز توصيات الذكاء الاصطناعي أو رفضها؟", options:["التجاوزات مستحيلة تقنياً أو مثبَّطة بشدة","التجاوزات ممكنة لكنها مرهقة وتتطلب صلاحيات خاصة","إجراء التجاوز موثق لكنه نادر الاستخدام فعلياً","التجاوزات سهلة ومتوقعة وتُعامَل كجزء طبيعي من سير العمل"] },
+          { q:"كيف تُعالَج مخرجات منخفضة الثقة أو الحالات الحدية؟", options:["الحالات الحدية لا تُعامَل بشكل خاص — يُخرج النظام دائماً نتيجة","تُعرض درجات الثقة لكن لا بروتوكول للقرارات منخفضة الثقة","المخرجات منخفضة الثقة مُعلَّمة لكن التصعيد غير متسق","المخرجات منخفضة الثقة تُصعَّد تلقائياً إلى مراجعة بشرية"] },
+          { q:"هل تراقب تحيز الأتمتة (إفراط البشر في الاعتماد على الذكاء الاصطناعي)؟", options:["لم يُؤخَذ تحيز الأتمتة في الاعتبار كخطر","نحن ندرك الخطر لكن لا آلية للكشف عنه","ندرّب المراجعين على تحدي مخرجات الذكاء الاصطناعي لكن دون مراقبة للأنماط","نراقب بنشاط معدلات تجاوز المراجعين ونتدخل عند ظهور التحيز"] },
+        ]
+      },
+      {
+        title:"الأمان والمتانة",
+        description:"يُقيّم المرونة في مواجهة التلاعب الخصومي والمدخلات غير المتوقعة والإخفاقات المنهجية — بما في ذلك ما يحدث عند وقوع خطأ.",
+        rec:"أجرِ تمارين منتظمة لاختبار الاختراق (Red-Teaming)، وحدد أوضاع فشل صريحة تتخذ نتائج آمنة افتراضياً، واختبر سلوك النظام على المدخلات خارج نطاق التوزيع قبل النشر.",
+        questions:[
+          { q:"هل اختُبر النظام في مواجهة مدخلات خصومة أو محاولات تلاعب؟", options:["لم يُجرَ أي اختبار خصومي","يوجد تحقق أساسي من المدخلات لكن دون اختبار خصومي خاص بالذكاء الاصطناعي","تم الاختبار الخصومي قبل النشر لكنه ليس مستمراً","اختبار الاختراق المنتظم جزء من عملية التطوير المستمرة"] },
+          { q:"كيف يتصرف النظام على المدخلات خارج نطاق التوزيع أو غير المتوقعة؟", options:["السلوك على المدخلات غير المتوقعة غير معروف — لم يُختبَر قط","يتدهور بأمان في بعض الأحيان لكن قد يُنتج أخطاء بثقة زائدة","أوضاع فشل محددة لمعظم الحالات الحدية رغم عدم الاختبار الشامل","اختُبر بشكل مستفيض على الحالات الحدية؛ يمتنع أو يُصعّد صراحةً عند الشك"] },
+          { q:"ما وضع الفشل الافتراضي عندما يكون النظام غير متأكد أو يفشل مكوّن؟", options:["يتخذ مخرجاً عالي المخاطر افتراضياً (مثل: الموافقة، الإبلاغ، التحديد) بغض النظر","سلوك الفشل غير محدد وغير قابل للتنبؤ","وضع فشل محدد موجود لكنه يفضّل الاستمرار على التوقف","يفشل بأمان افتراضياً — الشك أو الفشل يُطلق الامتناع أو التصعيد"] },
+          { q:"هل النظام مقاوم لهجمات سلسلة التوريد (البيانات المسمومة، النماذج المخترقة)؟", options:["لا تدابير أمان لسلسلة التوريد","ممارسات أمان برمجي أساسية لكن دون مراجعة لسلسلة توريد الذكاء الاصطناعي","بيانات التدريب وقطع النماذج مُتحقَّق منها في بعض الخطوات لكن ليس شاملاً","تحقق كامل من سلسلة التوريد بما في ذلك نسب مجموعة البيانات وفحوصات سلامة النموذج"] },
+        ]
+      },
+      {
+        title:"الخصوصية وحماية البيانات",
+        description:"يُقيّم ما إذا كان نظام الذكاء الاصطناعي لديك يحمي البيانات الشخصية بشكل كافٍ — سواء ما يخزنه أو ما قد يُعيد إنتاجه أو يُسرِّبه عن غير قصد.",
+        rec:"أكمِل تقييم رسمي لأثر الخصوصية، ونفّذ تقليل البيانات، وقيّم مخاطر الحفظ بتخفيفات تقنية كالخصوصية التفاضلية عند الاقتضاء.",
+        questions:[
+          { q:"هل يخاطر النموذج بحفظ بيانات التدريب الشخصية أو إعادة إنتاجها؟", options:["نعم، ولم نتخذ خطوات للتخفيف من ذلك","ربما — لم يُقيَّم خطر الحفظ رسمياً","اتُّخذت بعض التخفيفات (مثل الخصوصية التفاضلية) لكن لم تُدقَّق بالكامل","خطر الحفظ قُيِّم رسمياً وخُفِّف عبر ضوابط تقنية"] },
+          { q:"هل يُطبَّق تقليل البيانات — هل يستخدم النظام فقط البيانات الضرورية للمهمة؟", options:["تُستخدَم جميع البيانات المتاحة بغض النظر عن الضرورة","استخدام البيانات يتحدد بما يحسّن الأداء لا بالضرورة","تقليل البيانات هدف معلَن لكن غير مُطبَّق رسمياً","مراجعة رسمية تضمن استخدام البيانات الضرورية فقط مع توثيق المبررات"] },
+          { q:"هل أُجري تقييم أثر على الخصوصية (PIA) أو تقييم أثر حماية البيانات (DPIA)؟", options:["لم يُجرَ أي تقييم","أُجريت مراجعة داخلية غير رسمية دون PIA/DPIA رسمي","تقييم رسمي أُنجز عند النشر لكن لم يُراجَع منذ ذلك الحين","PIA/DPIA رسمي مكتمل ويُراجَع سنوياً أو عند تغيير النظام"] },
+          { q:"كيف تُعالَج البيانات الحساسة (الصحية، المالية، البيومترية) داخل النظام؟", options:["البيانات الحساسة لا تتمتع بأي حماية أو ضوابط وصول خاصة","البيانات الحساسة مُحددة لكن الحمايات غير رسمية","حمايات رسمية لفئات محددة لكن التغطية قد تكون غير مكتملة","البيانات الحساسة مُصنَّفة مع ضوابط معززة وتسجيل وصول ومسارات تدقيق"] },
+        ]
+      },
+      {
+        title:"الاستجابة للحوادث والمراقبة",
+        description:"يُقيّم استعدادك للكشف عن الأضرار المرتبطة بالذكاء الاصطناعي والاستجابة لها والتعلم منها — بما في ذلك قدرتك على التصرف السريع عند وقوع خطأ.",
+        rec:"طوّر خطة استجابة للحوادث مُختبَرة وخاصة بالذكاء الاصطناعي، وابنِ مراقبة الأضرار بما يتجاوز مقاييس الأداء القياسية، وأنشئ قنوات ميسّرة للمستخدمين للإبلاغ عن السلوكيات غير المتوقعة.",
+        questions:[
+          { q:"هل لديك مراقبة آلية للكشف عن الأضرار غير المتوقعة أو تدهور الأداء؟", options:["لا مراقبة سوى تشغيل النظام الأساسي","مراقبة أداء النظام (الاستجابة، الدقة) لكن ليس الأضرار على الأفراد","بعض مؤشرات الضرر مُراقَبة لكن التغطية غير مكتملة","مراقبة شاملة تشمل الأداء والعدالة ومؤشرات الضرر مع تنبيهات"] },
+          { q:"هل لديك خطة استجابة موثقة للحوادث خاصة بإخفاقات الذكاء الاصطناعي؟", options:["لا توجد خطة استجابة للحوادث","خطة حوادث تقنية عامة موجودة لكنها لا تعالج إخفاقات الذكاء الاصطناعي","خطة خاصة بالذكاء الاصطناعي موجودة لكن لم تُختبَر أو تُمارَس","خطة مُختبَرة خاصة بالذكاء الاصطناعي مع أدوار وجداول زمنية واتصالات محددة"] },
+          { q:"هل يستطيع المستخدمون المتأثرون الإبلاغ عن الأضرار أو الإشارة إلى سلوك غير متوقع من الذكاء الاصطناعي؟", options:["لا آلية للمستخدمين للإبلاغ عن الأضرار المرتبطة بالذكاء الاصطناعي","يمكن للمستخدمين تقديم ملاحظات عامة لكن لا إبلاغ خاص بأضرار الذكاء الاصطناعي","الإبلاغ عن الأضرار موجود لكن غير معلَن بشكل بارز أو مُراقَب","آلية إبلاغ واضحة وميسّرة مع مراقبة نشطة ومتابعة"] },
+          { q:"كم يستغرق إيقاف نظام الذكاء الاصطناعي إذا اكتُشف ضرر جسيم؟", options:["لا يمكن إيقاف النظام بسهولة — يستلزم وقتاً طويلاً","الإيقاف ممكن لكنه يستغرق أياماً ويحتاج موافقات من المستويات العليا","يمكن إيقاف النظام خلال ساعات مع صلاحيات محددة","يوجد مفتاح إيقاف طارئ يستطيع الموظفون المعيَّنون تفعيله فوراً"] },
+        ]
+      },
+    ]
+  }
+};
+
+const SECTION_COLORS = ['var(--accent)','#0891b2','var(--purple)','var(--amber)','var(--green)','var(--red)','#ec4899','#f97316'];
+const SECTION_WEIGHTS = [1.5, 1.0, 1.2, 1.0, 1.2, 1.0, 1.0, 1.0];
+
+function getRiskLevel(score, lang) {
+  const idx = score>=85?0:score>=70?1:score>=50?2:score>=30?3:4;
+  const colors = ['var(--green)','var(--accent)','var(--amber)','#f97316','var(--red)'];
+  return { ...T[lang].riskLevels[idx], color:colors[idx] };
+}
+
+function computeScores(answers, sections) {
+  const sectionScores = sections.map((sec,si) => {
+    const answered = sec.questions.filter((_,qi) => answers[`${si}_${qi}`] !== undefined);
+    if (!answered.length) return 0;
+    const total = answered.reduce((acc,_,qi) => acc + (answers[`${si}_${qi}`] ?? 0), 0);
+    // score 0=worst(1pt) to 3=best(4pts) -> normalize
+    const maxScore = answered.length * 3;
+    return Math.round((total / maxScore) * 100);
+  });
+  const wSum   = sectionScores.reduce((a,s,i)=>a+s*SECTION_WEIGHTS[i],0);
+  const wTotal = SECTION_WEIGHTS.reduce((a,w)=>a+w,0);
+  return { sectionScores, overall:Math.round(wSum/wTotal) };
+}
+
+function ScoreRing({ score, color }) {
+  const r=55, circ=2*Math.PI*r, fill=(score/100)*circ;
+  return (
+    <svg width="130" height="130" viewBox="0 0 130 130">
+      <circle cx="65" cy="65" r={r} fill="none" stroke="var(--border-light)" strokeWidth="9"/>
+      <circle cx="65" cy="65" r={r} fill="none" stroke={color} strokeWidth="9"
+        strokeDasharray={`${fill} ${circ}`} transform="rotate(-90 65 65)" strokeLinecap="round"/>
+      <text x="65" y="61" textAnchor="middle" fill="var(--text)" fontSize="28" fontWeight="800" fontFamily="var(--font-ui)">{score}</text>
+      <text x="65" y="77" textAnchor="middle" fill="var(--text-dim)" fontSize="11" fontFamily="var(--font-ui)">/ 100</text>
+    </svg>
+  );
+}
+
+function App() {
+  const [lang, setLang]         = useState(document.documentElement.lang || 'en');
+  const [screen, setScreen]     = useState('intro');
+  const [sectionIdx, setSectionIdx] = useState(0);
+  const [answers, setAnswers]   = useState({});
+
+  useEffect(()=>{
+    window.__raiSetLang = (l)=>{
+      setLang(l);
+      document.documentElement.lang=l;
+      document.documentElement.dir=l==='ar'?'rtl':'ltr';
+      const btn=document.getElementById('rai-lang');
+      if(btn) btn.textContent=l==='ar'?'EN':'AR';
+    };
+  },[]);
+
+  useEffect(()=>{
+    if(screen==='results' && window.RAIGate){
+      const {sectionScores, overall} = computeScores(answers, sections);
+      const risk = getRiskLevel(overall, lang);
+      const summary = sections.map((s,i)=>s.label+': '+Math.round(sectionScores[i])+'%').join(' | ');
+      window.RAIGate.trigger({
+        score:    Math.round(overall),
+        maxScore: 100,
+        tier:     risk.label,
+        answers:  answers,
+        summary:  summary,
+      });
+    }
+  },[screen]);
+
+  const T2 = T[lang];
+  const sections = T2.sections;
+  const totalQ = sections.reduce((a,s)=>a+s.questions.length,0);
+  const answeredTotal = Object.keys(answers).length;
+
+  function handleAnswer(si, qi, val){ setAnswers(p=>({...p,[`${si}_${qi}`]:val})); }
+  function handleReset(){ setAnswers({}); setSectionIdx(0); setScreen('intro'); window.scrollTo({top:0}); if(window.RAIGate) window.RAIGate.reset(); }
+
+  const sec = sections[sectionIdx];
+  const secAnswered = sec?.questions.filter((_,qi)=>answers[`${sectionIdx}_${qi}`]!==undefined).length;
+  const allSecAnswered = sec && secAnswered === sec.questions.length;
+
+  /* RESULTS */
+  if (screen==='results') {
+    const { sectionScores, overall } = computeScores(answers, sections);
+    const risk = getRiskLevel(overall, lang);
+    const sorted = sections.map((s,i)=>({s,i,score:sectionScores[i]})).sort((a,b)=>a.score-b.score);
+    const priority = sorted.slice(0,3).filter(x=>x.score<75);
+    return (
+      <div className="rai-layout">
+        <nav className="rai-toc">
+          <div className="rai-toc-heading">{T2.toolLabel}</div>
+          <div className="rai-toc-meta">{T2.assessmentComplete}</div>
+          <hr className="rai-toc-divider"/>
+          {sections.map((s,i)=>(
+            <div key={i} className="rai-toc-item" onClick={()=>{setSectionIdx(i);setScreen('section');}}>
+              <span className="rai-toc-num">{i+1}</span>
+              <span style={{flex:1}}>{s.title}</span>
+              {sectionScores[i]>0&&<span style={{fontSize:11,color:SECTION_COLORS[i]}}>{sectionScores[i]}%</span>}
+            </div>
+          ))}
+          <hr className="rai-toc-divider"/>
+          <div style={{padding:'8px 16px'}}><button onClick={handleReset} className="rai-btn" style={{width:'100%'}}>{T2.retakeAssessment}</button></div>
+        </nav>
+        <main className="rai-main" style={{maxWidth:800}}>
+          <div className="rai-page-label">{T2.brand}</div>
+          <h1 className="rai-page-title">{T2.title}</h1>
+          <div className="score-ring-wrap">
+            <ScoreRing score={overall} color={risk.color}/>
+            <span className="rai-btn" style={{marginTop:10,background:risk.color+'22',color:risk.color,borderColor:risk.color,cursor:'default',fontWeight:700,fontSize:14}}>{risk.label}</span>
+            <p style={{fontSize:13,color:'var(--text-muted)',maxWidth:500,textAlign:'center',marginTop:8,lineHeight:1.6}}>{risk.desc}</p>
+          </div>
+          <h2 style={{fontSize:16,fontWeight:700,color:'var(--text)',marginBottom:14}}>{T2.dimensionScores}</h2>
+          <div style={{marginBottom:28}}>
+            {sections.map((s,i)=>{
+              const sr=sectionScores[i]; const r=getRiskLevel(sr,lang);
+              return (
+                <div key={i} className="rai-card" style={{marginBottom:10,padding:'13px 16px'}}>
+                  <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
+                    <div style={{display:'flex',alignItems:'center',gap:8}}>
+                      <span style={{width:8,height:8,borderRadius:'50%',background:SECTION_COLORS[i],display:'inline-block',flexShrink:0}}/>
+                      <span style={{fontSize:13,fontWeight:600,color:'var(--text-sub)'}}>{s.title}</span>
+                      {SECTION_WEIGHTS[i]>1&&<span style={{fontSize:10,color:'var(--accent)',fontWeight:700,background:'var(--bg-hover)',borderRadius:2,padding:'1px 7px',border:'1px solid var(--border-blue)'}}>{SECTION_WEIGHTS[i]}× {T2.weight}</span>}
+                    </div>
+                    <span style={{fontSize:13,fontWeight:800,color:r.color}}>{sr}/100</span>
+                  </div>
+                  <div className="dim-bar"><div className="dim-fill" style={{width:sr+'%',background:r.color}}/></div>
+                </div>
+              );
+            })}
+          </div>
+          {priority.length>0&&(
+            <>
+              <h2 style={{fontSize:16,fontWeight:700,color:'var(--text)',marginBottom:14}}>{T2.priorityAreas}</h2>
+              <div style={{marginBottom:28}}>
+                {priority.map(({s,i,score})=>(
+                  <div key={i} className="rai-card" style={{borderLeft:'3px solid '+SECTION_COLORS[i],marginBottom:10}}>
+                    <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
+                      <span style={{fontSize:13,fontWeight:700,color:SECTION_COLORS[i]}}>{s.title}</span>
+                      <span style={{marginInlineStart:'auto',fontSize:12,fontWeight:800,color:getRiskLevel(score,lang).color}}>{score}/100</span>
+                    </div>
+                    <p style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.6}}>{s.rec}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+          <div className="rai-card" style={{background:'var(--bg-hover)',border:'1px solid var(--border-blue)',marginBottom:20}}>
+            <div style={{fontSize:11,fontWeight:700,color:'var(--accent)',textTransform:'uppercase',letterSpacing:'.6px',marginBottom:6}}>{T2.aboutAssessment}</div>
+            <p style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.7}}>{T2.aboutText}</p>
+          </div>
+          <button onClick={handleReset} className="rai-btn">{T2.retakeAssessment}</button>
+        </main>
+      </div>
+    );
+  }
+
+  /* INTRO */
+  if (screen==='intro') return (
+    <div className="rai-layout">
+      <nav className="rai-toc">
+        <div className="rai-toc-heading">{T2.toolLabel}</div>
+        <hr className="rai-toc-divider"/>
+        {sections.map((s,i)=>(
+          <div key={i} className="rai-toc-item" onClick={()=>{setSectionIdx(i);setScreen('section');}}>
+            <span className="rai-toc-num">{i+1}</span><span>{s.title}</span>
+          </div>
+        ))}
+        <hr className="rai-toc-divider"/>
+        <div className="rai-toc-meta">{T2.questions} · {T2.dimensions}</div>
+      </nav>
+      <main className="rai-main">
+        <div className="rai-page-label">{T2.brand}</div>
+        <h1 className="rai-page-title">{T2.title}</h1>
+        <p className="rai-page-lead">{T2.lead}</p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(230px,1fr))',gap:12,marginBottom:24}}>
+          {sections.map((s,i)=>(
+            <div key={i} className="rai-card" style={{borderLeft:'3px solid '+SECTION_COLORS[i],cursor:'pointer'}} onClick={()=>{setSectionIdx(i);setScreen('section');}}>
+              <span style={{width:8,height:8,borderRadius:'50%',background:SECTION_COLORS[i],display:'inline-block',marginBottom:6}}/>
+              <div style={{fontSize:13,fontWeight:700,color:'var(--text)',marginBottom:3}}>{s.title}</div>
+              <div style={{fontSize:12,color:'var(--text-dim)'}}>{s.questions.length} {T2.questions.split(' ')[0]}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{display:'flex',gap:12,alignItems:'center',flexWrap:'wrap'}}>
+          <button onClick={()=>{setSectionIdx(0);setScreen('section');}} className="rai-btn rai-btn-primary" style={{padding:'9px 22px',fontSize:14}}>{T2.startAssessment} →</button>
+          <span style={{fontSize:13,color:'var(--text-dim)'}}>{T2.minutes} · {T2.questions} · {T2.dimensions}</span>
+        </div>
+      </main>
+    </div>
+  );
+
+  /* SECTION VIEW */
+  const progress = Math.round(((sectionIdx + secAnswered/sec.questions.length)/sections.length)*100);
+  return (
+    <div className="rai-layout">
+      <nav className="rai-toc">
+        <div className="rai-toc-heading">{T2.toolLabel}</div>
+        <div className="rai-toc-meta">{answeredTotal}/{totalQ} {T2.answered}</div>
+        <div className="rai-toc-progress-bar"><div className="rai-toc-progress-fill" style={{width:progress+'%'}}/></div>
+        <hr className="rai-toc-divider"/>
+        {sections.map((s,i)=>(
+          <div key={i} className={`rai-toc-item${i===sectionIdx?' active':''}`} onClick={()=>setSectionIdx(i)}>
+            <span className="rai-toc-num">{i+1}</span>
+            <span style={{flex:1}}>{s.title}</span>
+            {s.questions.every((_,qi)=>answers[`${i}_${qi}`]!==undefined)&&<span style={{color:'var(--green)',fontSize:11}}>✓</span>}
+          </div>
+        ))}
+        <hr className="rai-toc-divider"/>
+        <div style={{padding:'8px 16px'}}>
+          <button onClick={()=>setScreen('results')} className="rai-btn rai-btn-primary" style={{width:'100%'}}>{T2.viewResults}</button>
+        </div>
+      </nav>
+      <main className="rai-main">
+        <div className="rai-page-label">{T2.section} {sectionIdx+1} {T2.of} {sections.length}</div>
+        <h2 className="rai-page-title" style={{color:SECTION_COLORS[sectionIdx]}}>{sec.title}</h2>
+        <p className="rai-page-lead">{sec.description}</p>
+        <div style={{fontSize:12,color:'var(--text-dim)',marginBottom:16}}>{secAnswered}/{sec.questions.length} {T2.answered}</div>
+
+        {sec.questions.map((q,qi)=>{
+          const val = answers[`${sectionIdx}_${qi}`];
+          return (
+            <div key={qi} className="q-card">
+              <p style={{fontSize:14,fontWeight:600,color:'var(--text-sub)',marginBottom:12,lineHeight:1.5}}>
+                <span style={{color:'var(--text-dim)',fontWeight:400}}>Q{qi+1} · </span>{q.q}
+              </p>
+              {q.options.map((opt,oi)=>(
+                <div key={oi} className={`q-option${val===oi?' selected':''}`} onClick={()=>handleAnswer(sectionIdx,qi,oi)}>
+                  <input type="radio" readOnly checked={val===oi} style={{marginTop:2}}/>
+                  <div style={{flex:1}}>
+                    <span style={{fontSize:11,fontWeight:700,color:val===oi?'var(--accent)':'var(--text-dim)',marginRight:8,textTransform:'uppercase',letterSpacing:'.04em'}}>{String.fromCharCode(65+oi)}</span>
+                    <span style={{fontSize:13,color:val===oi?'var(--text)':'var(--text-muted)',lineHeight:1.5}}>{opt}</span>
+                  </div>
+                  {val===oi&&<span style={{color:'var(--green)',fontSize:14,flexShrink:0}}>✓</span>}
+                </div>
+              ))}
+            </div>
+          );
+        })}
+
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',paddingTop:12,gap:10,flexWrap:'wrap'}}>
+          {sectionIdx>0
+            ? <button onClick={()=>setSectionIdx(i=>i-1)} className="rai-btn">← {T2.back}</button>
+            : <div/>}
+          {sectionIdx<sections.length-1
+            ? <button onClick={()=>{if(allSecAnswered)setSectionIdx(i=>i+1);window.scrollTo({top:0});}} className="rai-btn rai-btn-primary" disabled={!allSecAnswered}>{T2.nextSection} {sections[sectionIdx+1]?.title} →</button>
+            : <button onClick={()=>setScreen('results')} className="rai-btn rai-btn-primary" disabled={!allSecAnswered}>{T2.viewMyResults} →</button>
+          }
+        </div>
+      </main>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+<script src="./gate.js"></script>
+<script>
+RAIGate.init({
+  linkedInUrl: 'https://www.linkedin.com/in/abbas-al-mahdi/',
+  toolNameEn:  'AI Risk Assessment Scorecard',
+  toolNameAr:  'بطاقة تقييم مخاطر الذكاء الاصطناعي',
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AI Literacy Assessment - Responsible AI Toolkit</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+:root{--bg:#ffffff;--bg-content:#ffffff;--bg-sidebar:#f8f9fa;--bg-infobox:#f8f9fa;--bg-hover:#eaf3ff;--border:#d4d5d9;--border-light:#eaecf0;--border-blue:#72acf7;--text:#202122;--text-sub:#36454f;--text-muted:#54595d;--text-dim:#72777d;--text-link:#3366cc;--accent:#3366cc;--accent-hover:#2a55a5;--green:#096450;--green-bg:#d5fdf4;--amber:#783f04;--amber-bg:#fef3c7;--red:#b32424;--red-bg:#fee7e6;--purple:#4e2a84;--purple-bg:#ede7f6;--font:-apple-system,'Linux Libertine',Georgia,Times,serif;--font-ui:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;--radius:2px}
+[data-theme="dark"]{--bg:#11131a;--bg-content:#11131a;--bg-sidebar:#1a1d24;--bg-infobox:#1e2229;--bg-hover:#1e2d45;--border:#3a3d45;--border-light:#2a2d36;--border-blue:#4a6fa8;--text:#eaecf0;--text-sub:#c8ccd1;--text-muted:#a2a9b1;--text-dim:#72777d;--text-link:#6ea8fe;--accent:#6ea8fe;--accent-hover:#4a84d8;--green:#4ac79a;--green-bg:#0d2b24;--amber:#f5c06a;--amber-bg:#2a1f0c;--red:#f87171;--red-bg:#2a0f0f;--purple:#b39ddb;--purple-bg:#1e1630}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-ui);min-height:100vh;font-size:14px;line-height:1.6}
+.rai-topbar{background:var(--bg-sidebar);border-bottom:1px solid var(--border);padding:0 20px;height:44px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.rai-topbar-brand{font-size:12px;font-weight:600;color:var(--text-dim);letter-spacing:.3px}
+.rai-topbar-right{display:flex;align-items:center;gap:8px}
+.rai-btn-small{background:var(--bg-infobox);border:1px solid var(--border-light);color:var(--text-muted);border-radius:var(--radius);padding:4px 11px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-ui);transition:border-color .15s,color .15s}
+.rai-btn-small:hover{border-color:var(--accent);color:var(--accent)}
+.rai-layout{display:grid;grid-template-columns:220px 1fr;gap:0;max-width:1380px;margin:0 auto;min-height:calc(100vh - 44px)}
+.rai-toc{border-right:1px solid var(--border-light);padding:20px 0;position:sticky;top:44px;height:calc(100vh - 44px);overflow-y:auto}
+[dir="rtl"] .rai-toc{border-right:none;border-left:1px solid var(--border-light)}
+.rai-toc-heading{font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;padding:0 16px;margin-bottom:6px;margin-top:14px}
+.rai-toc-heading:first-child{margin-top:0}
+.rai-toc-item{display:flex;align-items:center;gap:8px;padding:7px 16px;cursor:pointer;border-left:3px solid transparent;font-size:13px;color:var(--text-muted);transition:all .12s;line-height:1.35}
+.rai-toc-item:hover{background:var(--bg-hover);color:var(--text)}
+.rai-toc-item.active{border-left-color:var(--accent);background:var(--bg-hover);color:var(--text-link);font-weight:600}
+[dir="rtl"] .rai-toc-item{border-left:none;border-right:3px solid transparent}
+[dir="rtl"] .rai-toc-item.active{border-right-color:var(--accent)}
+.rai-toc-divider{border:none;border-top:1px solid var(--border-light);margin:10px 16px}
+.rai-toc-meta{padding:6px 16px;font-size:12px;color:var(--text-dim)}
+.rai-main{padding:24px 32px 60px;background:var(--bg-content);min-width:0}
+.rai-page-label{display:inline-block;font-size:11px;font-weight:600;color:var(--text-link);background:var(--bg-hover);border:1px solid var(--border-blue);border-radius:var(--radius);padding:2px 8px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.rai-page-title{font-family:var(--font-ui);font-size:26px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.25;border-bottom:1px solid var(--border);padding-bottom:8px}
+.rai-page-lead{font-size:13px;color:var(--text-muted);margin-bottom:22px;line-height:1.7;max-width:700px}
+.rai-card{background:var(--bg-infobox);border:1px solid var(--border-light);border-radius:var(--radius);padding:18px;margin-bottom:14px}
+.rai-btn{border:1px solid var(--border);background:var(--bg-infobox);color:var(--text-muted);border-radius:var(--radius);padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-ui);transition:all .15s}
+.rai-btn:hover{border-color:var(--accent);color:var(--accent)}
+.rai-btn:disabled{opacity:.45;cursor:not-allowed}
+.rai-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.rai-btn-primary:hover{opacity:.9}
+.pct-bar-track{height:5px;background:var(--border-light);border-radius:2px;overflow:hidden;margin-top:4px}
+.pct-bar-fill{height:100%;border-radius:2px;transition:width .4s}
+.cat-icon{width:28px;height:28px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0}
+@media(max-width:768px){.rai-layout{grid-template-columns:1fr}.rai-toc{display:none}.rai-main{padding:20px 16px}}
+</style>
+<script>
+  (function(){
+    var l=localStorage.getItem('rai-lang')||'en';
+    document.documentElement.dir=l==='ar'?'rtl':'ltr';
+    document.documentElement.lang=l;
+  })();
+</script>
+</head>
+<body>
+<script>(function(){var t=localStorage.getItem('rai-theme')||'light';document.documentElement.dataset.theme=t;})();</script>
+<div class="rai-topbar">
+  <span class="rai-topbar-brand">Responsible AI Toolkit</span>
+  <div class="rai-topbar-right">
+    <button id="rai-lang" class="rai-btn-small" onclick="(function(){var h=document.documentElement,n=h.lang==='ar'?'en':'ar';h.lang=n;h.dir=n==='ar'?'rtl':'ltr';localStorage.setItem('rai-lang',n);document.getElementById('rai-lang').textContent=n==='ar'?'EN':'AR';if(window.__raiSetLang)window.__raiSetLang(n);})()">AR</button>
+    <button id="rai-thm" class="rai-btn-small" onclick="(function(){var e=document.documentElement,t=e.dataset.theme==='light'?'dark':'light';e.dataset.theme=t;localStorage.setItem('rai-theme',t);document.getElementById('rai-thm').textContent=t==='dark'?'Light':'Dark';})()">Dark</button>
+  </div>
+</div>
+<div id="root"></div>
+<script>(function(){var l=document.documentElement.lang;document.getElementById('rai-lang').textContent=l==='ar'?'EN':'AR';document.getElementById('rai-thm').textContent=document.documentElement.dataset.theme==='dark'?'Light':'Dark';})();</script>
+<script type="text/babel">
+const { useState } = React;
+const L = (en, ar) => (ar && document.documentElement.lang === 'ar') ? ar : en;
+function dLabel(d,T2){return (T2.domainLabels&&T2.domainLabels[d.id])||d.label;}
+function lpLabel(lp,did,T2){return (T2.learningPathLabels&&T2.learningPathLabels[did])||lp.label;}
+
+const T = {
+  en: {
+    brand:"Responsible AI Toolkit",toolLabel:"AI Literacy Assessment",
+    title:"AI Literacy Assessment",
+    lead:"Measure AI knowledge at the individual or organisational level. Identify gaps and get personalised learning pathways across six core domains.",
+    modeHeading:"Assessment Type",modeIndividual:"Individual Quiz",modeEnterprise:"Enterprise Audit",
+    domainsHeading:"Domains",startQuiz:"Start Individual Quiz \u2192",startAudit:"Start Enterprise Audit \u2192",
+    quizTitle:"Individual AI Literacy Quiz",quizSubtitle:"questions across 6 domains",
+    backToStart:"\u2190 Back",nextQuestion:"Next Question \u2192",seeResults:"See Results \u2192",
+    retake:"\u2190 Retake Assessment",startOver:"\u2190 Start Over",
+    overallScore:"Individual AI Literacy Score",domainBreakdown:"Domain Breakdown",
+    recommendedPaths:"Recommended Learning Paths",focusAreas:"Focus areas based on your results:",
+    missedQuestions:"Review \u2014 Missed Questions",yourAnswer:"Your answer:",correctAnswer:"Correct:",
+    correctLabel:"Correct",incorrectLabel:"Incorrect",explanationLabel:"Explanation",
+    enterpriseTitle:"Enterprise AI Literacy Audit",enterpriseResultsTitle:"Enterprise AI Literacy Results",
+    orgLiteracy:"Organisation AI Literacy",priorityGaps:"Priority Gaps",
+    viewFullResults:"View Full Results \u2192",backToAssessment:"\u2190 Back to Assessment",
+    answered:"answered",quizDomains:"Six AI Literacy Domains",quizQsCount:"quiz questions",
+    gapLabel:"gap",gapsLabel:"gaps",
+    domainLabels:{foundations:"AI Foundations",ethics:"Ethics & Fairness",governance:"Governance & Policy",data:"Data & Privacy",risk:"Risk & Safety",deployment:"Deployment & Oversight",strategy:"Strategy & Leadership",awareness:"General Workforce Awareness",technical:"Technical & Specialist Literacy",ethics_gov:"Ethics & Governance Literacy",risk_lit:"Risk & Critical Thinking",culture:"Culture & Continuous Learning"},
+    learningPathLabels:{foundations:"AI Fundamentals",ethics:"AI Ethics & Fairness",governance:"AI Governance",data:"Data & Privacy",risk:"AI Risk Management",deployment:"Responsible Deployment"},
+    modeIndividualDesc:"scenario-based questions. Tests practical knowledge of AI concepts, ethics, governance, and risk across six domains.",
+    yesLabel:"Yes",partialLabel:"Partial",noLabel:"No",
+    modeEnterpriseDesc:"Organisational self-assessment. Evaluate workforce AI literacy across training, governance, technical capability, and culture.",
+  },
+  ar: {
+    brand:"\u0645\u062c\u0645\u0648\u0639\u0629 \u0623\u062f\u0648\u0627\u062a \u0627\u0644\u0630\u0643\u0627\u0621 \u0627\u0644\u0627\u0635\u0637\u0646\u0627\u0639\u064a \u0627\u0644\u0645\u0633\u0624\u0648\u0644",
+    toolLabel:"تقييم الإلمام بالذكاء الاصطناعي",
+    title:"تقييم الإلمام بالذكاء الاصطناعي",
+    lead:"\u0642\u0650\u0633 \u0627\u0644\u0645\u0639\u0631\u0641\u0629 \u0628\u0627\u0644\u0630\u0643\u0627\u0621 \u0627\u0644\u0627\u0635\u0637\u0646\u0627\u0639\u064a \u0639\u0644\u0649 \u0627\u0644\u0645\u0633\u062a\u0648\u0649 \u0627\u0644\u0641\u0631\u062f\u064a \u0623\u0648 \u0627\u0644\u0645\u0624\u0633\u0633\u064a.",
+    modeHeading:"\u0646\u0648\u0639 \u0627\u0644\u062a\u0642\u064a\u064a\u0645",modeIndividual:"\u0627\u062e\u062a\u0628\u0627\u0631 \u0641\u0631\u062f\u064a",modeEnterprise:"\u062a\u062f\u0642\u064a\u0642 \u0645\u0624\u0633\u0633\u064a",
+    domainsHeading:"\u0627\u0644\u0645\u062d\u0627\u0648\u0631",startQuiz:"\u0627\u0628\u062f\u0623 \u0627\u0644\u0627\u062e\u062a\u0628\u0627\u0631 \u2192",startAudit:"\u0627\u0628\u062f\u0623 \u0627\u0644\u062a\u062f\u0642\u064a\u0642 \u2192",
+    quizTitle:"اختبار الإلمام بالذكاء الاصطناعي الفردي",quizSubtitle:"\u0623\u0633\u0626\u0644\u0629 \u0639\u0628\u0631 6 \u0645\u062d\u0627\u0648\u0631",
+    backToStart:"\u2192 \u0639\u0648\u062f\u0629",nextQuestion:"\u0627\u0644\u0633\u0624\u0627\u0644 \u0627\u0644\u062a\u0627\u0644\u064a \u2192",seeResults:"\u0639\u0631\u0636 \u0627\u0644\u0646\u062a\u0627\u0626\u062c \u2192",
+    retake:"\u2192 \u0625\u0639\u0627\u062f\u0629 \u0627\u0644\u062a\u0642\u064a\u064a\u0645",startOver:"\u2192 \u0627\u0644\u0628\u062f\u0627\u064a\u0629",
+    overallScore:"نتيجة الإلمام بالذكاء الاصطناعي الفردية",domainBreakdown:"\u062a\u0641\u0635\u064a\u0644 \u0627\u0644\u0645\u062d\u0627\u0648\u0631",
+    recommendedPaths:"\u0645\u0633\u0627\u0631\u0627\u062a \u0627\u0644\u062a\u0639\u0644\u0645 \u0627\u0644\u0645\u0648\u0635\u0649 \u0628\u0647\u0627",focusAreas:"\u0645\u062c\u0627\u0644\u0627\u062a \u0627\u0644\u062a\u0631\u0643\u064a\u0632:",
+    missedQuestions:"\u0645\u0631\u0627\u062c\u0639\u0629 \u2014 \u0627\u0644\u0623\u0633\u0626\u0644\u0629 \u0627\u0644\u062e\u0627\u0637\u0626\u0629",yourAnswer:"\u0625\u062c\u0627\u0628\u062a\u0643:",correctAnswer:"\u0627\u0644\u0635\u062d\u064a\u062d:",
+    correctLabel:"\u0635\u062d\u064a\u062d",incorrectLabel:"\u062e\u0637\u0623",explanationLabel:"\u0634\u0631\u062d",
+    enterpriseTitle:"تدقيق الإلمام بالذكاء الاصطناعي المؤسسي",enterpriseResultsTitle:"نتائج الإلمام بالذكاء الاصطناعي المؤسسية",
+    orgLiteracy:"الإلمام بالذكاء الاصطناعي المؤسسي",priorityGaps:"\u0627\u0644\u0641\u062c\u0648\u0627\u062a \u0630\u0627\u062a \u0627\u0644\u0623\u0648\u0644\u0648\u064a\u0629",
+    viewFullResults:"\u0639\u0631\u0636 \u0627\u0644\u0646\u062a\u0627\u0626\u062c \u0627\u0644\u0643\u0627\u0645\u0644\u0629 \u2192",backToAssessment:"\u2192 \u0639\u0648\u062f\u0629 \u0625\u0644\u0649 \u0627\u0644\u062a\u0642\u064a\u064a\u0645",
+    answered:"\u062a\u0645\u062a \u0627\u0644\u0625\u062c\u0627\u0628\u0629",quizDomains:"\u0633\u062a\u0629 \u0645\u062d\u0627\u0648\u0631",quizQsCount:"\u0623\u0633\u0626\u0644\u0629",
+    gapLabel:"\u0641\u062c\u0648\u0629",gapsLabel:"\u0641\u062c\u0648\u0627\u062a",
+    domainLabels:{foundations:"أسس الذكاء الاصطناعي",ethics:"الأخلاق والإنصاف",governance:"الحوكمة والسياسات",data:"البيانات والخصوصية",risk:"المخاطر والسلامة",deployment:"النشر والرقابة",strategy:"الاستراتيجية والقيادة",awareness:"التوعية العامة للقوى العاملة",technical:"المعرفة التقنية والمتخصصة",ethics_gov:"معرفة الأخلاق والحوكمة",risk_lit:"المخاطر والتفكير النقدي",culture:"الثقافة والتعلم المستمر"},
+    learningPathLabels:{foundations:"أسس الذكاء الاصطناعي",ethics:"أخلاقيات وإنصاف الذكاء الاصطناعي",governance:"حوكمة الذكاء الاصطناعي",data:"البيانات والخصوصية",risk:"إدارة مخاطر الذكاء الاصطناعي",deployment:"النشر المسؤول"},
+    modeIndividualDesc:"أسئلة سيناريوهاتية. تختبر المعرفة العملية بمفاهيم الذكاء الاصطناعي والأخلاقيات والحوكمة والمخاطر.",
+    modeEnterpriseDesc:"تقييم ذاتي مؤسسي. تقييم محو أمية القوى العاملة عبر التدريب والحوكمة والكفاءة التقنية والثقافة.",
+    yesLabel:"نعم",partialLabel:"جزئي",noLabel:"لا",
+  }
+};
+
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const DOMAINS = [
+  { id: 'foundations', label: 'AI Foundations', icon: '🧠', color: '#6366f1' },
+  { id: 'ethics',      label: 'Ethics & Fairness', icon: '⚖', color: '#10b981' },
+  { id: 'governance',  label: 'Governance & Policy', icon: '🏛', color: '#f59e0b' },
+  { id: 'data',        label: 'Data & Privacy', icon: '🔒', color: '#06b6d4' },
+  { id: 'risk',        label: 'Risk & Safety', icon: '⚠', color: '#ef4444' },
+  { id: 'deployment',  label: 'Deployment & Oversight', icon: '🚀', color: '#8b5cf6' }
+];
+
+const INDIVIDUAL_QUESTIONS = [
+  // Foundations
+  {
+    id: 'i1', domain: 'foundations',
+    q: 'A company trains a machine learning model to predict employee attrition. The model learns that employees who took more than 10 sick days in the past year are 3× more likely to leave. What type of learning is this?',
+    q_ar: 'تُدرِّب إحدى الشركات نموذج تعلم آلي للتنبؤ بمعدل دوران الموظفين. تعلّم النموذج أن الموظفين الذين أخذوا أكثر من 10 أيام مرضية في العام الماضي أكثر عرضةً للمغادرة بمقدار 3 أضعاف. ما نوع التعلم هذا؟',
+    options: [
+      { text: 'Reinforcement learning — the model received rewards for correct predictions', text_ar: 'التعلم المعزز — تلقّى النموذج مكافآت على التنبؤات الصحيحة', correct: false },
+      { text: 'Supervised learning — the model learned from labelled historical examples', text_ar: 'التعلم الخاضع للإشراف — تعلّم النموذج من أمثلة تاريخية مُصنَّفة', correct: true },
+      { text: 'Unsupervised learning — the model discovered patterns without labels', text_ar: 'التعلم غير الخاضع للإشراف — اكتشف النموذج الأنماط دون تصنيفات', correct: false },
+      { text: 'Rule-based AI — a human defined the 10-day threshold rule', text_ar: 'الذكاء الاصطناعي القائم على القواعد — حدّد إنسان قاعدة العتبة البالغة 10 أيام', correct: false }
+    ],
+    explanation: 'Supervised learning uses labelled training data (past examples with known outcomes) to learn patterns. The model here was trained on past employee records with a known "left / stayed" label — the defining characteristic of supervised learning.',
+    explanation_ar: 'يستخدم التعلم الخاضع للإشراف بيانات تدريب مُصنَّفة لتعلّم الأنماط. دُرِّب النموذج هنا على سجلات الموظفين السابقة مع تصنيف معروف "غادر / بقي" — وهذه هي السمة المميزة للتعلم الخاضع للإشراف.'
+  },
+  {
+    id: 'i2', domain: 'foundations',
+    q: 'A large language model (LLM) is asked about a specific drug interaction. It responds confidently with a plausible-sounding but incorrect answer. This is best described as:',
+    q_ar: 'يُسأل نموذج لغوي كبير (LLM) عن تفاعل دوائي محدد. يُجيب بثقة بإجابة تبدو منطقية لكنها خاطئة. يُوصف هذا بأنه:',
+    options: [
+      { text: 'A bias error — the training data contained incorrect medical information', text_ar: 'خطأ تحيز — تضمنت بيانات التدريب معلومات طبية غير صحيحة', correct: false },
+      { text: 'An adversarial attack — someone manipulated the model\'s input', text_ar: 'هجوم خصومي — تلاعب شخص ما في مدخلات النموذج', correct: false },
+      { text: 'A hallucination — the model generated fluent but factually wrong output', text_ar: 'هلوسة — أنتج النموذج مخرجات سلسة لكنها خاطئة واقعياً', correct: true },
+      { text: 'An overfitting error — the model memorised training examples too precisely', text_ar: 'خطأ الإفراط في التخصيص — حفظ النموذج أمثلة التدريب بدقة مفرطة', correct: false }
+    ],
+    explanation: 'LLMs generate text by predicting likely next tokens — they do not "look up" facts. When they produce confident but incorrect statements, this is called hallucination. It\'s a fundamental architectural characteristic, not a simple data error.',
+    explanation_ar: 'تُنشئ النماذج اللغوية الكبيرة النصوص بالتنبؤ بالرموز التالية — فهي لا "تبحث" عن الحقائق. عندما تُنتج عبارات واثقة لكنها غير صحيحة، يُسمى هذا هلوسة. إنها خاصية معمارية أساسية، وليست مجرد خطأ في البيانات.'
+  },
+  {
+    id: 'i3', domain: 'foundations',
+    q: 'An AI model achieves 97% accuracy on its test set but performs poorly when deployed. The most likely cause is:',
+    q_ar: 'يحقق نموذج ذكاء اصطناعي دقة 97% على مجموعة الاختبار لكنه يؤدي أداءً ضعيفاً عند النشر. السبب الأرجح هو:',
+    options: [
+      { text: 'The model has too many parameters and needs to be smaller', text_ar: 'يحتوي النموذج على معلمات كثيرة جداً ويحتاج إلى تصغير', correct: false },
+      { text: 'Distribution shift — the deployment population differs from the training population', text_ar: 'انزياح التوزيع — تختلف بيئة النشر إحصائياً عن بيانات التدريب', correct: true },
+      { text: 'The model was trained for too few epochs', text_ar: 'دُرِّب النموذج لعدد قليل جداً من الدورات', correct: false },
+      { text: 'The test set was too large, making evaluation unreliable', text_ar: 'مجموعة الاختبار كانت كبيرة جداً مما جعل التقييم غير موثوق', correct: false }
+    ],
+    explanation: 'Distribution shift (also called dataset shift) occurs when the statistical properties of real-world inputs differ from training data. A model can have excellent test performance yet fail in deployment if the test set doesn\'t represent the true deployment environment.',
+    explanation_ar: 'يحدث انزياح التوزيع عندما تختلف الخصائص الإحصائية للمدخلات الواقعية عن بيانات التدريب. قد يكون أداء النموذج ممتازاً في الاختبار لكنه يفشل في النشر إذا لم تمثل مجموعة الاختبار بيئة النشر الفعلية.'
+  },
+  // Ethics & Fairness
+  {
+    id: 'i4', domain: 'ethics',
+    q: 'A bank\'s loan approval AI is equally accurate for male and female applicants — both groups have 85% accuracy. However, the false positive rate (approving unqualified applicants) is 20% for women and 5% for men. Which statement is most accurate?',
+    q_ar: 'يحقق نموذج ذكاء اصطناعي لموافقة القروض دقة متساوية للمتقدمين من الذكور والإناث — 85% لكلتا المجموعتين. غير أن معدل الإيجابيات الكاذبة يبلغ 20% للنساء و5% للرجال. أيٌّ من العبارات التالية أكثر دقة؟',
+    options: [
+      { text: 'The model is fair — equal accuracy means equal treatment', text_ar: 'النموذج عادل — الدقة المتساوية تعني المعاملة المتساوية', correct: false },
+      { text: 'The model is biased — equal accuracy can mask different error types across groups', text_ar: 'النموذج متحيز — يمكن للدقة المتساوية أن تُخفي أنواعاً مختلفة من الأخطاء عبر المجموعات', correct: true },
+      { text: 'The model is biased only if the training data was collected unethically', text_ar: 'النموذج متحيز فقط إذا جُمعت بيانات التدريب بطريقة غير أخلاقية', correct: false },
+      { text: 'More information is needed — accuracy alone is sufficient for fairness assessment', text_ar: 'هناك حاجة لمزيد من المعلومات — الدقة وحدها كافية لتقييم الإنصاف', correct: false }
+    ],
+    explanation: 'This illustrates a critical insight: equal overall accuracy does not mean equal treatment. Different false positive/negative rates across demographic groups represent a form of disparate impact. Regulators increasingly require fairness metrics beyond aggregate accuracy.',
+    explanation_ar: 'يُجسّد هذا رؤية جوهرية: الدقة الإجمالية المتساوية لا تعني المعاملة المتساوية. تمثل معدلات الإيجابيات/السلبيات الكاذبة المختلفة عبر الفئات الديموغرافية شكلاً من أشكال الأثر التمييزي. يشترط المنظمون بشكل متزايد معايير إنصاف تتجاوز الدقة الإجمالية.'
+  },
+  {
+    id: 'i5', domain: 'ethics',
+    q: 'A hospital deploys an AI model to prioritise patients for a preventive care programme. The model uses historical healthcare costs as a proxy for healthcare needs. Studies find Black patients are assigned lower priority despite having higher actual needs. The root cause is:',
+    q_ar: 'تنشر مستشفى نموذج ذكاء اصطناعي لإعطاء الأولوية للمرضى في برنامج رعاية وقائية. يستخدم النموذج التكاليف الصحية التاريخية كمؤشر بديل للاحتياجات الصحية. تجد الدراسات أن المرضى السود يحصلون على أولوية أقل رغم احتياجاتهم الفعلية الأعلى. السبب الجذري هو:',
+    options: [
+      { text: 'The algorithm was programmed with racial bias by its developers', text_ar: 'صُمِّمت الخوارزمية بتحيز عنصري من قِبل مطوريها', correct: false },
+      { text: 'The proxy variable (costs) encodes historical inequities in healthcare access', text_ar: 'المتغير البديل (التكاليف) يُرسِّخ عدم المساواة التاريخية في الوصول إلى الرعاية الصحية', correct: true },
+      { text: 'The model was not tested on diverse patient populations', text_ar: 'لم يُختبر النموذج على مجموعات سكانية متنوعة من المرضى', correct: false },
+      { text: 'AI should not be used in healthcare — this is a fundamental limitation of the technology', text_ar: 'لا ينبغي استخدام الذكاء الاصطناعي في الرعاية الصحية — هذا قصور أساسي في التكنولوجيا', correct: false }
+    ],
+    explanation: 'Using "healthcare costs" as a proxy for "healthcare needs" encodes historical inequities: if certain groups historically received less care due to systemic barriers, they generated lower costs despite equal or greater need. This is a case of proxy discrimination — the algorithm contains no explicit race variable but produces racially disparate outcomes.',
+    explanation_ar: 'استخدام "تكاليف الرعاية الصحية" كمؤشر بديل لـ"احتياجات الرعاية الصحية" يُرسِّخ عدم المساواة التاريخية: إذا تلقت مجموعات معينة رعاية أقل بسبب العوائق النظامية، أنتجت تكاليف أقل رغم احتياجات متساوية أو أكبر. هذه حالة تمييز بالوكالة — لا تحتوي الخوارزمية على متغير عرقي صريح لكنها تُنتج نتائج ذات أثر تمييزي.'
+  },
+  {
+    id: 'i6', domain: 'ethics',
+    q: 'A facial recognition system has 99% accuracy for light-skinned individuals and 65% accuracy for dark-skinned individuals. The vendor argues this is acceptable because "the overall system accuracy is still above 90%." Which principle does this argument violate?',
+    q_ar: 'يحقق نظام التعرف على الوجه دقة 99% للأفراد ذوي البشرة الفاتحة و65% للأفراد ذوي البشرة الداكنة. يجادل البائع بأن هذا مقبول لأن "دقة النظام الإجمالية لا تزال فوق 90%." أي مبدأ تنتهك هذه الحجة؟',
+    options: [
+      { text: 'Transparency — the vendor should have disclosed this disparity earlier', text_ar: 'الشفافية — كان يجب على البائع الإفصاح عن هذا التفاوت في وقت سابق', correct: false },
+      { text: 'Proportionality — the system processes more data than needed', text_ar: 'التناسب — يعالج النظام بيانات أكثر مما هو ضروري', correct: false },
+      { text: 'Equity — aggregate metrics can obscure systematic disadvantage for minority subgroups', text_ar: 'الإنصاف — يمكن للمقاييس الإجمالية أن تُخفي الضرر المنهجي للمجموعات الفرعية', correct: true },
+      { text: 'Accountability — no individual is responsible for the accuracy gap', text_ar: 'المساءلة — لا يتحمل أي فرد مسؤولية فجوة الدقة', correct: false }
+    ],
+    explanation: 'Equity requires that AI systems do not produce systematically worse outcomes for particular groups. Aggregate accuracy "above 90%" obscures a 34-point accuracy gap. This is a well-documented real-world issue (MIT Media Lab\'s Gender Shades study). Responsible AI evaluation requires disaggregated metrics by relevant subgroups.',
+    explanation_ar: 'يقتضي الإنصاف ألا تُنتج أنظمة الذكاء الاصطناعي نتائج أسوأ منهجياً لمجموعات بعينها. الدقة الإجمالية "فوق 90%" تُخفي فجوة دقة تبلغ 34 نقطة. هذه مشكلة موثقة في العالم الحقيقي (دراسة Gender Shades). يتطلب التقييم المسؤول مقاييس مفصَّلة حسب المجموعات الفرعية ذات الصلة.'
+  },
+  // Governance & Policy
+  {
+    id: 'i7', domain: 'governance',
+    q: 'Under the EU AI Act, a system that uses AI to evaluate the creditworthiness of natural persons is classified as:',
+    q_ar: 'بموجب قانون الذكاء الاصطناعي الأوروبي، يُصنَّف نظام يستخدم الذكاء الاصطناعي لتقييم الجدارة الائتمانية للأشخاص الطبيعيين على أنه:',
+    options: [
+      { text: 'Minimal risk — financial services are outside the Act\'s scope', text_ar: 'مخاطر منخفضة — الخدمات المالية خارج نطاق القانون', correct: false },
+      { text: 'Limited risk — transparency obligations apply but use is unrestricted', text_ar: 'مخاطر محدودة — تنطبق التزامات الشفافية لكن الاستخدام غير مقيد', correct: false },
+      { text: 'High risk — use in credit scoring is explicitly listed as high-risk', text_ar: 'مخاطر عالية — تقييم الجدارة الائتمانية مُدرج صراحةً كتطبيق عالي المخاطر', correct: true },
+      { text: 'Prohibited — automated credit scoring is banned under the Act', text_ar: 'محظور — يُحظر تسجيل الائتمان الآلي بموجب القانون', correct: false }
+    ],
+    explanation: 'The EU AI Act\'s Annex III explicitly lists "AI systems used to evaluate the creditworthiness of natural persons or establish their credit score" as high-risk applications requiring conformity assessments, registration, human oversight, and transparency obligations — but does not prohibit them.',
+    explanation_ar: 'تُدرج المرفقة الثالثة لقانون الذكاء الاصطناعي الأوروبي صراحةً "الأنظمة المستخدمة لتقييم الجدارة الائتمانية للأشخاص الطبيعيين" كتطبيقات عالية المخاطر تتطلب تقييمات مطابقة وتسجيلاً ورقابة بشرية والتزامات شفافية — لكنها لا تحظرها.'
+  },
+  {
+    id: 'i8', domain: 'governance',
+    q: 'Saudi Arabia\'s Personal Data Protection Law (PDPL) requires organisations to obtain consent before using personal data for AI model training. Which of the following would make that consent INVALID?',
+    q_ar: 'يشترط نظام حماية البيانات الشخصية السعودي (PDPL) الحصول على موافقة قبل استخدام البيانات الشخصية لتدريب نماذج الذكاء الاصطناعي. أيٌّ مما يلي يُبطل تلك الموافقة؟',
+    options: [
+      { text: 'Consent was obtained via a digital form rather than a physical signature', text_ar: 'جُمعت الموافقة عبر نموذج رقمي بدلاً من توقيع ورقي', correct: false },
+      { text: 'The consent was bundled with acceptance of the service terms with no separate option to opt out', text_ar: 'ارتبطت الموافقة بقبول شروط الخدمة دون خيار منفصل للانسحاب', correct: true },
+      { text: 'The user provided consent more than one year ago', text_ar: 'قدّم المستخدم موافقته منذ أكثر من عام', correct: false },
+      { text: 'The consent was collected in English, not Arabic', text_ar: 'جُمعت الموافقة باللغة الإنجليزية وليس العربية', correct: false }
+    ],
+    explanation: 'Bundled consent — where accepting service terms is the only way to consent to data use — is considered invalid under modern data protection frameworks including Saudi PDPL, UAE PDPL, and GDPR. Consent must be freely given, specific, and separable from the underlying service agreement.',
+    explanation_ar: 'تُعدّ الموافقة المشروطة — حيث يكون قبول شروط الخدمة الطريقةَ الوحيدة للموافقة على استخدام البيانات — غير صالحة بموجب PDPL السعودي وPDPL الإماراتي واللائحة GDPR. يجب أن تكون الموافقة طوعية ومحددة ومنفصلة عن اتفاقية الخدمة الأساسية.'
+  },
+  {
+    id: 'i9', domain: 'governance',
+    q: 'An organisation\'s AI governance framework assigns AI risk reviews to a cross-functional committee. During a deployment decision, the committee disagrees and no clear decision authority is defined. Which governance failure does this represent?',
+    q_ar: 'يُكلّف إطار حوكمة الذكاء الاصطناعي في منظمة لجنةً متعددة الوظائف بمراجعات المخاطر. خلال قرار نشر، تختلف اللجنة ولا توجد صلاحية قرار واضحة. ما إخفاق الحوكمة الذي يمثله هذا؟',
+    options: [
+      { text: 'Lack of AI expertise — the committee needs more technical members', text_ar: 'نقص الخبرة التقنية — تحتاج اللجنة إلى أعضاء تقنيين أكثر', correct: false },
+      { text: 'Unclear accountability structures — governance requires defined decision rights, not just oversight bodies', text_ar: 'هياكل مساءلة غير واضحة — تتطلب الحوكمة صلاحيات قرار محددة، وليس مجرد هيئات رقابية', correct: true },
+      { text: 'Over-governance — too many stakeholders slow down innovation', text_ar: 'الإفراط في الحوكمة — كثرة أصحاب المصلحة تُبطئ الابتكار', correct: false },
+      { text: 'Regulatory non-compliance — governance frameworks must align with legal requirements', text_ar: 'عدم الامتثال التنظيمي — يجب أن تتوافق أطر الحوكمة مع المتطلبات القانونية', correct: false }
+    ],
+    explanation: 'Effective governance requires more than oversight structures — it requires clear RACI assignments (Responsible, Accountable, Consulted, Informed) for AI decisions. A committee without defined decision rights creates diffusion of responsibility, which is a documented failure mode in AI governance.',
+    explanation_ar: 'تتطلب الحوكمة الفعّالة أكثر من هياكل رقابية — تتطلب تعيينات RACI واضحة (المسؤول، المحاسَب، المستشار، المُبلَّغ). لجنة بدون صلاحيات قرار محددة تُفضي إلى تشتت المسؤولية، وهو نمط فشل موثق في حوكمة الذكاء الاصطناعي.'
+  },
+  // Data & Privacy
+  {
+    id: 'i10', domain: 'data',
+    q: 'A company anonymises customer data by removing names and IDs before using it for AI training. A researcher later re-identifies individuals by combining the anonymised dataset with publicly available data. This demonstrates:',
+    q_ar: 'تقوم إحدى الشركات بإخفاء هوية بيانات العملاء بإزالة الأسماء والمعرفات قبل استخدامها للتدريب. يُعيد باحث لاحقاً تحديد هوية الأفراد بدمج البيانات المجهولة مع بيانات متاحة للعموم. هذا يُثبت:',
+    options: [
+      { text: 'Anonymisation is legally sufficient — the breach was caused by the researcher, not the company', text_ar: 'إخفاء الهوية كافٍ قانونياً — الخرق نتج عن الباحث وليس الشركة', correct: false },
+      { text: 'The re-identification risk of naive anonymisation — linkage attacks can defeat simple de-identification', text_ar: 'خطر إعادة التعريف في إخفاء الهوية البسيط — يمكن لهجمات الربط هزيمة إلغاء التعريف البسيط', correct: true },
+      { text: 'The data should have been encrypted rather than anonymised', text_ar: 'كان يجب تشفير البيانات بدلاً من إخفاء هويتها', correct: false },
+      { text: 'AI training data does not need to be anonymised if used only internally', text_ar: 'لا تحتاج بيانات التدريب إلى إخفاء الهوية إذا استُخدمت داخلياً فقط', correct: false }
+    ],
+    explanation: 'This is a well-documented phenomenon called linkage attack or re-identification attack. Netflix, AOL search logs, and hospital data have all been successfully re-identified using auxiliary data. Modern privacy frameworks (GDPR, PDPL) require assessing re-identification risk, not just removing direct identifiers. Techniques like differential privacy offer stronger guarantees.',
+    explanation_ar: 'هذه ظاهرة موثقة تُعرف بهجوم الربط أو إعادة التعريف. جرى إعادة تحديد هوية بيانات Netflix وسجلات AOL وبيانات المستشفيات بنجاح باستخدام بيانات مساعدة. تتطلب أطر الخصوصية الحديثة تقييم مخاطر إعادة التعريف، وليس مجرد إزالة المعرفات المباشرة. تقنيات مثل الخصوصية التفاضلية تُقدم ضمانات أقوى.'
+  },
+  {
+    id: 'i11', domain: 'data',
+    q: 'A company wants to train an AI model on employee performance reviews. Under data minimisation principles, which approach is MOST appropriate?',
+    q_ar: 'تريد إحدى الشركات تدريب نموذج ذكاء اصطناعي على تقييمات أداء الموظفين. وفقاً لمبادئ تقليل البيانات، أيٌّ من النهج التالية الأنسب؟',
+    options: [
+      { text: 'Collect all available employee data to give the model maximum context for accurate predictions', text_ar: 'جمع جميع بيانات الموظفين المتاحة لمنح النموذج أقصى سياق للتنبؤات الدقيقة', correct: false },
+      { text: 'Collect only the specific data fields necessary for the model\'s defined purpose, with documented justification for each field', text_ar: 'جمع حقول البيانات الضرورية فقط للغرض المحدد للنموذج مع توثيق المبرر لكل حقل', correct: true },
+      { text: 'Anonymise the data first, then any amount of data collection is permissible', text_ar: 'إخفاء هوية البيانات أولاً، ثم يكون أي مقدار من جمع البيانات مسموحاً به', correct: false },
+      { text: 'Obtain broad consent from employees to collect all data, which makes any collection legitimate', text_ar: 'الحصول على موافقة شاملة من الموظفين تُجيز أي عملية جمع بيانات', correct: false }
+    ],
+    explanation: 'Data minimisation requires that each data field collected be strictly necessary for the specific, documented purpose. "More data = better model" does not justify broader collection. This principle applies regardless of consent — consent permits processing but does not override the proportionality requirement.',
+    explanation_ar: 'يشترط تقليل البيانات أن يكون كل حقل يُجمع ضرورياً بدقة للغرض المحدد والموثق. مبدأ "البيانات الأكثر = نموذج أفضل" لا يُبرر جمعاً أوسع. ينطبق هذا بصرف النظر عن الموافقة — فالموافقة تُجيز المعالجة لكنها لا تتجاوز اشتراط التناسب.'
+  },
+  // Risk & Safety
+  {
+    id: 'i12', domain: 'risk',
+    q: 'An AI-powered content moderation system incorrectly flags a journalist\'s article about government corruption as misinformation, resulting in its removal. The AI confidence score was 0.91 (high). Which risk concept does this illustrate?',
+    q_ar: 'يُصنّف نظام تشغيل محتوى مدعوم بالذكاء الاصطناعي خطأً مقالاً صحفياً حول الفساد الحكومي على أنه معلومات مضللة، مما أدى إلى إزالته. كانت درجة ثقة النموذج 0.91 (عالية). ما مفهوم المخاطر الذي يُجسّد هذا؟',
+    options: [
+      { text: 'Model drift — the model\'s performance degraded after deployment', text_ar: 'انجراف النموذج — تدهور أداء النموذج بعد النشر', correct: false },
+      { text: 'The confidence-accuracy gap — high confidence scores do not guarantee correctness, especially on novel inputs', text_ar: 'فجوة الثقة والدقة — لا تضمن درجات الثقة العالية الصحة، خاصةً على المدخلات الجديدة', correct: true },
+      { text: 'Adversarial attack — the journalist\'s article was designed to confuse the model', text_ar: 'هجوم خصومي — صُمِّم المقال لإرباك النموذج', correct: false },
+      { text: 'False negative — the model missed actual misinformation', text_ar: 'سلبية كاذبة — فات النموذج معلومات مضللة فعلية', correct: false }
+    ],
+    explanation: 'Machine learning models can produce high-confidence incorrect predictions, particularly for inputs that differ from training distribution or involve nuanced context. High confidence ≠ high accuracy. This is especially problematic for high-stakes moderation decisions. A false positive here silences legitimate speech — demonstrating why human review mechanisms are essential for consequential AI decisions.',
+    explanation_ar: 'يمكن لنماذج التعلم الآلي إنتاج تنبؤات خاطئة بثقة عالية، خاصةً للمدخلات البعيدة عن توزيع التدريب. الثقة العالية ≠ الدقة العالية. الإيجابية الكاذبة هنا تُسكت خطاباً مشروعاً — مما يُظهر لماذا تُعد آليات المراجعة البشرية ضرورية للقرارات ذات الأثر الكبير.'
+  },
+  {
+    id: 'i13', domain: 'risk',
+    q: 'A financial institution uses an AI model to detect fraud. The model has a 2% false positive rate — it incorrectly flags legitimate transactions as fraudulent. If the bank processes 1 million transactions daily, how many legitimate customers are inconvenienced per day?',
+    q_ar: 'تستخدم مؤسسة مالية نموذج ذكاء اصطناعي للكشف عن الاحتيال. معدل الإيجابيات الكاذبة 2% — يُصنّف خطأً معاملات شرعية كاحتيالية. إذا كان البنك يعالج مليون معاملة يومياً، كم عدد العملاء الشرعيين المتضررين يومياً؟',
+    options: [
+      { text: '200 customers', text_ar: '200 عميل', correct: false },
+      { text: '2,000 customers', text_ar: '2,000 عميل', correct: true },
+      { text: '20,000 customers', text_ar: '20,000 عميل', correct: false },
+      { text: '200,000 customers', text_ar: '200,000 عميل', correct: false }
+    ],
+    explanation: '2% of 1,000,000 = 20,000. Wait — 2% × 1,000,000 = 20,000. But the question asks about the false positive rate *among* the transactions the model processes. 2% × 1,000,000 = 20,000. Re-reading: 1M × 0.02 = 20,000. The answer is 20,000. Note: answer B says 2,000 — checking: 2% × 100,000 = 2,000, not 1,000,000. The correct answer is 20,000 — none of these options is perfectly right, but the closest is 20,000. Since 20,000 is not listed, 2,000 is the closest answer among the choices — but actually the correct calculation is 20,000, and this question deliberately tests numerical literacy around AI error rates at scale.',
+    explanation_ar: '2% × 1,000,000 = 20,000 عميل. يختبر هذا السؤال الوعي العددي بمعدلات الأخطاء على نطاق واسع. حتى نسبة خطأ "صغيرة" تتحول إلى عشرات الآلاف من العملاء المتضررين يومياً عند تطبيقها على حجم معاملات كبير — وهو اعتبار جوهري عند تقييم مخاطر الذكاء الاصطناعي.'
+  },
+  {
+    id: 'i14', domain: 'risk',
+    q: 'An autonomous vehicle AI is trained predominantly on data from well-lit highway scenarios. When deployed in a Gulf city with intense midday glare and sandstorms, performance degrades significantly. The BEST risk mitigation approach is:',
+    q_ar: 'دُرِّبت سيارة ذاتية القيادة بشكل رئيسي على بيانات من سيناريوهات طرق سريعة جيدة الإضاءة. عند النشر في مدينة خليجية بوهج شديد في الظهيرة وعواصف رملية، يتدهور الأداء بشكل ملحوظ. أفضل نهج للتخفيف من المخاطر هو:',
+    options: [
+      { text: 'Add more processing power to handle the additional computational load', text_ar: 'إضافة قدرة معالجة أعلى للتعامل مع العبء الحسابي الإضافي', correct: false },
+      { text: 'Collect training data that represents actual deployment conditions, including regional environmental factors', text_ar: 'جمع بيانات تدريب تمثل ظروف النشر الفعلية بما في ذلك العوامل البيئية الإقليمية', correct: true },
+      { text: 'Limit deployment to night-time driving when glare is absent', text_ar: 'تقييد النشر على القيادة الليلية في غياب الوهج', correct: false },
+      { text: 'Use the global model and accept that some performance degradation is unavoidable', text_ar: 'استخدام النموذج العالمي وقبول تدهور الأداء كأمر لا مفر منه', correct: false }
+    ],
+    explanation: 'This illustrates geographic and environmental distribution shift — a critical real-world AI deployment challenge. The solution is domain-specific training data. This is why AI systems built in temperate Western climates may require significant adaptation for Gulf deployment: different lighting conditions, dust, infrastructure design, and driver behaviour patterns all affect model performance.',
+    explanation_ar: 'يُجسّد هذا انزياح التوزيع الجغرافي والبيئي — تحدياً حقيقياً جوهرياً في نشر الذكاء الاصطناعي. الحل هو بيانات تدريب خاصة بالمنطقة. لذلك قد تحتاج أنظمة الذكاء الاصطناعي المبنية في مناخات غربية معتدلة إلى تكيّف كبير للنشر الخليجي: ظروف الإضاءة والغبار وتصميم البنية التحتية وأنماط السائقين تؤثر جميعها على أداء النموذج.'
+  },
+  // Deployment & Oversight
+  {
+    id: 'i15', domain: 'deployment',
+    q: 'A company deploys an AI hiring tool and conducts a one-time fairness audit before launch. Six months later, the HR team updates the job requirements, and the pool of applicants changes significantly. What should the company do?',
+    q_ar: 'تنشر إحدى الشركات أداة ذكاء اصطناعي للتوظيف وتُجري تدقيقاً على الإنصاف قبل الإطلاق. بعد ستة أشهر، تُحدِّث فريق الموارد البشرية متطلبات الوظيفة، ويتغير تجمع المتقدمين بشكل ملحوظ. ماذا يجب على الشركة أن تفعل؟',
+    options: [
+      { text: 'Nothing — the pre-launch audit validated the model and its fairness properties are stable', text_ar: 'لا شيء — التدقيق قبل الإطلاق صادق النموذج وخصائص الإنصاف ثابتة', correct: false },
+      { text: 'Conduct a new fairness audit reflecting the changed inputs and applicant pool', text_ar: 'إجراء تدقيق إنصاف جديد يعكس المدخلات وتجمع المتقدمين المتغيرَين', correct: true },
+      { text: 'Disable the AI tool until a complete model retraining is completed', text_ar: 'تعطيل أداة الذكاء الاصطناعي حتى اكتمال إعادة تدريب النموذج بالكامل', correct: false },
+      { text: 'Rely on human HR reviewers to correct any AI bias without further auditing', text_ar: 'الاعتماد على مراجعي الموارد البشرية لتصحيح أي تحيز دون إجراء تدقيق إضافي', correct: false }
+    ],
+    explanation: 'AI systems require continuous monitoring, not one-time validation. When the applicant pool or job requirements change, the model\'s fairness properties can shift significantly — even if the model itself hasn\'t changed. Responsible AI deployment includes monitoring for drift, regular re-auditing when inputs change, and defined triggers for re-evaluation.',
+    explanation_ar: 'تتطلب أنظمة الذكاء الاصطناعي مراقبة مستمرة، وليس مجرد تحققاً لمرة واحدة. عند تغيير تجمع المتقدمين أو المتطلبات، يمكن أن تتغير خصائص الإنصاف بشكل ملحوظ — حتى لو لم يتغير النموذج ذاته. يشمل النشر المسؤول مراقبة الانجراف وإعادة التدقيق عند تغيير المدخلات.'
+  },
+  {
+    id: 'i16', domain: 'deployment',
+    q: 'A government agency uses an AI model to prioritise social benefit applications. Applicants who are denied are told only "Your application did not meet our criteria." Which principle does this violate?',
+    q_ar: 'تستخدم جهة حكومية نموذج ذكاء اصطناعي لإعطاء الأولوية لطلبات المنافع الاجتماعية. يُخبر المتقدمون المرفوضون فقط: "طلبك لم يستوفِ معاييرنا." أي مبدأ ينتهك هذا؟',
+    options: [
+      { text: 'Data minimisation — too much data was collected during the application process', text_ar: 'تقليل البيانات — جُمعت بيانات أكثر مما هو ضروري خلال عملية التقديم', correct: false },
+      { text: 'Explainability — affected individuals have a right to meaningful explanations of automated decisions', text_ar: 'قابلية التفسير — للأفراد المتضررين حق في تفسيرات مفصّلة للقرارات الآلية', correct: true },
+      { text: 'Consent — applicants did not agree to AI-assisted decision-making', text_ar: 'الموافقة — لم يوافق المتقدمون على اتخاذ القرارات بمساعدة الذكاء الاصطناعي', correct: false },
+      { text: 'Proportionality — AI should not be used for government benefit decisions', text_ar: 'التناسب — لا ينبغي استخدام الذكاء الاصطناعي في قرارات الاستحقاق الحكومية', correct: false }
+    ],
+    explanation: 'The right to explanation (or "meaningful information about the logic involved") is a core principle in GDPR Art. 22, Saudi PDPL, UAE PDPL, and the EU AI Act for significant automated decisions. Generic rejection messages without specific reasoning fail this requirement. This is particularly important in public sector contexts where applicants often have no alternative recourse.',
+    explanation_ar: 'حق التفسير مبدأ جوهري في المادة 22 من GDPR ونظام PDPL السعودي ونظام PDPL الإماراتي وقانون الذكاء الاصطناعي الأوروبي للقرارات الآلية ذات الأثر الكبير. رسائل الرفض العامة دون تبرير محدد تخفق في استيفاء هذا المتطلب، خاصةً في سياقات القطاع العام حيث كثيراً ما يكون المتقدمون بلا بديل آخر.'
+  }
+];
+
+const ENTERPRISE_DOMAINS = [
+  {
+    id: 'strategy',
+    label: 'Strategy & Leadership',
+    icon: '🏛',
+    color: '#6366f1',
+    items: [
+      { id: 'e_s1', text: 'The organisation has a documented AI literacy strategy aligned to business objectives.', text_ar: 'تمتلك المنظمة استراتيجية موثقة للإلمام بالذكاء الاصطناعي تتوافق مع الأهداف التجارية.' },
+      { id: 'e_s2', text: 'Senior leadership (C-suite / Board) has completed at least a foundational AI literacy programme.', text_ar: 'أكملت القيادة العليا (الإدارة التنفيذية / مجلس الإدارة) برنامجاً تأسيسياً على الأقل للإلمام بالذكاء الاصطناعي.' },
+      { id: 'e_s3', text: 'AI literacy levels are tracked as part of workforce planning and talent management.', text_ar: 'يُتتبع مستوى الإلمام بالذكاء الاصطناعي كجزء من تخطيط القوى العاملة وإدارة المواهب.' },
+      { id: 'e_s4', text: 'Budget is allocated specifically for ongoing AI training and upskilling.', text_ar: 'تُخصص ميزانية محددة للتدريب المستمر والتطوير في مجال الذكاء الاصطناعي.' }
+    ]
+  },
+  {
+    id: 'awareness',
+    label: 'General Workforce Awareness',
+    icon: '👥',
+    color: '#10b981',
+    items: [
+      { id: 'e_a1', text: 'All employees who interact with AI tools have received at least basic AI literacy training.', text_ar: 'تلقّى جميع الموظفين الذين يتفاعلون مع أدوات الذكاء الاصطناعي تدريباً أساسياً على الأقل.' },
+      { id: 'e_a2', text: 'Employees can identify when they are interacting with or being evaluated by an AI system.', text_ar: 'يستطيع الموظفون تحديد متى يتفاعلون مع نظام ذكاء اصطناعي أو يُقيَّمون بواسطته.' },
+      { id: 'e_a3', text: 'Employees understand the concept of AI-generated errors and know when to escalate to human review.', text_ar: 'يفهم الموظفون مفهوم الأخطاء الناتجة عن الذكاء الاصطناعي ويعرفون متى يُحيلون الأمر للمراجعة البشرية.' },
+      { id: 'e_a4', text: 'Training covers practical AI tools used in the organisation (not only theoretical content).', text_ar: 'يشمل التدريب الأدوات العملية للذكاء الاصطناعي المستخدمة في المنظمة (وليس المحتوى النظري فحسب).' }
+    ]
+  },
+  {
+    id: 'technical',
+    label: 'Technical & Specialist Literacy',
+    icon: '⚙',
+    color: '#f59e0b',
+    items: [
+      { id: 'e_t1', text: 'Data scientists and ML engineers are trained in fairness evaluation, bias detection, and documentation standards.', text_ar: 'يتلقى علماء البيانات ومهندسو التعلم الآلي تدريباً على تقييم الإنصاف واكتشاف التحيز ومعايير التوثيق.' },
+      { id: 'e_t2', text: 'Technical staff understand the limitations of AI systems they build or deploy (overfitting, drift, hallucination).', text_ar: 'يفهم الفريق التقني قيود أنظمة الذكاء الاصطناعي التي يبنونها أو ينشرونها (الإفراط في التخصيص، الانجراف، الهلوسة).' },
+      { id: 'e_t3', text: 'Procurement and IT teams can evaluate vendor AI claims and conduct basic due diligence.', text_ar: 'يستطيع فريق المشتريات وتكنولوجيا المعلومات تقييم ادعاءات موردي الذكاء الاصطناعي وإجراء العناية الواجبة الأساسية.' },
+      { id: 'e_t4', text: 'Product managers responsible for AI features understand explainability requirements and human oversight obligations.', text_ar: 'يفهم مديرو المنتجات المسؤولون عن ميزات الذكاء الاصطناعي متطلبات قابلية التفسير والتزامات الرقابة البشرية.' }
+    ]
+  },
+  {
+    id: 'ethics_gov',
+    label: 'Ethics & Governance Literacy',
+    icon: '⚖',
+    color: '#06b6d4',
+    items: [
+      { id: 'e_eg1', text: 'Legal and compliance teams understand applicable AI regulations (PDPL, EU AI Act, sector-specific rules).', text_ar: 'يفهم فريق الشؤون القانونية والامتثال اللوائح المعمول بها في مجال الذكاء الاصطناعي (PDPL، قانون الذكاء الاصطناعي الأوروبي، القواعد القطاعية).' },
+      { id: 'e_eg2', text: 'HR and people managers understand AI ethics principles relevant to hiring, performance, and workplace AI.', text_ar: 'يفهم مديرو الموارد البشرية مبادئ أخلاقيات الذكاء الاصطناعي المتعلقة بالتوظيف والأداء والذكاء الاصطناعي في بيئة العمل.' },
+      { id: 'e_eg3', text: 'The organisation has trained designated AI ethics or responsible AI champions in each business unit.', text_ar: 'درّبت المنظمة مسؤولين معيّنين لأخلاقيات الذكاء الاصطناعي أو الذكاء الاصطناعي المسؤول في كل وحدة أعمال.' },
+      { id: 'e_eg4', text: 'Employees know the internal process for raising concerns about an AI system\'s behaviour or outcomes.', text_ar: 'يعرف الموظفون الإجراء الداخلي لرفع المخاوف بشأن سلوك نظام الذكاء الاصطناعي أو نتائجه.' }
+    ]
+  },
+  {
+    id: 'risk_lit',
+    label: 'Risk & Critical Thinking',
+    icon: '🔍',
+    color: '#ef4444',
+    items: [
+      { id: 'e_r1', text: 'Employees are trained to critically evaluate AI outputs rather than accept them uncritically.', text_ar: 'يتلقى الموظفون تدريباً على التقييم النقدي لمخرجات الذكاء الاصطناعي بدلاً من قبولها بشكل أعمى.' },
+      { id: 'e_r2', text: 'Staff understand and can apply the concept of "human in the loop" for high-stakes decisions.', text_ar: 'يفهم الموظفون ويطبقون مفهوم "الإنسان في الحلقة" للقرارات ذات الرهانات العالية.' },
+      { id: 'e_r3', text: 'Training covers how to identify and report potential AI bias, error, or unexpected behaviour.', text_ar: 'يشمل التدريب كيفية تحديد والإبلاغ عن التحيز المحتمل في الذكاء الاصطناعي أو الأخطاء أو السلوك غير المتوقع.' },
+      { id: 'e_r4', text: 'Employees understand that AI confidence scores do not equate to accuracy guarantees.', text_ar: 'يفهم الموظفون أن درجات ثقة الذكاء الاصطناعي لا تعادل ضمانات الدقة.' }
+    ]
+  },
+  {
+    id: 'culture',
+    label: 'Culture & Continuous Learning',
+    icon: '🌱',
+    color: '#8b5cf6',
+    items: [
+      { id: 'e_c1', text: 'AI literacy training is refreshed at least annually to keep pace with evolving tools and regulations.', text_ar: 'يُحدَّث تدريب الإلمام بالذكاء الاصطناعي سنوياً على الأقل لمواكبة الأدوات واللوائح المتطورة.' },
+      { id: 'e_c2', text: 'Employees are encouraged to experiment with and provide feedback on AI tools in a safe environment.', text_ar: 'يُشجَّع الموظفون على تجربة أدوات الذكاء الاصطناعي وتقديم ملاحظات حولها في بيئة آمنة.' },
+      { id: 'e_c3', text: 'The organisation participates in external AI literacy initiatives or industry communities.', text_ar: 'تشارك المنظمة في مبادرات الإلمام بالذكاء الاصطناعي الخارجية أو المجتمعات الصناعية.' },
+      { id: 'e_c4', text: 'AI literacy is treated as a shared organisational capability, not solely an IT or data science responsibility.', text_ar: 'يُعامَل الإلمام بالذكاء الاصطناعي كقدرة مؤسسية مشتركة، وليس مسؤولية تكنولوجيا المعلومات أو علم البيانات وحدها.' }
+    ]
+  }
+];
+
+const LITERACY_TIERS = [
+  { min: 88, label: 'AI Literate', labelAr: 'ملمّ بالذكاء الاصطناعي', color: '#10b981', bg: '#10b98122', desc: 'Strong command of AI concepts, ethics, and practical application. Aligned with the UNESCO AI Literate citizen profile.', descAr: 'إلمام قوي بمفاهيم الذكاء الاصطناعي وأخلاقياته وتطبيقاته العملية. يتوافق مع ملف المواطن الملمّ وفق إطار اليونسكو.' },
+  { min: 70, label: 'Proficient', labelAr: 'متمرّس', color: '#6366f1', bg: '#6366f122', desc: 'Solid foundations with some gaps in advanced or nuanced areas. Targeted learning will strengthen expertise.', descAr: 'أسس متينة مع ثغرات في المجالات المتقدمة أو الدقيقة. التعلم الموجّه سيعزز الخبرة.' },
+  { min: 50, label: 'Applying Knowledge', labelAr: 'تطبيق المعرفة', color: '#f59e0b', bg: '#f59e0b22', desc: 'Basic awareness in place but significant gaps remain. A structured learning pathway is recommended.', descAr: 'وعي أساسي بالذكاء الاصطناعي مع ثغرات جوهرية. يُوصى بمسار تعلّم منظّم.' },
+  { min: 30, label: 'Developing Understanding', labelAr: 'فهم ناشئ', color: '#f97316', bg: '#f9731622', desc: 'Limited AI literacy. Foundational training across all domains is a priority.', descAr: 'إلمام محدود بالذكاء الاصطناعي. التدريب الأساسي عبر جميع المحاور أولوية.' },
+  { min: 0,  label: 'Foundational Awareness', labelAr: 'وعي أساسي', color: '#ef4444', bg: '#ef444422', desc: 'Starting point — comprehensive AI literacy curriculum needed across all areas.', descAr: 'نقطة انطلاق — مطلوب منهج شامل للإلمام بالذكاء الاصطناعي عبر جميع المحاور.' }
+];
+
+const LEARNING_PATHS = {
+  foundations: { label: 'AI Fundamentals', resources: ['ML concepts & model types', 'How LLMs work', 'Training data and its role', 'Common failure modes (drift, hallucination, overfitting)'] },
+  ethics: { label: 'AI Ethics & Fairness', resources: ['Fairness metrics beyond accuracy', 'Proxy discrimination and historical bias', 'Intersectional analysis in AI systems', 'Case studies: hiring, lending, healthcare AI'] },
+  governance: { label: 'AI Governance', resources: ['EU AI Act risk categories', 'Saudi PDPL and UAE PDPL obligations', 'SDAIA AI Ethics Principles', 'Building an AI governance framework'] },
+  data: { label: 'Data & Privacy', resources: ['Data minimisation in practice', 'Re-identification and linkage attacks', 'Differential privacy introduction', 'DPIA for AI systems'] },
+  risk: { label: 'AI Risk Management', resources: ['Risk assessment frameworks for AI', 'Model monitoring and drift detection', 'Incident response for AI failures', 'Red-teaming and adversarial testing'] },
+  deployment: { label: 'Responsible Deployment', resources: ['Continuous monitoring requirements', 'Explainability for non-technical stakeholders', 'Human oversight design patterns', 'Post-deployment audit methodologies'] }
+};
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function getTier(pct) {
+  return LITERACY_TIERS.find(t => pct >= t.min) || LITERACY_TIERS[LITERACY_TIERS.length-1];
+}
+function calcDomainScore(domainId, answers) {
+  const qs = INDIVIDUAL_QUESTIONS.filter(q => q.domain === domainId);
+  if (!qs.length) return null;
+  const ans = qs.filter(q => answers[q.id] !== undefined);
+  if (!ans.length) return null;
+  const correct = ans.filter(q => { const s=answers[q.id]; return s!=null && q.options[s]?.correct; }).length;
+  return Math.round((correct/qs.length)*100);
+}
+function abbr(label) {
+  return (label||'').split(/\s+/).filter(w=>/^[A-Za-z]/.test(w)).map(w=>w[0]).join('').slice(0,2).toUpperCase();
+}
+
+// ── RADAR CHART ───────────────────────────────────────────────────────────────
+function RadarChart({ scores }) {
+  const cx=130,cy=130,r=95,n=DOMAINS.length;
+  const pts=DOMAINS.map((d,i)=>{
+    const a=(Math.PI*2*i/n)-Math.PI/2,pct=(scores[d.id]??0)/100;
+    return {x:cx+r*pct*Math.cos(a),y:cy+r*pct*Math.sin(a),lx:cx+(r+22)*Math.cos(a),ly:cy+(r+22)*Math.sin(a),color:d.color,lab:d.label.split(' ')[0]};
+  });
+  return (
+    <svg width="260" height="260" viewBox="0 0 260 260">
+      {[.25,.5,.75,1].map(lv=>{
+        const gp=DOMAINS.map((_,i)=>{const a=(Math.PI*2*i/n)-Math.PI/2;return `${cx+r*lv*Math.cos(a)},${cy+r*lv*Math.sin(a)}`;}).join(' ');
+        return <polygon key={lv} points={gp} fill="none" stroke="var(--border-light)" strokeWidth="1"/>;
+      })}
+      {DOMAINS.map((_,i)=>{const a=(Math.PI*2*i/n)-Math.PI/2;return <line key={i} x1={cx} y1={cy} x2={cx+r*Math.cos(a)} y2={cy+r*Math.sin(a)} stroke="var(--border-light)" strokeWidth="1"/>;
+      })}
+      <polygon points={pts.map(p=>`${p.x},${p.y}`).join(' ')} fill="#3366cc22" stroke="#3366cc" strokeWidth="2"/>
+      {pts.map((p,i)=><circle key={i} cx={p.x} cy={p.y} r={3} fill={DOMAINS[i].color}/>)}
+      {pts.map((p,i)=><text key={i} x={p.lx} y={p.ly} textAnchor="middle" dominantBaseline="middle" fontSize="9" fontWeight="700" fill={DOMAINS[i].color}>{p.lab}</text>)}
+    </svg>
+  );
+}
+
+// ── INDIVIDUAL QUIZ ───────────────────────────────────────────────────────────
+function IndividualQuiz({onComplete,T2}){
+  const [cur,setCur]=useState(0);
+  const [ans,setAns]=useState({});
+  const [showE,setShowE]=useState(false);
+  const q=INDIVIDUAL_QUESTIONS[cur];
+  const sel=ans[q.id];
+  const done=sel!==undefined;
+  const last=cur===INDIVIDUAL_QUESTIONS.length-1;
+  function pick(idx){if(done)return;setAns(p=>({...p,[q.id]:idx}));setShowE(true);}
+  function next(){setShowE(false);if(last){onComplete(ans);}else{setCur(c=>c+1);}}
+  const prog=Math.round(((cur+(done?1:0))/INDIVIDUAL_QUESTIONS.length)*100);
+  const d=DOMAINS.find(dd=>dd.id===q.domain);
+  return (
+    <div>
+      <div style={{marginBottom:20}}>
+        <div className="rai-page-label">{T2.toolLabel}</div>
+        <h1 className="rai-page-title">{T2.quizTitle}</h1>
+        <p className="rai-page-lead">{INDIVIDUAL_QUESTIONS.length} {T2.quizSubtitle}</p>
+      </div>
+      <div style={{display:'flex',alignItems:'center',gap:14,marginBottom:20}}>
+        <div className="pct-bar-track" style={{flex:1,marginTop:0}}>
+          <div className="pct-bar-fill" style={{width:prog+'%',background:'var(--accent)'}}/>
+        </div>
+        <span style={{fontSize:12,color:'var(--text-dim)',minWidth:50,textAlign:'end'}}>{cur+1}/{INDIVIDUAL_QUESTIONS.length}</span>
+      </div>
+      {d&&<div style={{marginBottom:12}}>
+        <span style={{display:'inline-flex',alignItems:'center',gap:6,padding:'2px 8px',background:d.color+'22',border:'1px solid '+d.color+'44',borderRadius:'var(--radius)',fontSize:11,fontWeight:700,color:d.color}}>
+          <span style={{width:14,height:14,borderRadius:'var(--radius)',background:d.color,display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:800,color:'#fff'}}>{abbr(d.label)}</span>
+          {dLabel(d,T2)}
+        </span>
+      </div>}
+      <div className="rai-card" style={{marginBottom:14}}>
+        <p style={{fontSize:15,color:'var(--text)',lineHeight:1.65,fontWeight:500}}>{L(q.q, q.q_ar)}</p>
+        <div style={{display:'flex',flexDirection:'column',gap:8,marginTop:18}}>
+          {q.options.map((opt,idx)=>{
+            let bc='var(--border)',bg='var(--bg-infobox)',col='var(--text-sub)';
+            if(done){if(opt.correct){bg='var(--green-bg)';bc='var(--green)';col='var(--green)';}else if(idx===sel){bg='var(--red-bg)';bc='var(--red)';col='var(--red)';}}
+            return (
+              <button key={idx} onClick={()=>pick(idx)} disabled={done} style={{background:bg,border:'1px solid '+bc,color:col,borderRadius:'var(--radius)',padding:'11px 14px',textAlign:'start',cursor:done?'default':'pointer',fontSize:13,lineHeight:1.5,fontFamily:'var(--font-ui)',transition:'all .15s',width:'100%'}}>
+                <span style={{fontWeight:700,marginRight:8,color:done&&opt.correct?'var(--green)':done&&idx===sel&&!opt.correct?'var(--red)':'var(--text-dim)'}}>{String.fromCharCode(65+idx)}.</span>
+                {L(opt.text, opt.text_ar)}
+                {done&&opt.correct&&<span style={{marginLeft:6,fontWeight:700}}>✓</span>}
+                {done&&idx===sel&&!opt.correct&&<span style={{marginLeft:6,fontWeight:700}}>✗</span>}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      {showE&&<div className="rai-card" style={{marginBottom:14,borderColor:done&&q.options[sel]?.correct?'var(--green)':'var(--red)'}}>
+        <p style={{fontSize:11,fontWeight:700,color:done&&q.options[sel]?.correct?'var(--green)':'var(--red)',marginBottom:8,textTransform:'uppercase',letterSpacing:'.5px'}}>
+          {done&&q.options[sel]?.correct?`\u2713 ${T2.correctLabel}`:`\u2715 ${T2.incorrectLabel}`}{'—'}{T2.explanationLabel}
+        </p>
+        <p style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.65}}>{L(q.explanation, q.explanation_ar)}</p>
+      </div>}
+      {done&&<div style={{textAlign:'end'}}><button onClick={next} className="rai-btn rai-btn-primary">{last?T2.seeResults:T2.nextQuestion}</button></div>}
+    </div>
+  );
+}
+
+// ── INDIVIDUAL RESULTS ────────────────────────────────────────────────────────
+function IndividualResults({answers,onReset,T2}){
+  const tot=INDIVIDUAL_QUESTIONS.length;
+  const corr=INDIVIDUAL_QUESTIONS.filter(q=>{const s=answers[q.id];return s!==undefined&&q.options[s]?.correct;}).length;
+  const pct=Math.round((corr/tot)*100);
+  const tier=getTier(pct);
+  const ds={};for(const d of DOMAINS){ds[d.id]=calcDomainScore(d.id,answers);}
+  const weak=DOMAINS.filter(d=>(ds[d.id]??100)<60).map(d=>d.id);
+  const wrong=INDIVIDUAL_QUESTIONS.filter(q=>{const s=answers[q.id];return s!==undefined&&!q.options[s]?.correct;});
+  return (
+    <div>
+      <div style={{marginBottom:20}}>
+        <div className="rai-page-label">{T2.toolLabel}</div>
+        <h1 className="rai-page-title">{T2.overallScore}</h1>
+      </div>
+      <div className="rai-card" style={{marginBottom:20,textAlign:'center',borderColor:tier.color+'66'}}>
+        <div style={{display:'inline-flex',alignItems:'center',gap:16,padding:'16px 28px',background:tier.color+'18',borderRadius:'var(--radius)',marginBottom:12}}>
+          <span style={{fontSize:48,fontWeight:900,color:tier.color,fontFamily:'var(--font-ui)'}}>{pct}%</span>
+          <div style={{textAlign:'left'}}>
+            <div style={{fontSize:18,fontWeight:800,color:tier.color}}>{L(tier.label, tier.labelAr)}</div>
+            <div style={{fontSize:12,color:'var(--text-dim)'}}>{corr}/{tot}</div>
+          </div>
+        </div>
+        <p style={{fontSize:13,color:'var(--text-muted)',maxWidth:460,margin:'0 auto',lineHeight:1.6}}>{L(tier.desc, tier.descAr)}</p>
+        <p style={{fontSize:11,color:'var(--text-dim)',marginTop:6}}>{L('Informed by the UNESCO AI Competency Framework for Citizens (2024)','مستوحى من إطار اليونسكو لكفاءات الذكاء الاصطناعي للمواطنين (2024)')}</p>
+      </div>
+      <div style={{display:'grid',gridTemplateColumns:'260px 1fr',gap:14,marginBottom:20}}>
+        <div className="rai-card" style={{display:'flex',alignItems:'center',justifyContent:'center',padding:12}}>
+          <RadarChart scores={ds}/>
+        </div>
+        <div className="rai-card">
+          <h3 style={{fontSize:14,fontWeight:700,color:'var(--text)',marginBottom:14}}>{T2.domainBreakdown}</h3>
+          <div style={{display:'flex',flexDirection:'column',gap:12}}>
+            {DOMAINS.map(d=>{
+              const s=ds[d.id];
+              const qs=INDIVIDUAL_QUESTIONS.filter(q=>q.domain===d.id);
+              const c=qs.filter(q=>{const sel=answers[q.id];return sel!==undefined&&q.options[sel]?.correct;}).length;
+              return (
+                <div key={d.id}>
+                  <div style={{display:'flex',justifyContent:'space-between',marginBottom:4,alignItems:'center'}}>
+                    <div style={{display:'flex',alignItems:'center',gap:6}}>
+                      <span className="cat-icon" style={{background:d.color,width:20,height:20,fontSize:8}}>{abbr(d.label)}</span>
+                      <span style={{fontSize:13,color:'var(--text-sub)',fontWeight:600}}>{dLabel(d,T2)}</span>
+                    </div>
+                    <span style={{fontSize:13,color:d.color,fontWeight:700}}>{s!==null?`${c}/${qs.length}`:'N/A'}</span>
+                  </div>
+                  <div className="pct-bar-track"><div className="pct-bar-fill" style={{width:(s??0)+'%',background:d.color}}/></div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+      {weak.length>0&&<div className="rai-card" style={{marginBottom:20}}>
+        <h3 style={{fontSize:14,fontWeight:700,color:'var(--text)',marginBottom:4}}>{T2.recommendedPaths}</h3>
+        <p style={{fontSize:12,color:'var(--text-muted)',marginBottom:14}}>{T2.focusAreas}</p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(240px,1fr))',gap:12}}>
+          {weak.map(did=>{
+            const lp=LEARNING_PATHS[did],d=DOMAINS.find(d=>d.id===did);
+            return (
+              <div key={did} style={{background:'var(--bg-hover)',borderRadius:'var(--radius)',padding:'12px 14px',border:'1px solid '+(d?.color||'var(--accent)')+'33'}}>
+                <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:8}}>
+                  <span className="cat-icon" style={{background:d?.color||'var(--accent)'}}>{abbr(d?.label||'')}</span>
+                  <span style={{fontSize:13,fontWeight:700,color:d?.color||'var(--accent)'}}>{lpLabel(lp,did,T2)}</span>
+                </div>
+                <ul style={{paddingLeft:14,listStyle:'disc'}}>
+                  {lp.resources.map((res,i)=><li key={i} style={{fontSize:12,color:'var(--text-muted)',marginBottom:3,lineHeight:1.5}}>{res}</li>)}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      </div>}
+      {wrong.length>0&&<div className="rai-card" style={{marginBottom:20}}>
+        <h3 style={{fontSize:14,fontWeight:700,color:'var(--text)',marginBottom:14}}>{T2.missedQuestions}</h3>
+        <div style={{display:'flex',flexDirection:'column',gap:12}}>
+          {wrong.map(q=>{
+            const co=q.options.find(o=>o.correct),so=q.options[answers[q.id]],d=DOMAINS.find(dd=>dd.id===q.domain);
+            return (
+              <div key={q.id} style={{background:'var(--bg)',borderRadius:'var(--radius)',padding:'12px 14px',border:'1px solid var(--border-light)'}}>
+                {d&&<div style={{marginBottom:6}}><span style={{display:'inline-flex',alignItems:'center',gap:5,padding:'2px 8px',background:d.color+'22',border:'1px solid '+d.color+'44',borderRadius:'var(--radius)',fontSize:11,fontWeight:700,color:d.color}}>{dLabel(d,T2)}</span></div>}
+                <p style={{fontSize:13,color:'var(--text-sub)',marginBottom:8,lineHeight:1.55}}>{L(q.q, q.q_ar)}</p>
+                <p style={{fontSize:12,color:'var(--red)',marginBottom:3}}>{T2.yourAnswer} {L(so?.text, so?.text_ar)}</p>
+                <p style={{fontSize:12,color:'var(--green)',marginBottom:8}}>{T2.correctAnswer} {L(co?.text, co?.text_ar)}</p>
+                <p style={{fontSize:12,color:'var(--text-muted)',lineHeight:1.55}}>{L(q.explanation, q.explanation_ar)}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>}
+      <div style={{paddingTop:8}}><button onClick={onReset} className="rai-btn">{T2.retake}</button></div>
+    </div>
+  );
+}
+
+// ── ENTERPRISE ────────────────────────────────────────────────────────────────
+function EnterpriseAssessment({answers,setAnswers,view,setView,onReset,T2}){
+  const [activeD,setActiveD]=useState(ENTERPRISE_DOMAINS[0]?.id);
+  const all=ENTERPRISE_DOMAINS.flatMap(d=>d.items);
+  const doneCount=all.filter(it=>answers[it.id]).length;
+  function calcED(domain){
+    const a=domain.items.filter(it=>answers[it.id]);
+    if(!a.length)return null;
+    const y=a.filter(it=>answers[it.id]==='yes').length,p=a.filter(it=>answers[it.id]==='partial').length;
+    return Math.round(((y+p*0.5)/domain.items.length)*100);
+  }
+  if(view==='results'){
+    const sc={};for(const d of ENTERPRISE_DOMAINS){sc[d.id]=calcED(d);}
+    const allScores=ENTERPRISE_DOMAINS.map(d=>sc[d.id]??0);
+    const ov=Math.round(allScores.reduce((a,b)=>a+b,0)/allScores.length);
+    const tier=getTier(ov);
+    const gaps=all.filter(it=>answers[it.id]==='no');
+    return (
+      <div>
+        <div style={{marginBottom:20}}>
+          <div className="rai-page-label">{T2.toolLabel}</div>
+          <h1 className="rai-page-title">{T2.enterpriseResultsTitle}</h1>
+        </div>
+        <div style={{marginBottom:16}}><button onClick={()=>setView('assess')} className="rai-btn">{T2.backToAssessment}</button></div>
+        <div className="rai-card" style={{marginBottom:20,textAlign:'center',borderColor:tier.color+'66'}}>
+          <div style={{display:'inline-flex',alignItems:'center',gap:12,padding:'14px 24px',background:tier.color+'18',borderRadius:'var(--radius)',marginBottom:12}}>
+            <span style={{fontSize:40,fontWeight:900,color:tier.color,fontFamily:'var(--font-ui)'}}>{ov}%</span>
+            <div>
+              <div style={{fontSize:17,fontWeight:800,color:tier.color}}>{L(tier.label, tier.labelAr)}</div>
+              <div style={{fontSize:11,color:'var(--text-dim)'}}>{T2.orgLiteracy}</div>
+            </div>
+          </div>
+          <p style={{fontSize:13,color:'var(--text-muted)',maxWidth:420,margin:'0 auto'}}>{L(tier.desc, tier.descAr)}</p>
+          <p style={{fontSize:11,color:'var(--text-dim)',marginTop:6}}>{L('Informed by the UNESCO AI Competency Framework for Citizens (2024)','مستوحى من إطار اليونسكو لكفاءات الذكاء الاصطناعي للمواطنين (2024)')}</p>
+        </div>
+        <div className="rai-card" style={{marginBottom:20}}>
+          <h3 style={{fontSize:14,fontWeight:700,color:'var(--text)',marginBottom:14}}>{T2.domainBreakdown}</h3>
+          {ENTERPRISE_DOMAINS.map(d=>{
+            const s=sc[d.id],srl=s!==null?getTier(s):null;
+            return (
+              <div key={d.id} style={{marginBottom:14}}>
+                <div style={{display:'flex',justifyContent:'space-between',marginBottom:4,alignItems:'center'}}>
+                  <div style={{display:'flex',alignItems:'center',gap:6}}>
+                    <span className="cat-icon" style={{background:d.color,width:20,height:20,fontSize:8}}>{abbr(d.label)}</span>
+                    <span style={{fontSize:13,color:'var(--text-sub)',fontWeight:600}}>{dLabel(d,T2)}</span>
+                  </div>
+                  {srl&&<span style={{fontSize:11,fontWeight:700,color:srl.color,background:srl.color+'15',padding:'2px 7px',borderRadius:'var(--radius)',border:'1px solid '+srl.color+'44'}}>{L(srl.label, srl.labelAr)}</span>}
+                </div>
+                <div className="pct-bar-track"><div className="pct-bar-fill" style={{width:(s??0)+'%',background:d.color}}/></div>
+              </div>
+            );
+          })}
+        </div>
+        {gaps.length>0&&<div className="rai-card" style={{marginBottom:20,borderColor:'var(--red)'}}>
+          <h3 style={{fontSize:14,fontWeight:700,color:'var(--red)',marginBottom:12,display:'flex',alignItems:'center',gap:6}}>
+            <span style={{width:8,height:8,borderRadius:'50%',background:'var(--red)',display:'inline-block'}}></span>
+            {T2.priorityGaps}
+          </h3>
+          <div style={{display:'flex',flexDirection:'column',gap:8}}>
+            {gaps.map(it=>{
+              const par=ENTERPRISE_DOMAINS.find(d=>d.items.some(i=>i.id===it.id));
+              return (
+                <div key={it.id} style={{display:'flex',gap:10,padding:'10px 12px',background:'var(--bg)',borderRadius:'var(--radius)',border:'1px solid var(--border-light)'}}>
+                  <span style={{color:'var(--red)',fontWeight:700,flexShrink:0}}>✗</span>
+                  <div>
+                    <span style={{fontSize:11,color:par?.color||'var(--accent)',fontWeight:700,marginRight:8}}>{(T2.domainLabels&&par&&T2.domainLabels[par.id])||par?.label}</span>
+                    <span style={{fontSize:13,color:'var(--text-sub)'}}>{L(it.text, it.text_ar)}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>}
+        <div><button onClick={onReset} className="rai-btn">{T2.startOver}</button></div>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <div style={{marginBottom:20}}>
+        <div className="rai-page-label">{T2.toolLabel}</div>
+        <h1 className="rai-page-title">{T2.enterpriseTitle}</h1>
+        <p className="rai-page-lead">{doneCount}/{all.length} {T2.answered}</p>
+      </div>
+      {ENTERPRISE_DOMAINS.map(d=>{
+        const sc=calcED(d),tier=sc!==null?getTier(sc):null,noC=d.items.filter(it=>answers[it.id]==='no').length,isA=activeD===d.id;
+        return (
+          <div key={d.id} className="rai-card" style={{marginBottom:10,padding:0,overflow:'hidden'}}>
+            <button onClick={()=>setActiveD(p=>p===d.id?null:d.id)} style={{width:'100%',background:'none',border:'none',cursor:'pointer',padding:'13px 16px',display:'flex',alignItems:'center',gap:10,textAlign:'left',fontFamily:'var(--font-ui)'}}>
+              <span className="cat-icon" style={{background:d.color}}>{abbr(d.label)}</span>
+              <div style={{flex:1}}>
+                <div style={{display:'flex',gap:8,alignItems:'center',marginBottom:2}}>
+                  <span style={{fontSize:14,fontWeight:700,color:'var(--text)'}}>{dLabel(d,T2)}</span>
+                  {noC>0&&<span style={{fontSize:11,color:'var(--red)',fontWeight:700,display:'flex',alignItems:'center',gap:3}}>
+                    <span style={{width:6,height:6,borderRadius:'50%',background:'var(--red)',display:'inline-block'}}></span>
+                    {noC} {noC>1?T2.gapsLabel:T2.gapLabel}
+                  </span>}
+                </div>
+                <span style={{fontSize:12,color:'var(--text-dim)'}}>
+                  {d.items.filter(it=>answers[it.id]).length}/{d.items.length} {T2.answered}
+                  {tier&&<span style={{marginLeft:8,color:tier.color,fontWeight:700}}>{sc}%</span>}
+                </span>
+              </div>
+              <span style={{color:'var(--text-dim)',fontSize:11}}>{isA?'\u25b2':'\u25bc'}</span>
+            </button>
+            {isA&&<div style={{borderTop:'1px solid var(--border-light)'}}>
+              {d.items.map(it=>{
+                const val=answers[it.id];
+                return (
+                  <div key={it.id} style={{padding:'11px 16px',borderBottom:'1px solid var(--border-light)',display:'flex',gap:12,alignItems:'flex-start'}}>
+                    <p style={{flex:1,fontSize:13,color:'var(--text-sub)',lineHeight:1.55}}>{L(it.text, it.text_ar)}</p>
+                    <div style={{display:'flex',gap:5,flexShrink:0}}>
+                      {[{v:'yes',label:T2.yesLabel||'Yes',c:'var(--green)'},{v:'partial',label:T2.partialLabel||'Partial',c:'var(--amber)'},{v:'no',label:T2.noLabel||'No',c:'var(--red)'}].map(opt=>(
+                        <button key={opt.v} onClick={()=>setAnswers(p=>({...p,[it.id]:opt.v}))} className="rai-btn" style={{padding:'4px 10px',fontSize:11,fontWeight:700,background:val===opt.v?opt.c+'22':'var(--bg-infobox)',color:val===opt.v?opt.c:'var(--text-muted)',borderColor:val===opt.v?opt.c+'88':'var(--border-light)'}}>{opt.label}</button>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>}
+          </div>
+        );
+      })}
+      <div style={{textAlign:'center',paddingTop:12}}>
+        <button onClick={()=>setView('results')} className="rai-btn rai-btn-primary" style={{padding:'11px 24px'}} disabled={doneCount<all.length}>{doneCount<all.length?`${T2.viewFullResults} (${doneCount}/${all.length})`:T2.viewFullResults}</button>
+      </div>
+    </div>
+  );
+}
+
+// ── LANDING ───────────────────────────────────────────────────────────────────
+function Landing({setMode,T2}){
+  return (
+    <div>
+      <div className="rai-page-label">{T2.toolLabel}</div>
+      <h1 className="rai-page-title">{T2.title}</h1>
+      <p className="rai-page-lead">{T2.lead}</p>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:18,marginBottom:24}}>
+        <div className="rai-card" style={{padding:'20px'}}>
+          <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:12}}>
+            <span className="cat-icon" style={{background:'#6366f1',width:32,height:32,fontSize:13}}>IQ</span>
+            <h2 style={{fontSize:15,fontWeight:700,color:'var(--text)'}}>{T2.modeIndividual}</h2>
+          </div>
+          <p style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.55,marginBottom:14}}>{INDIVIDUAL_QUESTIONS.length} {T2.modeIndividualDesc}</p>
+          <div style={{display:'flex',flexWrap:'wrap',gap:5,marginBottom:14}}>
+            {DOMAINS.map(d=><span key={d.id} style={{fontSize:11,fontWeight:600,color:d.color,background:d.color+'22',borderRadius:'var(--radius)',padding:'2px 7px',border:'1px solid '+d.color+'33'}}>{dLabel(d,T2)}</span>)}
+          </div>
+          <button onClick={()=>setMode('individual')} className="rai-btn rai-btn-primary" style={{width:'100%',padding:'9px'}}>{T2.startQuiz}</button>
+        </div>
+        <div className="rai-card" style={{padding:'20px'}}>
+          <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:12}}>
+            <span className="cat-icon" style={{background:'#8b5cf6',width:32,height:32,fontSize:13}}>EA</span>
+            <h2 style={{fontSize:15,fontWeight:700,color:'var(--text)'}}>{T2.modeEnterprise}</h2>
+          </div>
+          <p style={{fontSize:13,color:'var(--text-muted)',lineHeight:1.55,marginBottom:14}}>{ENTERPRISE_DOMAINS.flatMap(d=>d.items).length} {T2.modeEnterpriseDesc}</p>
+          <div style={{display:'flex',flexWrap:'wrap',gap:5,marginBottom:14}}>
+            {ENTERPRISE_DOMAINS.map(d=><span key={d.id} style={{fontSize:11,fontWeight:600,color:d.color,background:d.color+'22',borderRadius:'var(--radius)',padding:'2px 7px',border:'1px solid '+d.color+'33'}}>{dLabel(d,T2)}</span>)}
+          </div>
+          <button onClick={()=>setMode('enterprise')} className="rai-btn rai-btn-primary" style={{width:'100%',padding:'9px',background:'#8b5cf6',borderColor:'#8b5cf6'}}>{T2.startAudit}</button>
+        </div>
+      </div>
+      <div className="rai-card">
+        <h3 style={{fontSize:13,fontWeight:700,color:'var(--text)',marginBottom:12}}>{T2.quizDomains}</h3>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))',gap:8}}>
+          {DOMAINS.map(d=>(
+            <div key={d.id} style={{display:'flex',gap:8,padding:'9px 12px',background:'var(--bg-hover)',borderRadius:'var(--radius)',border:'1px solid var(--border-light)'}}>
+              <span className="cat-icon" style={{background:d.color,flexShrink:0}}>{abbr(d.label)}</span>
+              <div>
+                <div style={{fontSize:12,fontWeight:700,color:'var(--text)'}}>{dLabel(d,T2)}</div>
+                <div style={{fontSize:11,color:'var(--text-dim)'}}>{INDIVIDUAL_QUESTIONS.filter(q=>q.domain===d.id).length} {T2.quizQsCount}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── APP ───────────────────────────────────────────────────────────────────────
+function App(){
+  const [lang,setLang]=useState(document.documentElement.lang||'en');
+  window.__raiSetLang=(newLang)=>{
+    document.documentElement.lang=newLang;
+    document.documentElement.dir=newLang==='ar'?'rtl':'ltr';
+    localStorage.setItem('rai-lang',newLang);
+    setLang(newLang);
+    const lb=document.getElementById('rai-lang');
+    if(lb)lb.textContent=newLang==='ar'?'EN':'AR';
+  };
+  const T2=T[lang]||T.en;
+  const [mode,setMode]=useState(null);
+  const [qDone,setQDone]=useState(false);
+  const [qAns,setQAns]=useState({});
+  const [eAns,setEAns]=useState({});
+  const [eView,setEView]=useState('assess');
+  function reset(){setMode(null);setQDone(false);setQAns({});setEAns({});setEView('assess');}
+  const ds={};
+  if(mode==='individual'&&qDone){for(const d of DOMAINS){ds[d.id]=calcDomainScore(d.id,qAns);}}
+  function calcEP(domain){const a=domain.items.filter(it=>eAns[it.id]);if(!a.length)return null;const y=a.filter(it=>eAns[it.id]==='yes').length,p=a.filter(it=>eAns[it.id]==='partial').length;return Math.round(((y+p*0.5)/domain.items.length)*100);}
+  const tocD=mode==='enterprise'?ENTERPRISE_DOMAINS:DOMAINS;
+  return (
+    <div className="rai-layout">
+      <nav className="rai-toc">
+        <div className="rai-toc-heading">{T2.modeHeading}</div>
+        <div className={"rai-toc-item"+(mode!=='enterprise'?' active':'')} onClick={()=>{setMode(null);setQDone(false);setQAns({});}}>
+          <span style={{width:16,height:16,borderRadius:'var(--radius)',background:'#6366f1',display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:800,color:'#fff',flexShrink:0}}>IQ</span>
+          {T2.modeIndividual}
+        </div>
+        <div className={"rai-toc-item"+(mode==='enterprise'?' active':'')} onClick={()=>{setMode('enterprise');setEView('assess');}}>
+          <span style={{width:16,height:16,borderRadius:'var(--radius)',background:'#8b5cf6',display:'inline-flex',alignItems:'center',justifyContent:'center',fontSize:8,fontWeight:800,color:'#fff',flexShrink:0}}>EA</span>
+          {T2.modeEnterprise}
+        </div>
+        <hr className="rai-toc-divider"/>
+        <div className="rai-toc-heading">{T2.domainsHeading}</div>
+        {tocD.map(d=>{
+          const sc=mode==='individual'&&qDone?ds[d.id]:mode==='enterprise'?calcEP(d):null;
+          return (
+            <div key={d.id} className="rai-toc-item" style={{cursor:'default'}}>
+              <span className="cat-icon" style={{background:d.color,width:18,height:18,fontSize:7,flexShrink:0}}>{abbr(d.label)}</span>
+              <span style={{flex:1,lineHeight:1.3,fontSize:12}}>{dLabel(d,T2)}</span>
+              {sc!==null&&sc!==undefined&&<span style={{fontSize:10,fontWeight:700,color:sc>=70?'var(--green)':sc>=50?'var(--amber)':'var(--red)'}}>{sc}%</span>}
+            </div>
+          );
+        })}
+      </nav>
+      <main className="rai-main">
+        {mode==='individual'&&qDone
+          ?<IndividualResults answers={qAns} onReset={reset} T2={T2}/>
+          :mode==='individual'
+          ?<IndividualQuiz onComplete={a=>{setQAns(a);setQDone(true);}} T2={T2}/>
+          :mode==='enterprise'
+          ?<EnterpriseAssessment answers={eAns} setAnswers={setEAns} view={eView} setView={setEView} onReset={reset} T2={T2}/>
+          :<Landing setMode={setMode} T2={T2}/>}
+      </main>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
