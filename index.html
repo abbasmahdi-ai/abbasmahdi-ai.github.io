@@ -805,4 +805,31 @@ function applyLang(l) {
   document.getElementById('rai-lang').textContent = l === 'ar' ? 'EN' : 'AR';
   const d = T[l];
   Object.keys(d).forEach(id => {
-    const el = document.getElementById(id
+    const el = document.getElementById(id);
+    if (el) el.textContent = d[id];
+  });
+}
+
+function toggleLang() {
+  lang = lang === 'en' ? 'ar' : 'en';
+  localStorage.setItem('rai-lang', lang);
+  applyLang(lang);
+}
+
+function toggleTheme() {
+  const el = document.documentElement;
+  const t  = el.dataset.theme === 'light' ? 'dark' : 'light';
+  el.dataset.theme = t;
+  localStorage.setItem('rai-theme', t);
+  document.getElementById('rai-thm').textContent = t === 'dark' ? 'Light' : 'Dark';
+}
+
+/* Init */
+(function () {
+  applyLang(lang);
+  const t = localStorage.getItem('rai-theme') || 'light';
+  document.getElementById('rai-thm').textContent = t === 'dark' ? 'Light' : 'Dark';
+})();
+</script>
+</body>
+</html>
