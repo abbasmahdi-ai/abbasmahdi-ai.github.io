@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>AI Risk Assessment Scorecard — Responsible AI Toolkit</title>
+<title>AI Risk Assessment Scorecard - Responsible AI Toolkit</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
@@ -141,7 +141,7 @@ const T = {
     assessmentComplete:"Assessment Complete", outOf100:"out of 100",
     dimensionScores:"Dimension Scores", priorityAreas:"Priority Areas",
     aboutAssessment:"About This Assessment",
-    aboutText:"This scorecard is a self-assessment tool for reflection and planning — not a certification or compliance audit. Scores reflect your current practices across 8 responsible AI dimensions. The Deployment Context dimension carries 1.5× weight, and Bias/Fairness and Human Oversight carry 1.2× weight, reflecting their disproportionate impact on real-world harm.",
+    aboutText:"This scorecard is a self-assessment tool for reflection and planning, not a certification or compliance audit. Scores reflect your current practices across 8 responsible AI dimensions. The Deployment Context dimension carries 1.5× weight, and Bias/Fairness and Human Oversight carry 1.2× weight, reflecting their disproportionate impact on real-world harm.",
     weight:"weight", minutes:"~8 minutes", questions:"32 questions", dimensions:"8 dimensions",
     viewMyResults:"View My Results",
     nextSection:"Next:",
@@ -266,8 +266,8 @@ const T = {
     ],
     sections:[
       {
-        title:"سياق النشر والرهانات",
-        description:"يحدد ملف المخاطر الجوهري لنشرك. تستلزم المجالات ذات المخاطر العالية ضمانات أقوى بشكل متناسب في كل بُعد آخر.",
+        title:"سياق التنفيذ والمخاطر المترتبة",
+        description:"يحدد مستوى المخاطر الجوهرية المرتبطة بعملية النشر الخاصة بك. تستلزم المجالات ذات المخاطر العالية ضمانات أقوى بشكل متناسب في كل بُعد آخر.",
         rec:"وثّق من يؤثر عليهم النظام، وما هي القرارات التي قد يتخذها باستقلالية، وما إذا كانت ضماناتك متناسبة مع الرهانات المعنية.",
         questions:[
           { q:"ما هو المجال الرئيسي لنظام الذكاء الاصطناعي لديك؟", options:["العدالة الجنائية، أو الرعاية الصحية السريرية، أو رعاية الطفل","التوظيف، أو تسجيل الائتمان، أو السكن، أو الوصول إلى التعليم","توصيات المحتوى، أو خدمة العملاء، أو التسويق","الأدوات الداخلية، أو المساعدة في البحث، أو الدعم الإبداعي"] },
@@ -277,7 +277,7 @@ const T = {
         ]
       },
       {
-        title:"جودة البيانات والحوكمة",
+        title:"جودة البيانات وحوكمتها",
         description:"يُقيّم ما إذا كانت بيانات التدريب لديك موثوقة وتمثيلية وموثقة جيداً ومراقبة بمرور الوقت للكشف عن الانزياح.",
         rec:"أنشئ أوراق بيانات لجميع مجموعات بيانات التدريب، وادقق في التمثيلية عبر المجموعات المتأثرة، ونفّذ مراقبة آلية للانزياح التوزيعي.",
         questions:[
@@ -299,7 +299,7 @@ const T = {
         ]
       },
       {
-        title:"الشفافية وقابلية التفسير",
+        title:"الشفافية والقابلية للتفسير",
         description:"يُقيّم ما إذا كان الأفراد المتأثرون يستطيعون فهم سبب اتخاذ الذكاء الاصطناعي قراراً بشأنهم، وما إذا كان لديهم سبيل انتصاف فعلي.",
         rec:"نفّذ آليات تفسير في متناول المستخدمين غير التقنيين، وانشر وثائق النموذج بما فيها القيود، وأنشئ مسار انتصاف معلَناً للقرارات المتنازع عليها.",
         questions:[
@@ -321,7 +321,7 @@ const T = {
         ]
       },
       {
-        title:"الأمان والمتانة",
+        title:"الأمن السيبراني والمتانة التقنية",
         description:"يُقيّم المرونة في مواجهة التلاعب الخصومي والمدخلات غير المتوقعة والإخفاقات المنهجية — بما في ذلك ما يحدث عند وقوع خطأ.",
         rec:"أجرِ تمارين منتظمة لاختبار الاختراق (Red-Teaming)، وحدد أوضاع فشل صريحة تتخذ نتائج آمنة افتراضياً، واختبر سلوك النظام على المدخلات خارج نطاق التوزيع قبل النشر.",
         questions:[
@@ -584,7 +584,7 @@ function App() {
                 <div key={oi} className={`q-option${val===oi?' selected':''}`} onClick={()=>handleAnswer(sectionIdx,qi,oi)}>
                   <input type="radio" readOnly checked={val===oi} style={{marginTop:2}}/>
                   <div style={{flex:1}}>
-                    <span style={{fontSize:11,fontWeight:700,color:val===oi?'var(--accent)':'var(--text-dim)',marginRight:8,textTransform:'uppercase',letterSpacing:'.04em'}}>{String.fromCharCode(65+oi)}</span>
+                    <span style={{fontSize:11,fontWeight:700,color:val===oi?'var(--accent)':'var(--text-dim)',marginInlineEnd:8,textTransform:'uppercase',letterSpacing:'.04em'}}>{String.fromCharCode(65+oi)}</span>
                     <span style={{fontSize:13,color:val===oi?'var(--text)':'var(--text-muted)',lineHeight:1.5}}>{opt}</span>
                   </div>
                   {val===oi&&<span style={{color:'var(--green)',fontSize:14,flexShrink:0}}>✓</span>}
