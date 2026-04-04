@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Responsible AI Toolkit - Abbas Al Mahdi</title>
-<meta name="description" content="A bilingual suite of interactive responsible AI tools for practitioners, policymakers, and organisations across the Arab world."/>
+<meta name="description" content="20 interactive, bilingual (Arabic/English) responsible AI tools for practitioners, compliance officers, HR teams, and policymakers. Free, browser-based, no account required."/>
 <meta property="og:title" content="Responsible AI Toolkit - Abbas Al Mahdi"/>
 <meta property="og:description" content="20 bilingual interactive tools covering AI bias, governance, risk, ethics, and compliance, built to SDAIA, PDPL, and international standards."/>
 <meta property="og:type" content="website"/>
@@ -18,782 +18,924 @@
 })();
 </script>
 <style>
-/* ── Design System (matches toolkit tools) ─────────────────────────────── */
+/* ── Design system ───────────────────────────────────────────────────────── */
 :root {
-  --bg: #ffffff;
-  --bg-content: #ffffff;
-  --bg-sidebar: #f8f9fa;
-  --bg-infobox: #f8f9fa;
-  --bg-hover: #eaf3ff;
-  --border: #d4d5d9;
-  --border-light: #eaecf0;
-  --border-blue: #72acf7;
-  --text: #202122;
-  --text-sub: #36454f;
-  --text-muted: #54595d;
-  --text-dim: #72777d;
-  --text-link: #3366cc;
-  --accent: #3366cc;
-  --accent-hover: #2a55a5;
-  --green: #096450;
-  --green-bg: #d5fdf4;
-  --amber: #783f04;
-  --amber-bg: #fef3c7;
-  --red: #b32424;
-  --red-bg: #fee7e6;
-  --blue-deep: #1a3a6b;
-  --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --radius: 2px;
-  --shadow-card: 0 1px 4px rgba(0,0,0,.06);
-  --shadow-hover: 0 3px 12px rgba(51,102,204,.12);
+  --bg:        #f7f9fc;
+  --bg-card:   #ffffff;
+  --bg-sub:    #f1f5f9;
+  --bg-hover:  #e8f0fb;
+  --border:    #d4dbe8;
+  --border-lt: #eaecf0;
+  --text:      #1a1a2e;
+  --text-sub:  #36454f;
+  --text-muted:#5a6278;
+  --text-dim:  #8896a8;
+  --blue:      #1a56a0;
+  --blue-dk:   #0f3670;
+  --blue-lt:   #e8f0fb;
+  --accent:    #1a56a0;
+  --gold:      #c8930a;
+  --green:     #1a7a4a;
+  --green-bg:  #d1fae5;
+  --amber:     #92400e;
+  --amber-bg:  #fef3c7;
+  --gray-bg:   #f1f5f9;
+  --font:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --radius-sm: 4px;
+  --radius:    8px;
+  --radius-lg: 12px;
+  --shadow:    0 2px 12px rgba(26,86,160,.08);
+  --shadow-lg: 0 8px 30px rgba(26,86,160,.12);
 }
 [data-theme="dark"] {
-  --bg: #11131a;
-  --bg-content: #11131a;
-  --bg-sidebar: #1a1d24;
-  --bg-infobox: #1e2229;
-  --bg-hover: #1e2d45;
-  --border: #3a3d45;
-  --border-light: #2a2d36;
-  --border-blue: #4a6fa8;
-  --text: #eaecf0;
-  --text-sub: #c8ccd1;
-  --text-muted: #a2a9b1;
-  --text-dim: #72777d;
-  --text-link: #6ea8fe;
-  --accent: #6ea8fe;
-  --accent-hover: #4a84d8;
-  --green: #4ac79a;
-  --green-bg: #0d2b24;
-  --amber: #f5c06a;
-  --amber-bg: #2a1f0c;
-  --shadow-card: 0 1px 4px rgba(0,0,0,.25);
-  --shadow-hover: 0 3px 12px rgba(110,168,254,.15);
+  --bg:        #11131a;
+  --bg-card:   #1a1d24;
+  --bg-sub:    #14171f;
+  --bg-hover:  #1e2d45;
+  --border:    #2a2d3a;
+  --border-lt: #222533;
+  --text:      #eaecf0;
+  --text-sub:  #c8ccd1;
+  --text-muted:#8896a8;
+  --text-dim:  #5a6278;
+  --blue:      #4a84d8;
+  --blue-dk:   #0a1f3d;
+  --blue-lt:   #1e2d45;
+  --accent:    #6ea8fe;
+  --gold:      #d4a520;
+  --green:     #4ac79a;
+  --green-bg:  #0d2b24;
+  --amber:     #f5c06a;
+  --amber-bg:  #2a1f0c;
+  --gray-bg:   #1e2229;
+  --shadow:    0 2px 12px rgba(0,0,0,.3);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,.4);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-ui);
-  min-height: 100vh;
-  font-size: 14px;
-  line-height: 1.6;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; font-size: 14px; min-height: 100vh; }
 
-/* ── Topbar ─────────────────────────────────────────────────────────────── */
-.rai-topbar {
-  background: var(--bg-sidebar);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 200;
+/* ── Topbar ──────────────────────────────────────────────────────────────── */
+.topbar {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--blue-dk);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.5rem; height: 50px;
+  border-bottom: 3px solid var(--gold);
 }
-.rai-topbar-brand { font-size: 12px; font-weight: 600; color: var(--text-dim); letter-spacing: .3px; }
-.rai-topbar-right { display: flex; align-items: center; gap: 8px; }
-.rai-btn-small {
-  background: var(--bg-infobox);
-  border: 1px solid var(--border-light);
-  color: var(--text-muted);
-  border-radius: var(--radius);
-  padding: 4px 11px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: var(--font-ui);
-  transition: border-color .15s, color .15s;
+.topbar-brand { color: #fff; font-weight: 700; font-size: .9rem; letter-spacing: .02em; }
+.topbar-brand span { color: var(--gold); }
+.topbar-actions { display: flex; gap: .5rem; }
+.topbar-btn {
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
+  color: #fff; border-radius: var(--radius-sm); padding: .25rem .75rem;
+  font-size: .78rem; font-weight: 600; cursor: pointer; font-family: var(--font);
+  transition: background .15s;
 }
-.rai-btn-small:hover { border-color: var(--accent); color: var(--accent); }
+.topbar-btn:hover { background: rgba(255,255,255,.22); }
 
-/* ── Page wrapper ───────────────────────────────────────────────────────── */
-.rai-page { max-width: 1080px; margin: 0 auto; padding: 52px 32px 88px; }
-
-/* ── Hero ───────────────────────────────────────────────────────────────── */
+/* ── Hero ────────────────────────────────────────────────────────────────── */
 .hero {
-  border-bottom: 1px solid var(--border-light);
-  padding-bottom: 40px;
-  margin-bottom: 44px;
+  background: linear-gradient(135deg, var(--blue-dk) 0%, #1a56a0 60%, #2472c8 100%);
+  padding: 4.5rem 2rem 0;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  overflow: hidden; position: relative;
 }
-.hero-eyebrow {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-link);
-  background: var(--bg-hover);
-  border: 1px solid var(--border-blue);
-  border-radius: var(--radius);
-  padding: 2px 9px;
-  text-transform: uppercase;
-  letter-spacing: .6px;
-  margin-bottom: 12px;
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(200,147,10,.15) 0%, transparent 60%);
+  pointer-events: none;
 }
-.hero-title {
-  font-size: 34px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.18;
-  margin-bottom: 6px;
+.hero-tag {
+  position: relative;
+  background: rgba(200,147,10,.2); border: 1px solid rgba(200,147,10,.5);
+  color: #f5c842; border-radius: 20px; padding: .2rem .9rem;
+  font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; margin-bottom: 1.2rem;
 }
-.hero-subtitle {
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--text-muted);
-  margin-bottom: 18px;
-  font-style: normal;
+.hero h1 {
+  position: relative;
+  color: #fff; font-size: clamp(1.8rem, 4vw, 2.7rem);
+  font-weight: 800; max-width: 680px; line-height: 1.2; margin-bottom: 1rem;
 }
+.hero h1 em { color: #f5c842; font-style: normal; }
 .hero-lead {
-  font-size: 14px;
-  color: var(--text-sub);
-  max-width: 700px;
-  line-height: 1.8;
-  margin-bottom: 24px;
+  position: relative;
+  color: rgba(255,255,255,.82); font-size: 1rem;
+  max-width: 580px; margin-bottom: 1.5rem; line-height: 1.7;
 }
 .hero-creds {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-bottom: 28px;
+  position: relative;
+  display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; margin-bottom: 2rem;
 }
 .cred-pill {
-  background: var(--bg-infobox);
-  border: 1px solid var(--border-light);
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 12px;
-  color: var(--text-muted);
-  font-weight: 500;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.88); border-radius: 20px;
+  padding: .25rem .8rem; font-size: .75rem; font-weight: 500;
 }
-.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.hero-actions {
+  position: relative;
+  display: flex; gap: .75rem; flex-wrap: wrap; justify-content: center; margin-bottom: 3rem;
+}
 .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  padding: 10px 20px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: var(--font-ui);
-  text-decoration: none;
-  transition: opacity .15s;
+  background: var(--gold); color: #fff; font-weight: 700;
+  padding: .65rem 1.6rem; border-radius: var(--radius-sm); text-decoration: none;
+  font-size: .9rem; border: none; cursor: pointer; font-family: var(--font);
+  display: inline-flex; align-items: center; gap: .35rem;
+  box-shadow: 0 4px 14px rgba(200,147,10,.4); transition: opacity .15s, transform .15s;
 }
-.btn-primary:hover { opacity: .88; }
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--bg-infobox);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  border-radius: var(--radius);
-  padding: 9px 18px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: var(--font-ui);
-  text-decoration: none;
-  transition: border-color .15s, color .15s;
+.btn-primary:hover { opacity: .9; transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent; color: #fff; font-weight: 600;
+  padding: .65rem 1.5rem; border-radius: var(--radius-sm); text-decoration: none;
+  font-size: .9rem; border: 1px solid rgba(255,255,255,.35); cursor: pointer; font-family: var(--font);
+  display: inline-flex; align-items: center;
+  transition: background .15s;
 }
-.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-ghost:hover { background: rgba(255,255,255,.1); }
 
-/* ── Stats bar ──────────────────────────────────────────────────────────── */
+/* Hero browser preview */
+.hero-preview { position: relative; width: 100%; max-width: 820px; margin: 0 auto; }
+.browser-chrome {
+  background: #1e1e2e; border-radius: 10px 10px 0 0;
+  padding: .5rem 1rem; display: flex; align-items: center; gap: .4rem;
+}
+.dot { width: 9px; height: 9px; border-radius: 50%; }
+.dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
+.browser-url {
+  background: rgba(255,255,255,.1); border-radius: 4px;
+  color: rgba(255,255,255,.5); font-size: .72rem;
+  padding: .12rem .55rem; margin-inline-start: .4rem; flex: 1; max-width: 280px;
+}
+.browser-body {
+  background: var(--bg-card); border: 1px solid var(--border-lt);
+  border-top: none; border-radius: 0 0 8px 8px;
+  padding: 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: .85rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+.mini-card { background: var(--bg); border: 1px solid var(--border-lt); border-radius: 6px; padding: .85rem; }
+.mini-label { font-size: .6rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: .35rem; }
+.mini-score { font-size: 1.3rem; font-weight: 800; color: var(--accent); }
+.mini-score span { font-size: .75rem; font-weight: 400; color: var(--text-dim); }
+.mini-bar { height: 5px; background: var(--border); border-radius: 3px; margin: .3rem 0; }
+.mini-fill { height: 100%; border-radius: 3px; }
+.mini-pill { display: inline-block; font-size: .6rem; font-weight: 700; padding: .1rem .45rem; border-radius: 20px; margin-top: .3rem; }
+.pill-green { background: var(--green-bg); color: var(--green); }
+.pill-amber { background: var(--amber-bg); color: var(--amber); }
+.mini-id-card {
+  background: linear-gradient(135deg, #0f3670, #1a56a0); border: none;
+  border-radius: 6px; padding: .85rem;
+}
+.mini-id-label { font-size: .6rem; font-weight: 700; color: rgba(255,255,255,.6); text-transform: uppercase; margin-bottom: .3rem; }
+.mini-id-code { color: #f5c842; font-size: .9rem; font-weight: 800; letter-spacing: .04em; margin: .25rem 0; }
+.mini-id-hint { color: rgba(255,255,255,.55); font-size: .65rem; }
+
+/* ── Stats bar ───────────────────────────────────────────────────────────── */
 .stats-bar {
-  display: flex;
-  gap: 32px;
-  flex-wrap: wrap;
-  padding: 16px 0;
-  border-top: 1px solid var(--border-light);
-  border-bottom: 1px solid var(--border-light);
-  margin-bottom: 44px;
+  background: var(--bg-card); border-bottom: 1px solid var(--border-lt);
+  display: flex; justify-content: center; flex-wrap: wrap;
 }
-.stat-item { display: flex; flex-direction: column; gap: 2px; }
-.stat-number { font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; }
-.stat-label { font-size: 12px; color: var(--text-dim); }
+.stat-item {
+  padding: 1.1rem 2.25rem; text-align: center;
+  border-inline-end: 1px solid var(--border-lt);
+}
+.stat-item:last-child { border-inline-end: none; }
+.stat-num { font-size: 1.5rem; font-weight: 800; color: var(--accent); }
+.stat-lbl { font-size: .72rem; color: var(--text-muted); margin-top: .1rem; }
 
-/* ── Section header ─────────────────────────────────────────────────────── */
-.section-hd { margin-bottom: 20px; }
+/* ── Page content ────────────────────────────────────────────────────────── */
+.page { max-width: 1100px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
+
+/* ── Section header ──────────────────────────────────────────────────────── */
+.section-hd { margin-bottom: 1.5rem; }
 .section-eyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: .8px;
-  margin-bottom: 4px;
+  font-size: .68rem; font-weight: 700; color: var(--accent);
+  text-transform: uppercase; letter-spacing: .08em; margin-bottom: .35rem;
 }
-.section-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-.section-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; max-width: 600px; }
+.section-title { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
+.section-desc  { font-size: .875rem; color: var(--text-muted); max-width: 580px; line-height: 1.65; }
 
-/* ── Tool grid ──────────────────────────────────────────────────────────── */
+/* ── Tool grid ───────────────────────────────────────────────────────────── */
 .tool-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-  gap: 14px;
-  margin-bottom: 48px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 1.1rem; margin-bottom: 3rem;
 }
 
-/* ── Tool card ──────────────────────────────────────────────────────────── */
+/* ── Tool card ───────────────────────────────────────────────────────────── */
 .tool-card {
-  background: var(--bg-infobox);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-  box-shadow: var(--shadow-card);
-  transition: border-color .15s, box-shadow .15s;
+  background: var(--bg-card); border: 1px solid var(--border-lt);
+  border-radius: var(--radius); padding: 1.25rem;
+  display: flex; flex-direction: column; gap: .75rem;
+  box-shadow: var(--shadow); transition: border-color .15s, box-shadow .15s, transform .15s;
+  position: relative; overflow: hidden;
 }
-.tool-card:hover {
-  border-color: var(--border-blue);
-  box-shadow: var(--shadow-hover);
-}
-.card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-}
+.tool-card:hover { border-color: var(--blue); box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.tool-card::before { content: ''; position: absolute; top: 0; inset-inline-start: 0; inset-inline-end: 0; height: 3px; }
+.card-open::before   { background: var(--green); }
+.card-gated::before  { background: var(--gold); }
+.card-preview::before{ background: var(--text-dim); }
+
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: .6rem; }
 .tool-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius);
-  background: var(--bg-hover);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
+  width: 38px; height: 38px; border-radius: var(--radius-sm);
+  background: var(--blue-lt); display: flex; align-items: center;
+  justify-content: center; font-size: 1.15rem; flex-shrink: 0;
 }
 .tool-badge {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 9px;
-  border-radius: var(--radius);
-  border: 1px solid;
-  white-space: nowrap;
-  line-height: 1.5;
+  font-size: .65rem; font-weight: 700; padding: .2rem .6rem;
+  border-radius: 20px; white-space: nowrap; border: 1px solid;
 }
-.badge-open   { color: var(--green); background: var(--green-bg); border-color: var(--green); }
-.badge-gated  { color: var(--amber); background: var(--amber-bg); border-color: var(--amber); }
-.badge-preview{ color: var(--text-muted); background: var(--bg-sidebar); border-color: var(--border); }
+.badge-open    { color: var(--green); background: var(--green-bg); border-color: var(--green); }
+.badge-gated   { color: var(--amber); background: var(--amber-bg); border-color: var(--amber); }
+.badge-preview { color: var(--text-muted); background: var(--gray-bg); border-color: var(--border); }
 
-.tool-name    { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.3; }
-.tool-name-sub{ font-size: 12px; color: var(--text-dim); margin-top: 3px; }
-.tool-desc    { font-size: 13px; color: var(--text-sub); line-height: 1.7; flex: 1; }
-.tool-audience{
-  font-size: 11px;
-  color: var(--text-dim);
-  background: var(--bg-sidebar);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius);
-  padding: 4px 9px;
-  display: inline-block;
-  line-height: 1.5;
+.tool-name     { font-size: .95rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+.tool-name-ar  { font-size: .78rem; color: var(--text-dim); margin-top: .2rem; }
+.tool-desc     { font-size: .825rem; color: var(--text-sub); line-height: 1.7; flex: 1; }
+.tool-audience {
+  font-size: .7rem; color: var(--text-dim);
+  background: var(--bg-sub); border: 1px solid var(--border-lt);
+  border-radius: var(--radius-sm); padding: .3rem .6rem; display: inline-block;
 }
 .card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border-light);
-  margin-top: auto;
-  flex-wrap: wrap;
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: .75rem; border-top: 1px solid var(--border-lt); margin-top: auto; flex-wrap: wrap; gap: .5rem;
 }
 .tool-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  padding: 7px 14px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: var(--font-ui);
-  text-decoration: none;
-  transition: opacity .15s;
+  display: inline-flex; align-items: center; gap: .3rem;
+  background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius-sm); padding: .45rem .9rem;
+  font-size: .78rem; font-weight: 600; cursor: pointer; font-family: var(--font);
+  text-decoration: none; transition: opacity .15s;
 }
 .tool-cta:hover { opacity: .88; }
 .tool-cta-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  border-radius: var(--radius);
-  padding: 6px 13px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: var(--font-ui);
-  text-decoration: none;
-  transition: border-color .15s, color .15s;
+  display: inline-flex; align-items: center; gap: .3rem;
+  background: transparent; border: 1px solid var(--border);
+  color: var(--text-muted); border-radius: var(--radius-sm); padding: .4rem .85rem;
+  font-size: .78rem; font-weight: 600; cursor: pointer; font-family: var(--font);
+  text-decoration: none; transition: border-color .15s, color .15s;
 }
 .tool-cta-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ── Divider ────────────────────────────────────────────────────────────── */
-.section-divider { border: none; border-top: 1px solid var(--border-light); margin: 0 0 44px; }
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+.divider { border: none; border-top: 1px solid var(--border-lt); margin: 0 0 3rem; }
 
-/* ── About section ──────────────────────────────────────────────────────── */
-.about-section {
-  background: var(--bg-infobox);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius);
-  padding: 28px 32px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 28px;
-  align-items: center;
-  margin-bottom: 44px;
-  box-shadow: var(--shadow-card);
+/* ── Frameworks bar ──────────────────────────────────────────────────────── */
+.fw-bar {
+  background: var(--blue-dk); padding: 1.75rem 2rem;
+  display: flex; flex-direction: column; align-items: center; gap: .85rem;
 }
-.about-name  { font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-.about-role  { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
-.about-bio   { font-size: 13px; color: var(--text-sub); line-height: 1.75; max-width: 640px; }
-.about-actions { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
-
-/* ── Standards bar ──────────────────────────────────────────────────────── */
-.standards-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 44px;
+.fw-label {
+  color: rgba(255,255,255,.55); font-size: .7rem;
+  text-transform: uppercase; letter-spacing: .08em; font-weight: 700;
 }
-.standards-label { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: .7px; margin-inline-end: 4px; }
-.std-pill {
-  background: var(--bg-sidebar);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius);
-  padding: 4px 10px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
+.fw-pills { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; }
+.fw-pill {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
+  color: rgba(255,255,255,.85); border-radius: 20px;
+  padding: .3rem .9rem; font-size: .78rem; font-weight: 600;
 }
 
-/* ── Footer ─────────────────────────────────────────────────────────────── */
+/* ── About / Why section ─────────────────────────────────────────────────── */
+.about-wrap { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.about-eyebrow {
+  font-size: .68rem; font-weight: 700; color: var(--accent);
+  text-transform: uppercase; letter-spacing: .08em; margin-bottom: .5rem;
+}
+.about-heading { font-size: 1.6rem; font-weight: 800; line-height: 1.25; margin-bottom: 1rem; }
+.about-text p  { font-size: .9rem; color: var(--text-muted); margin-bottom: .9rem; line-height: 1.75; }
+.about-visual {
+  background: var(--blue-lt); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 1.75rem;
+  display: flex; flex-direction: column; gap: 1rem;
+}
+[data-theme="dark"] .about-visual { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.08); }
+.about-stat { display: flex; align-items: flex-start; gap: 1rem; }
+.about-stat-icon {
+  width: 40px; height: 40px; border-radius: var(--radius-sm);
+  background: var(--accent); color: #fff; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+}
+.about-stat-strong { display: block; font-size: .9rem; font-weight: 700; color: var(--text); }
+.about-stat-span   { font-size: .78rem; color: var(--text-muted); }
+.about-cta-wrap    { margin-top: .5rem; }
+.about-cta {
+  display: inline-flex; align-items: center;
+  background: var(--accent); color: #fff; font-weight: 700;
+  padding: .6rem 1.35rem; border-radius: var(--radius-sm); text-decoration: none;
+  font-size: .85rem; transition: opacity .15s;
+}
+.about-cta:hover { opacity: .88; }
+
+/* ── Profile section ─────────────────────────────────────────────────────── */
+.profile-section {
+  background: linear-gradient(160deg, #0a1f3d 0%, #0f3670 50%, #1a3a6e 100%);
+  padding: 4.5rem 2rem;
+}
+.profile-inner {
+  max-width: 1000px; margin: 0 auto;
+  display: grid; grid-template-columns: 280px 1fr; gap: 3.5rem; align-items: center;
+}
+.profile-img-wrap { border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.45); }
+.profile-img { width: 100%; display: block; object-fit: cover; object-position: top center; aspect-ratio: 3/4; }
+.profile-content { color: #fff; }
+.profile-eyebrow {
+  font-size: .68rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: .65rem;
+}
+.profile-name  { font-size: 2rem; font-weight: 800; line-height: 1.1; margin-bottom: .35rem; }
+.profile-title { font-size: .92rem; color: rgba(255,255,255,.65); margin-bottom: 1.4rem; }
+.profile-bio   { font-size: .88rem; color: rgba(255,255,255,.8); line-height: 1.75; margin-bottom: 1.75rem; max-width: 520px; }
+.profile-links { display: flex; gap: .65rem; flex-wrap: wrap; margin-bottom: 1.75rem; }
+.profile-link {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.88); text-decoration: none;
+  border-radius: var(--radius-sm); padding: .45rem .9rem; font-size: .82rem; font-weight: 600;
+  display: inline-flex; align-items: center; transition: background .15s;
+}
+.profile-link:hover { background: rgba(255,255,255,.2); }
+.profile-link-primary { background: var(--gold); border-color: var(--gold); color: #fff; }
+.profile-link-primary:hover { background: #b07d09; }
+.profile-tags { display: flex; gap: .45rem; flex-wrap: wrap; }
+.profile-tag {
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
+  color: rgba(255,255,255,.65); border-radius: 20px;
+  padding: .18rem .7rem; font-size: .7rem;
+}
+.profile-creds {
+  display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem;
+}
+.profile-creds .cred-pill {
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14);
+  color: rgba(255,255,255,.6); border-radius: 20px;
+  padding: .18rem .7rem; font-size: .7rem; font-weight: 500;
+}
+
+/* ── Projects bar ────────────────────────────────────────────────────────── */
+.projects-bar {
+  background: var(--bg-card); border-top: 1px solid var(--border-lt);
+  border-bottom: 1px solid var(--border-lt);
+}
+.projects-inner {
+  max-width: 1000px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+}
+.project-item {
+  padding: 1.5rem 1.75rem; border-inline-end: 1px solid var(--border-lt);
+  text-decoration: none; color: var(--text); transition: background .15s; display: block;
+}
+.project-item:last-child { border-inline-end: none; }
+.project-item:hover { background: var(--bg-hover); }
+.project-item-label { font-size: .65rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .07em; margin-bottom: .25rem; }
+.project-item-title { font-size: .9rem; font-weight: 700; margin-bottom: .2rem; }
+.project-item-desc  { font-size: .75rem; color: var(--text-muted); }
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
 .rai-footer {
-  border-top: 1px solid var(--border-light);
-  padding-top: 20px;
-  font-size: 12px;
-  color: var(--text-dim);
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
+  background: var(--text); color: rgba(255,255,255,.5);
+  padding: 1.25rem 2rem; display: flex; justify-content: space-between;
+  flex-wrap: wrap; gap: .5rem; font-size: .75rem;
 }
+.rai-footer a { color: rgba(255,255,255,.75); text-decoration: none; }
+.rai-footer a:hover { color: #fff; }
 
-/* ── RTL adjustments ────────────────────────────────────────────────────── */
-[dir="rtl"] .tool-card { text-align: right; }
-[dir="rtl"] .card-top  { flex-direction: row-reverse; }
+/* ── RTL ─────────────────────────────────────────────────────────────────── */
+[dir="rtl"] .tool-card    { text-align: right; }
+[dir="rtl"] .card-top     { flex-direction: row-reverse; }
+[dir="rtl"] .hero-actions { flex-direction: row-reverse; }
 
-/* ── Responsive ─────────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .rai-page { padding: 28px 16px 60px; }
-  .hero-title { font-size: 26px; }
-  .tool-grid { grid-template-columns: 1fr; }
-  .about-section { grid-template-columns: 1fr; }
-  .about-actions { flex-direction: row; }
-  .stats-bar { gap: 20px; }
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 820px) {
+  .about-grid   { grid-template-columns: 1fr; gap: 2.5rem; }
+  .profile-inner{ grid-template-columns: 1fr; }
+  .profile-img  { max-width: 260px; margin: 0 auto; }
+  .projects-inner { grid-template-columns: 1fr; }
+  .project-item { border-inline-end: none; border-bottom: 1px solid var(--border-lt); }
+  .project-item:last-child { border-bottom: none; }
+  .browser-body { grid-template-columns: 1fr; }
 }
-@media (max-width: 480px) {
-  .hero-title { font-size: 22px; }
-  .hero-subtitle { font-size: 16px; }
-  .about-actions { flex-direction: column; }
+@media (max-width: 640px) {
+  .hero { padding: 3rem 1.25rem 0; }
+  .page { padding: 2.5rem 1.25rem 4rem; }
+  .stat-item { border-inline-end: none; border-bottom: 1px solid var(--border-lt); width: 50%; }
+  .stat-item:nth-child(odd)  { border-inline-end: 1px solid var(--border-lt); }
+  .hero h1 { font-size: 1.7rem; }
+  .about-heading { font-size: 1.35rem; }
+  .profile-name  { font-size: 1.6rem; }
 }
 </style>
 </head>
 <body>
 
-<!-- ── Topbar ──────────────────────────────────────────────────────────── -->
-<div class="rai-topbar">
-  <span class="rai-topbar-brand" id="tb-brand">Responsible AI Toolkit</span>
-  <div class="rai-topbar-right">
-    <button id="rai-lang" class="rai-btn-small" onclick="toggleLang()">AR</button>
-    <button id="rai-thm"  class="rai-btn-small" onclick="toggleTheme()">Dark</button>
+<!-- ── Topbar ──────────────────────────────────────────────────────────────-->
+<header class="topbar">
+  <div class="topbar-brand" id="tb-brand">Responsible <span>AI</span> Toolkit</div>
+  <div class="topbar-actions">
+    <button id="rai-lang" class="topbar-btn" onclick="toggleLang()">AR</button>
+    <button id="rai-thm"  class="topbar-btn" onclick="toggleTheme()">Dark</button>
   </div>
+</header>
+
+<!-- ── Hero ───────────────────────────────────────────────────────────────-->
+<section class="hero">
+  <div class="hero-tag" id="hero-tag">Free · Bilingual · Open Access</div>
+  <h1><span id="hero-title">Responsible AI,</span> <em id="hero-em">Made Accessible.</em></h1>
+  <p class="hero-lead" id="hero-lead">A suite of interactive, bilingual tools for AI practitioners, compliance officers, HR and L&D teams, decision-makers, and policymakers. Built to local and international responsible AI standards.</p>
+
+  <div class="hero-actions">
+    <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="btn-primary" id="hero-li-btn">Connect on LinkedIn</a>
+    <a href="#tools" class="btn-ghost" id="hero-explore-btn">Explore the Toolkit</a>
+  </div>
+
+  <div class="hero-preview">
+    <div class="browser-chrome">
+      <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      <div class="browser-url">abbasmahdi-ai.github.io/ai-readiness-checklist</div>
+    </div>
+    <div class="browser-body">
+      <div class="mini-card">
+        <div class="mini-label">AI Readiness Score</div>
+        <div class="mini-score">74 <span>/ 100</span></div>
+        <div class="mini-bar"><div class="mini-fill" style="width:74%;background:#1a56a0"></div></div>
+        <div class="mini-pill pill-green">Developing</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-label">Risk Level</div>
+        <div class="mini-score" style="color:#c8930a">Medium</div>
+        <div class="mini-bar"><div class="mini-fill" style="width:55%;background:#c8930a"></div></div>
+        <div class="mini-pill pill-amber">Review Required</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-label">AI Literacy</div>
+        <div class="mini-score" style="color:#1a7a4a">62 <span>/ 100</span></div>
+        <div class="mini-bar"><div class="mini-fill" style="width:62%;background:#1a7a4a"></div></div>
+        <div class="mini-pill pill-green">Intermediate</div>
+      </div>
+      <div class="mini-id-card">
+        <div class="mini-id-label">Session ID</div>
+        <div class="mini-id-code">RAI-4F8A2C1E</div>
+        <div class="mini-id-hint">Your results, encoded. Share with Abbas to unlock advisory.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats bar ──────────────────────────────────────────────────────────-->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">20</div><div class="stat-lbl" id="stat1-label">Interactive Tools</div></div>
+  <div class="stat-item"><div class="stat-num">2</div><div class="stat-lbl" id="stat2-label">Languages (EN / AR)</div></div>
+  <div class="stat-item"><div class="stat-num">8+</div><div class="stat-lbl" id="stat3-label">Regulatory Frameworks</div></div>
+  <div class="stat-item"><div class="stat-num">1,001</div><div class="stat-lbl" id="stat4-label">Bilingual AI Terms</div></div>
+  <div class="stat-item"><div class="stat-num">Free</div><div class="stat-lbl" id="stat5-label">No account required</div></div>
 </div>
 
-<div class="rai-page">
+<!-- ── Tools ──────────────────────────────────────────────────────────────-->
+<div class="page">
 
-  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
-  <div class="hero">
-    <div class="hero-eyebrow" id="hero-eyebrow">Bilingual · Open Access</div>
-    <h1 class="hero-title" id="hero-title">Responsible AI Toolkit</h1>
-    <div class="hero-subtitle" id="hero-subtitle">أدوات الذكاء الاصطناعي المسؤول</div>
-    <p class="hero-lead" id="hero-lead">
-      A suite of interactive, bilingual tools for AI practitioners, compliance officers, HR and L&D teams, policymakers, and organisations across the Arab world, built to SDAIA, Saudi PDPL, and international responsible AI standards.
-    </p>
-    <div class="hero-creds">
-      <span class="cred-pill" id="cred-location">📍 Saudi Arabia</span>
-      <span class="cred-pill" id="cred-edu">🎓 Oxford · Stanford · CAIE</span>
-      <span class="cred-pill" id="cred-mit">📊 MIT AI Risk Index - Contributor</span>
-      <span class="cred-pill" id="cred-glossary">📖 1,001-Term Bilingual AI Glossary</span>
-      <span class="cred-pill" id="cred-ai-use-cases">📖 3000+ AI Use Cases Analyzed</span>
-      <span class="cred-pill" id="cred-lang">🌐 English · العربية</span>
-    </div>
-    <div class="hero-actions">
-      <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="btn-primary" id="hero-li-btn">Connect on LinkedIn →</a>
-      <a href="#tools" class="btn-secondary" id="hero-explore-btn">Explore the Toolkit ↓</a>
-    </div>
-  </div>
-
-  <!-- ── Stats bar ──────────────────────────────────────────────────────── -->
-  <div class="stats-bar">
-    <div class="stat-item">
-      <div class="stat-number">20</div>
-      <div class="stat-label" id="stat1-label">Interactive Tools</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">2</div>
-      <div class="stat-label" id="stat2-label">Languages (EN · AR)</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">8+</div>
-      <div class="stat-label" id="stat3-label">Regulatory Frameworks</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">1,001</div>
-      <div class="stat-label" id="stat4-label">Bilingual AI Terms</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">Free</div>
-      <div class="stat-label" id="stat5-label">No account required</div>
-    </div>
-  </div>
-
-  <!-- ── Active tools ───────────────────────────────────────────────────── -->
   <div id="tools" class="section-hd">
     <div class="section-eyebrow" id="active-eyebrow">Available Now</div>
-    <div class="section-title" id="active-title">Interactive Tools</div>
-    <div class="section-desc" id="active-desc">Use these tools directly - no account, no login, no install required.</div>
+    <div class="section-title"   id="active-title">Interactive Tools</div>
+    <div class="section-desc"    id="active-desc">Use these tools directly. No account, login, or install required.</div>
   </div>
 
   <div class="tool-grid">
 
-    <!-- Tool 1 - AI Literacy Assessment (Full access) -->
-    <div class="tool-card">
+    <!-- T1: AI Literacy Assessment -->
+    <div class="tool-card card-open">
       <div class="card-top">
         <div class="tool-icon">📚</div>
         <span class="tool-badge badge-open" id="t1-badge">Free Access</span>
       </div>
       <div>
         <div class="tool-name" id="t1-name">AI Literacy Assessment</div>
-        <div class="tool-name-sub" id="t1-name-sub">تقييم معرفة الذكاء الاصطناعي</div>
+        <div class="tool-name-ar" id="t1-name-ar">تقييم معرفة الذكاء الاصطناعي</div>
       </div>
-      <div class="tool-desc" id="t1-desc">
-        Measure AI knowledge at the individual or organisational level across six core domains. Identify skill gaps and receive personalised learning pathways, built with SDAIA-aligned terminology.
-      </div>
+      <div class="tool-desc" id="t1-desc">Measure AI knowledge at the individual or organizational level across six core domains. Identify skill gaps and receive personalised learning pathways. Partially informed by the UNESCO AI Competency Framework for Citizens (2024).</div>
       <div class="tool-audience" id="t1-audience">👤 HR &amp; L&amp;D teams · Individual learners · Educators</div>
       <div class="card-footer">
-        <a href="./ai-literacy-assessment.html" class="tool-cta" id="t1-cta">Launch Tool →</a>
+        <a href="./ai-literacy-assessment.html" class="tool-cta" id="t1-cta">Launch Tool</a>
       </div>
     </div>
 
-    <!-- Tool 2 - AI Readiness Checklist (Gated) -->
-    <div class="tool-card">
+    <!-- T2: AI Readiness Checklist -->
+    <div class="tool-card card-gated">
       <div class="card-top">
         <div class="tool-icon">✅</div>
         <span class="tool-badge badge-gated" id="t2-badge">Full Report Gated</span>
       </div>
       <div>
         <div class="tool-name" id="t2-name">AI Readiness Checklist</div>
-        <div class="tool-name-sub" id="t2-name-sub">قائمة التحقق من جاهزية الذكاء الاصطناعي</div>
+        <div class="tool-name-ar" id="t2-name-ar">قائمة التحقق من جاهزية الذكاء الاصطناعي</div>
       </div>
-      <div class="tool-desc" id="t2-desc">
-        A 10–15 minute self-assessment across seven dimensions of responsible AI readiness - data governance, skills, ethics, and risk management. Complete the assessment, then connect to unlock your scored report.
-      </div>
+      <div class="tool-desc" id="t2-desc">A 10-15 minute self-assessment across seven dimensions of responsible AI readiness: data governance, skills, ethics, and risk management. Complete the assessment, then connect to unlock your scored report.</div>
       <div class="tool-audience" id="t2-audience">🏛️ CTOs · Digital transformation leads · Boards</div>
       <div class="card-footer">
-        <a href="./ai-readiness-checklist.html" class="tool-cta" id="t2-cta">Start Assessment →</a>
+        <a href="./ai-readiness-checklist.html" class="tool-cta" id="t2-cta">Start Assessment</a>
       </div>
     </div>
 
-    <!-- Tool 3 - AI Risk Assessment Scorecard (Gated) -->
-    <div class="tool-card">
+    <!-- T3: AI Risk Assessment Scorecard -->
+    <div class="tool-card card-gated">
       <div class="card-top">
         <div class="tool-icon">⚠️</div>
         <span class="tool-badge badge-gated" id="t3-badge">Full Report Gated</span>
       </div>
       <div>
         <div class="tool-name" id="t3-name">AI Risk Assessment Scorecard</div>
-        <div class="tool-name-sub" id="t3-name-sub">بطاقة تقييم مخاطر الذكاء الاصطناعي</div>
+        <div class="tool-name-ar" id="t3-name-ar">بطاقة تقييم مخاطر الذكاء الاصطناعي</div>
       </div>
-      <div class="tool-desc" id="t3-desc">
-        32 questions across eight responsible AI dimensions - produces a scored risk profile, section-by-section breakdown, and prioritised remediation roadmap. Ready to present to your board or risk committee.
-      </div>
+      <div class="tool-desc" id="t3-desc">32 questions across eight responsible AI dimensions. Produces a scored risk profile, section-by-section breakdown, and prioritised remediation roadmap. Ready to present to your board or risk committee.</div>
       <div class="tool-audience" id="t3-audience">🎯 Risk officers · Product owners · Ethics review boards</div>
       <div class="card-footer">
-        <a href="./ai-risk-scorecard.html" class="tool-cta" id="t3-cta">Start Assessment →</a>
+        <a href="./ai-risk-scorecard.html" class="tool-cta" id="t3-cta">Start Assessment</a>
       </div>
     </div>
 
   </div>
 
-  <hr class="section-divider"/>
+  <hr class="divider"/>
 
-  <!-- ── Preview tools ──────────────────────────────────────────────────── -->
   <div class="section-hd">
     <div class="section-eyebrow" id="prev-eyebrow">Available by Request</div>
-    <div class="section-title" id="prev-title">Advanced Tools</div>
-    <div class="section-desc" id="prev-desc">These tools are available to organisations and professionals through direct engagement. Connect on LinkedIn to request access or discuss a tailored deployment.</div>
+    <div class="section-title"   id="prev-title">Advanced Tools</div>
+    <div class="section-desc"    id="prev-desc">Available to organizations and professionals through direct engagement. Connect on LinkedIn to request access or discuss a tailored deployment.</div>
   </div>
 
   <div class="tool-grid">
 
-    <!-- Preview 1 - AI Procurement Scorecard -->
-    <div class="tool-card">
+    <!-- P1: AI Procurement Scorecard -->
+    <div class="tool-card card-preview">
       <div class="card-top">
         <div class="tool-icon">📊</div>
         <span class="tool-badge badge-preview" id="p1-badge">By Request</span>
       </div>
       <div>
         <div class="tool-name" id="p1-name">AI Procurement Scorecard</div>
-        <div class="tool-name-sub" id="p1-name-sub">بطاقة تقييم شراء أنظمة الذكاء الاصطناعي</div>
+        <div class="tool-name-ar" id="p1-name-ar">بطاقة تقييم شراء أنظمة الذكاء الاصطناعي</div>
       </div>
-      <div class="tool-desc" id="p1-desc">
-        Evaluate AI vendors across seven responsible-AI procurement dimensions before signing a contract. Produces a scored assessment with category-level recommendations aligned to SDAIA, SAMA, and international standards.
-      </div>
+      <div class="tool-desc" id="p1-desc">Evaluate AI vendors across seven responsible-AI procurement dimensions before signing a contract. Produces a scored assessment with category-level recommendations aligned to SDAIA, SAMA, and international standards.</div>
       <div class="tool-audience" id="p1-audience">🛒 Procurement officers · IT managers · Chief Digital Officers</div>
       <div class="card-footer">
-        <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="tool-cta-ghost" id="p1-cta">Request Access →</a>
+        <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="tool-cta-ghost" id="p1-cta">Request Access</a>
       </div>
     </div>
 
-    <!-- Preview 2 - AI Governance Builder -->
-    <div class="tool-card">
+    <!-- P2: AI Governance Builder -->
+    <div class="tool-card card-preview">
       <div class="card-top">
         <div class="tool-icon">🏛️</div>
         <span class="tool-badge badge-preview" id="p2-badge">By Request</span>
       </div>
       <div>
         <div class="tool-name" id="p2-name">AI Governance Builder</div>
-        <div class="tool-name-sub" id="p2-name-sub">منشئ إطار حوكمة الذكاء الاصطناعي</div>
+        <div class="tool-name-ar" id="p2-name-ar">منشئ إطار حوكمة الذكاء الاصطناعي</div>
       </div>
-      <div class="tool-desc" id="p2-desc">
-        A guided 7-step wizard - from organisational principles to monitoring - that outputs a tailored AI ethics and governance policy document, ready to share with leadership or submit to regulators.
-      </div>
+      <div class="tool-desc" id="p2-desc">A guided 7-step wizard, from organizational principles to monitoring, that outputs a tailored AI ethics and governance policy document, ready to share with leadership or submit to regulators.</div>
       <div class="tool-audience" id="p2-audience">👔 Chief AI Officers · Legal &amp; policy teams · Boards</div>
       <div class="card-footer">
-        <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="tool-cta-ghost" id="p2-cta">Request Access →</a>
+        <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="tool-cta-ghost" id="p2-cta">Request Access</a>
       </div>
     </div>
 
-    <!-- Preview 3 - AI Compliance & Bias Audit -->
-    <div class="tool-card">
+    <!-- P3: AI Compliance & Bias Audit -->
+    <div class="tool-card card-preview">
       <div class="card-top">
         <div class="tool-icon">🔍</div>
         <span class="tool-badge badge-preview" id="p3-badge">By Request</span>
       </div>
       <div>
         <div class="tool-name" id="p3-name">AI Compliance &amp; Bias Audit</div>
-        <div class="tool-name-sub" id="p3-name-sub">تدقيق الامتثال والتحيز في الذكاء الاصطناعي</div>
+        <div class="tool-name-ar" id="p3-name-ar">تدقيق الامتثال والتحيز في الذكاء الاصطناعي</div>
       </div>
-      <div class="tool-desc" id="p3-desc">
-        A five-phase audit framework mapping your AI system to Saudi PDPL, SDAIA AI Ethics principles, EU AI Act, GDPR, NIST AI RMF, and Gulf sector frameworks - including SAMA and CBUAE.
-      </div>
+      <div class="tool-desc" id="p3-desc">A five-phase audit framework mapping your AI system to Saudi PDPL, SDAIA AI Ethics principles, EU AI Act, GDPR, NIST AI RMF, and Gulf sector frameworks, including SAMA and CBUAE.</div>
       <div class="tool-audience" id="p3-audience">⚖️ Compliance officers · Internal auditors · Legal counsel</div>
       <div class="card-footer">
-        <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="tool-cta-ghost" id="p3-cta">Request Access →</a>
+        <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="tool-cta-ghost" id="p3-cta">Request Access</a>
       </div>
     </div>
 
   </div>
+</div><!-- /page -->
 
-  <hr class="section-divider"/>
-
-  <!-- ── Standards bar ──────────────────────────────────────────────────── -->
-  <div class="standards-bar">
-    <span class="standards-label" id="std-label">Built to:</span>
-    <span class="std-pill">SDAIA AI Ethics</span>
-    <span class="std-pill">Saudi PDPL</span>
-    <span class="std-pill">UAE PDPL</span>
-    <span class="std-pill">EU AI Act</span>
-    <span class="std-pill">GDPR</span>
-    <span class="std-pill">NIST AI RMF</span>
-    <span class="std-pill">ISO 42001</span>
-    <span class="std-pill">SAMA</span>
-    <span class="std-pill">CBUAE</span>
-    <span class="std-pill">ADGM · DIFC</span>
+<!-- ── Frameworks bar ─────────────────────────────────────────────────────-->
+<div class="fw-bar">
+  <div class="fw-label" id="fw-label">Partially informed by</div>
+  <div class="fw-pills">
+    <div class="fw-pill">SDAIA</div>
+    <div class="fw-pill">PDPL</div>
+    <div class="fw-pill">SAMA</div>
+    <div class="fw-pill">CBUAE</div>
+    <div class="fw-pill">EU AI Act</div>
+    <div class="fw-pill">GDPR</div>
+    <div class="fw-pill">NIST</div>
+    <div class="fw-pill">ISO 42001</div>
+    <div class="fw-pill">UNESCO</div>
+    <div class="fw-pill">OECD</div>
   </div>
+</div>
 
-  <!-- ── About ──────────────────────────────────────────────────────────── -->
-  <div class="about-section">
-    <div>
-      <div class="about-name" id="about-name">Abbas Al-Mahdi</div>
-      <div class="about-role" id="about-role">Independent Certified AI Consultant, Advisor &amp; Educator · Saudi Arabia</div>
-      <p class="about-bio" id="about-bio">
-        Co-author of a forthcoming MIT AI Risk Prioritization Study (part of the MIT AI Risk Index). Credentials from Oxford, Stanford, and CAIE. Author of a 1,001-term bilingual Arabic–English AI Glossary built with SDAIA-standard terminology. This toolkit was designed to give AI practitioners, compliance teams, HR leaders, and policymakers across the Arab world access to rigorous, culturally grounded responsible AI tools - in their language, mapped to their regulations.
-      </p>
+<!-- ── About / Why section ────────────────────────────────────────────────-->
+<div class="about-wrap">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="about-eyebrow" id="why-label">Why this exists</div>
+      <h2 class="about-heading" id="why-heading">Navigate AI confidently. Deploy it responsibly.</h2>
+      <p id="why-p1">The EU AI Act, NIST AI RMF, and ISO 42001 set a high bar for responsible AI governance. But the tools, training, and assessments that help organizations actually meet that bar are almost exclusively in English, built around Western regulatory defaults.</p>
+      <p id="why-p2">This toolkit bridges that gap: practical assessments built around PDPL, SDAIA, and SAMA, in Arabic and English, free and browser-based, with outputs you can act on the same day.</p>
+      <div class="about-cta-wrap">
+        <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="about-cta" id="why-li-btn">Connect on LinkedIn</a>
+      </div>
     </div>
-    <div class="about-actions">
-      <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="btn-primary" id="about-li-btn">Connect on LinkedIn →</a>
-      <a href="mailto:abbasmahdi.ai@gmail.com" class="btn-secondary" id="about-email-btn">Send an Email</a>
+    <div class="about-visual">
+      <div class="about-stat">
+        <div class="about-stat-icon">🌐</div>
+        <div>
+          <strong class="about-stat-strong" id="stat-a-title">Fully bilingual</strong>
+          <span class="about-stat-span" id="stat-a-sub">Arabic and English, equally. Switch in one click.</span>
+        </div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-icon">⚖️</div>
+        <div>
+          <strong class="about-stat-strong" id="stat-b-title">Familiar by design</strong>
+          <span class="about-stat-span" id="stat-b-sub">Regulations, terminology, and context you actually work with</span>
+        </div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-icon">🔓</div>
+        <div>
+          <strong class="about-stat-strong" id="stat-c-title">No friction</strong>
+          <span class="about-stat-span" id="stat-c-sub">Browser-based, no account, no install</span>
+        </div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-icon">📊</div>
+        <div>
+          <strong class="about-stat-strong" id="stat-d-title">Tools are just the start</strong>
+          <span class="about-stat-span" id="stat-d-sub">Roadmaps, governance strategy, and hands-on advisory available</span>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 
-  <!-- ── Footer ─────────────────────────────────────────────────────────── -->
-  <div class="rai-footer">
-    <span id="footer-left">© 2025 Abbas Al-Mahdi · Responsible AI Toolkit · 20 bilingual tools</span>
-    <span id="footer-right">SDAIA · PDPL · EU AI Act · NIST AI RMF · ISO 42001</span>
+<!-- ── Profile section ────────────────────────────────────────────────────-->
+<section class="profile-section">
+  <div class="profile-inner">
+    <div class="profile-img-wrap">
+      <img id="profile-img" src="./profile-pfp-1.png" alt="Abbas Al Mahdi" class="profile-img"/>
+    </div>
+    <div class="profile-content">
+      <div class="profile-eyebrow" id="profile-eyebrow">About the author</div>
+      <div class="profile-name"    id="profile-name">Abbas Al Mahdi</div>
+      <div class="profile-title"   id="profile-title">Certified AI Consultant, Advisor &amp; Educator · Saudi Arabia</div>
+      <p class="profile-bio" id="profile-bio">Co-author of a forthcoming MIT AI Risk Prioritization Study (part of the MIT AI Risk Initiative). Credentials from Oxford, Stanford, and CAIE. Author of a 1,001-term bilingual Arabic/English AI Glossary. Analyzed 3,000+ AI use cases and deployment scenarios. This toolkit was designed to give AI practitioners, compliance teams, HR leaders, and policymakers access to rigorous, culturally grounded responsible AI tools, in their language, mapped to their regulations.</p>
+      <div class="profile-links">
+        <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="profile-link profile-link-primary" id="profile-li-btn">Connect on LinkedIn</a>
+        <a href="#tools"  class="profile-link" id="profile-toolkit-btn">🧰 Explore the Toolkit</a>
+        <a href="https://github.com/abbasmahdi-ai/ai-use-cases-library" target="_blank" class="profile-link" id="profile-usecases-btn">📚 AI Use Cases Library</a>
+        <span class="profile-link" style="opacity:.5;cursor:default;" id="profile-glossary-btn">📖 AI Glossary</span>
+      </div>
+      <div class="profile-tags">
+        <span class="profile-tag">AI Governance</span>
+        <span class="profile-tag">Responsible AI</span>
+        <span class="profile-tag">AI Literacy</span>
+        <span class="profile-tag">Vision 2030</span>
+        <span class="profile-tag">Bilingual AR/EN</span>
+        <span class="profile-tag">MIT AI Risk Prioritization Study</span>
+      </div>
+      <div class="profile-creds">
+        <span class="cred-pill" id="cred-location">📍 Saudi Arabia</span>
+        <span class="cred-pill" id="cred-edu">🎓 Oxford · Stanford · CAIE</span>
+        <span class="cred-pill" id="cred-mit">📊 MIT AI Risk Prioritization Study - Co-author</span>
+        <span class="cred-pill" id="cred-glossary">📖 1,001-Term Bilingual AI Glossary</span>
+        <span class="cred-pill" id="cred-usecases">📊 3,000+ AI Use Cases Analyzed</span>
+      </div>
+    </div>
   </div>
+</section>
 
-</div><!-- /rai-page -->
+<!-- ── Projects bar ───────────────────────────────────────────────────────-->
+<div class="projects-bar">
+  <div class="projects-inner">
+    <a href="https://abbasmahdi-ai.github.io" class="project-item">
+      <div class="project-item-label" id="proj1-label">Live now</div>
+      <div class="project-item-title" id="proj1-title">Responsible AI Toolkit ↗</div>
+      <div class="project-item-desc"  id="proj1-desc">20 bilingual tools for AI practitioners and policymakers</div>
+    </a>
+    <a href="https://github.com/abbasmahdi-ai/ai-use-cases-library" target="_blank" class="project-item">
+      <div class="project-item-label" id="proj2-label">Dataset</div>
+      <div class="project-item-title" id="proj2-title">AI Use Cases Library ↗</div>
+      <div class="project-item-desc"  id="proj2-desc">3,000+ analyzed AI use cases with sector and region tagging</div>
+    </a>
+    <div class="project-item" style="opacity:.5;cursor:default;">
+      <div class="project-item-label" id="proj3-label">Coming soon</div>
+      <div class="project-item-title" id="proj3-title">Responsible AI Glossary</div>
+      <div class="project-item-desc"  id="proj3-desc">1,001-term bilingual glossary of AI governance and ethics terms</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────────-->
+<footer class="rai-footer">
+  <span id="footer-left">© 2026 Abbas Al Mahdi · Responsible AI Toolkit · 20 bilingual tools</span>
+  <span id="footer-right">Oxford · Stanford · Certified AI Ethicist · MIT AI Risk Prioritization Study (Co-author)</span>
+</footer>
 
 <script>
-/* ── Bilingual content ────────────────────────────────────────────────── */
+/* ── Bilingual content ───────────────────────────────────────────────────── */
 const T = {
   en: {
-    'tb-brand':        'Responsible AI Toolkit',
-    'hero-eyebrow':    'Free · Bilingual · Open Access',
-    'hero-title':      'Responsible AI Toolkit',
-    'hero-subtitle':   'أدوات الذكاء الاصطناعي المسؤول',
-    'hero-lead':       'A suite of interactive, bilingual tools for AI practitioners, compliance officers, HR and L&D teams, policymakers, and organisations across the Arab world, built to SDAIA, Saudi PDPL, and international responsible AI standards.',
-    'cred-location':   '📍 Saudi Arabia',
-    'cred-edu':        '🎓 Oxford · Stanford · Certified AI Ethicist (CAIE)',
-    'cred-mit':        '📊 MIT AI Risk Prioritization Study - Co-author',
-    'cred-glossary':   '📖 1,001-Term Bilingual AI Glossary',
-    'cred-ai-use-cases':   '📖 3000+ AI Use Cases Analyzed',
-    'cred-lang':       '🌐 English · العربية',
-    'hero-li-btn':     'Connect on LinkedIn →',
-    'hero-explore-btn':'Explore the Toolkit ↓',
-    'stat1-label':     'Interactive Tools',
-    'stat2-label':     'Languages (EN · AR)',
-    'stat3-label':     'Regulatory Frameworks',
-    'stat4-label':     'Bilingual AI Terms',
-    'stat5-label':     'No account required',
-    'active-eyebrow':  'Available Now',
-    'active-title':    'Interactive Tools',
-    'active-desc':     'Use these tools directly - no account, no login, no install required.',
-    't1-badge':        'Free Access',
-    't1-name':         'AI Literacy Assessment',
-    't1-name-sub':     'تقييم معرفة الذكاء الاصطناعي',
-    't1-desc':         'Measure AI knowledge at the individual or organisational level across six core domains. Identify skill gaps and receive personalised learning pathways, built with SDAIA-aligned terminology.',
-    't1-audience':     '👤 HR & L&D teams · Individual learners · Educators',
-    't1-cta':          'Launch Tool →',
-    't2-badge':        'Full Report Gated',
-    't2-name':         'AI Readiness Checklist',
-    't2-name-sub':     'قائمة التحقق من جاهزية الذكاء الاصطناعي',
-    't2-desc':         'A 10-15 minute self-assessment across seven dimensions of responsible AI readiness - data governance, skills, ethics, and risk management. Complete the assessment, then connect to unlock your scored report.',
-    't2-audience':     '🏛️ CTOs · Digital transformation leads · Boards',
-    't2-cta':          'Start Assessment →',
-    't3-badge':        'Full Report Gated',
-    't3-name':         'AI Risk Assessment Scorecard',
-    't3-name-sub':     'بطاقة تقييم مخاطر الذكاء الاصطناعي',
-    't3-desc':         '32 questions across eight responsible AI dimensions - produces a scored risk profile, section-by-section breakdown, and prioritised remediation roadmap. Ready to present to your board or risk committee.',
-    't3-audience':     '🎯 Risk officers · Product owners · Ethics review boards',
-    't3-cta':          'Start Assessment →',
-    'prev-eyebrow':    'Available by Request',
-    'prev-title':      'Advanced Tools',
-    'prev-desc':       'These tools are available to organisations and professionals through direct engagement. Connect on LinkedIn to request access or discuss a tailored deployment.',
-    'p1-badge':        'By Request',
-    'p1-name':         'AI Procurement Scorecard',
-    'p1-name-sub':     'بطاقة تقييم شراءأنظمة الذكاء الاصطناعي',
-    'p1-desc':         'Evaluate AI vendors across seven responsible-AI procurement dimensions before signing a contract. Produces a scored assessment with category-level recommendations aligned to SDAIA, SAMA, and international standards.',
-    'p1-audience':     '🛒 Procurement officers · IT managers · Chief Digital Officers',
-    'p1-cta':          'Request Access →',
-    'p2-badge':        'By Request',
-    'p2-name':         'AI Governance Builder',
-    'p2-name-sub':     'أداة بناء حوكمة الذكاء الاصطناعي',
-    'p2-desc':         'A guided 7-step wizard - from organisational principles to monitoring - that outputs a tailored AI ethics and governance policy document, ready to share with leadership or submit to regulators.',
-    'p2-audience':     '👔 Chief AI Officers · Legal & policy teams · Boards',
-    'p2-cta':          'Request Access →',
-    'p3-badge':        'By Request',
-    'p3-name':         'AI Compliance & Bias Audit',
-    'p3-name-sub':     'تدقيق الامتثال والتحيز في الذكاء الاصطناعي',
-    'p3-desc':         'A five-phase audit framework mapping your AI system to Saudi PDPL, SDAIA AI Ethics principles, EU AI Act, GDPR, NIST AI RMF, and Gulf sector frameworks - including SAMA and CBUAE.',
-    'p3-audience':     '⚖️ Compliance officers · Internal auditors · Legal counsel',
-    'p3-cta':          'Request Access →',
-    'std-label':       'Built to:',
-    'about-name':      'Abbas Al-Mahdi',
-    'about-role':      'Independent Certified AI Consultant & Educator · Saudi Arabia',
-    'about-bio':       'Co-author of a forthcoming MIT AI Risk Prioritization Study (part of the MIT AI Risk Index). Credentials from Oxford, Stanford, and CAIE. Author of a 1,001-term bilingual Arabic–English AI Glossary built with SDAIA-standard terminology. Analyzed 3,000+ AI use cases and deployment scenarios. This toolkit was designed to give AI practitioners, compliance teams, HR leaders, and policymakers across the Arab world access to rigorous, culturally grounded responsible AI tools - in their language, mapped to their regulations.',
-    'about-li-btn':    'Connect on LinkedIn →',
-    'about-email-btn': 'Send an Email',
-    'footer-left':     '© 2026 Abbas Al-Mahdi · Responsible AI Toolkit · 20 bilingual tools',
-    'footer-right':    'Notable ources: SDAIA · PDPL · EU AI Act · NIST AI RMF · ISO 42001 · UNESCO · Stanford HAI · OECD',
+    'tb-brand':          'Responsible AI Toolkit',
+    'hero-tag':          'Free · Bilingual · Open Access',
+    'hero-title':        'Responsible AI,',
+    'hero-em':           'Made Accessible.',
+    'hero-lead':         'A suite of interactive, bilingual tools for AI practitioners, compliance officers, HR and L&D teams, decision-makers, and policymakers. Built to local and international responsible AI standards.',
+    'cred-location':     '📍 Saudi Arabia',
+    'cred-edu':          '🎓 Oxford · Stanford · CAIE',
+    'cred-mit':          '📊 MIT AI Risk Prioritization Study - Co-author',
+    'cred-glossary':     '📖 1,001-Term Bilingual AI Glossary',
+    'cred-usecases':     '📊 3,000+ AI Use Cases Analyzed',
+    'cred-lang':         '🌐 English · العربية',
+    'hero-li-btn':       'Connect on LinkedIn',
+    'hero-explore-btn':  'Explore the Toolkit',
+    'stat1-label':       'Interactive Tools',
+    'stat2-label':       'Languages (EN / AR)',
+    'stat3-label':       'Regulatory Frameworks',
+    'stat4-label':       'Bilingual AI Terms',
+    'stat5-label':       'No account required',
+    'active-eyebrow':    'Available Now',
+    'active-title':      'Interactive Tools',
+    'active-desc':       'Use these tools directly - no account, no login, no install required.',
+    't1-badge':          'Free Access',
+    't1-name':           'AI Literacy Assessment',
+    't1-name-ar':        'تقييم الإلمام بالذكاء الاصطناعي',
+    't1-desc':           'Measure AI knowledge at the individual or organizational level across six core domains. Identify skill gaps and receive personalised learning pathways. Partially informed by the UNESCO AI Competency Framework for Citizens (2024).',
+    't1-audience':       '👤 HR & L&D teams · Individual learners · Educators',
+    't1-cta':            'Launch Tool',
+    't2-badge':          'Full Report Gated',
+    't2-name':           'AI Readiness Checklist',
+    't2-name-ar':        'قائمة التحقق من جاهزية الذكاء الاصطناعي',
+    't2-desc':           'A 10-15 minute self-assessment across seven dimensions of responsible AI readiness: data governance, skills, ethics, and risk management. Complete the assessment, then connect to unlock your scored report.',
+    't2-audience':       '🏛️ CTOs · Digital transformation leads · Boards',
+    't2-cta':            'Start Assessment',
+    't3-badge':          'Full Report Gated',
+    't3-name':           'AI Risk Assessment Scorecard',
+    't3-name-ar':        'بطاقة تقييم مخاطر الذكاء الاصطناعي',
+    't3-desc':           '32 questions across eight responsible AI dimensions. Produces a scored risk profile, section-by-section breakdown, and prioritised remediation roadmap. Ready to present to your board or risk committee.',
+    't3-audience':       '🎯 Risk officers · Product owners · Ethics review boards',
+    't3-cta':            'Start Assessment',
+    'prev-eyebrow':      'Available by Request',
+    'prev-title':        'Advanced Tools',
+    'prev-desc':         'Available to organizations and professionals through direct engagement. Connect on LinkedIn to request access or discuss a tailored deployment.',
+    'p1-badge':          'By Request',
+    'p1-name':           'AI Procurement Scorecard',
+    'p1-name-ar':        'بطاقة تقييم شراء أنظمة الذكاء الاصطناعي',
+    'p1-desc':           'Evaluate AI vendors across seven responsible-AI procurement dimensions before signing a contract. Produces a scored assessment with category-level recommendations aligned to SDAIA, SAMA, and international standards.',
+    'p1-audience':       '🛒 Procurement officers · IT managers · Chief Digital Officers',
+    'p1-cta':            'Request Access',
+    'p2-badge':          'By Request',
+    'p2-name':           'AI Governance Builder',
+    'p2-name-ar':        'منشئ إطار حوكمة الذكاء الاصطناعي',
+    'p2-desc':           'A guided 7-step wizard, from organizational principles to monitoring, that outputs a tailored AI ethics and governance policy document, ready to share with leadership or submit to regulators.',
+    'p2-audience':       '👔 Chief AI Officers · Legal & policy teams · Boards',
+    'p2-cta':            'Request Access',
+    'p3-badge':          'By Request',
+    'p3-name':           'AI Compliance & Bias Audit',
+    'p3-name-ar':        'تدقيق الامتثال والتحيز في الذكاء الاصطناعي',
+    'p3-desc':           'A five-phase audit framework mapping your AI system to Saudi PDPL, SDAIA AI Ethics principles, EU AI Act, GDPR, NIST AI RMF, and Gulf sector frameworks, including SAMA and CBUAE.',
+    'p3-audience':       '⚖️ Compliance officers · Internal auditors · Legal counsel',
+    'p3-cta':            'Request Access',
+    'fw-label':          'Partially informed by',
+    'why-label':         'Why this exists',
+    'why-heading':       'Navigate AI confidently. Deploy it responsibly.',
+    'why-p1':            'The EU AI Act, NIST AI RMF, and ISO 42001 set a high bar for responsible AI governance. But the tools, training, and assessments that help organizations actually meet that bar are almost exclusively in English, built around Western regulatory defaults.',
+    'why-p2':            'This toolkit bridges that gap: practical assessments built around PDPL, SDAIA, and SAMA, in Arabic and English, free and browser-based, with outputs you can act on the same day.',
+    'why-li-btn':        'Connect on LinkedIn',
+    'stat-a-title':      'Fully bilingual',
+    'stat-a-sub':        'Arabic and English, equally. Switch in one click.',
+    'stat-b-title':      'Familiar by design',
+    'stat-b-sub':        'Regulations, terminology, and context you actually work with',
+    'stat-c-title':      'No friction',
+    'stat-c-sub':        'Browser-based, no account, no install',
+    'stat-d-title':      'Tools are just the start',
+    'stat-d-sub':        'Roadmaps, governance strategy, and hands-on advisory available',
+    'profile-eyebrow':   'About the author',
+    'profile-name':      'Abbas Al Mahdi',
+    'profile-title':     'Certified AI Consultant, Advisor & Educator · Saudi Arabia',
+    'profile-bio':       'Co-author of a forthcoming MIT AI Risk Prioritization Study (part of the MIT AI Risk Initiative). Credentials from Oxford, Stanford, and CAIE. Author of a 1,001-term bilingual Arabic/English AI Glossary. Analyzed 3,000+ AI use cases and deployment scenarios. This toolkit was designed to give AI practitioners, compliance teams, HR leaders, and policymakers access to rigorous, culturally grounded responsible AI tools, in their language, mapped to their regulations.',
+    'profile-li-btn':    'Connect on LinkedIn',
+    'profile-toolkit-btn':'🧰 Explore the Toolkit',
+    'profile-usecases-btn':'📚 AI Use Cases Library',
+    'profile-glossary-btn':'📖 AI Glossary',
+    'proj1-label':       'Live now',
+    'proj1-title':       'Responsible AI Toolkit ↗',
+    'proj1-desc':        '20 bilingual tools for AI practitioners and policymakers',
+    'proj2-label':       'Dataset',
+    'proj2-title':       'AI Use Cases Library ↗',
+    'proj2-desc':        '3,000+ analyzed AI use cases with sector and region tagging',
+    'proj3-label':       'Coming soon',
+    'proj3-title':       'Responsible AI Glossary',
+    'proj3-desc':        '1,001-term bilingual glossary of AI governance and ethics terms',
+    'footer-left':       '© 2026 Abbas Al Mahdi · Responsible AI Toolkit · 20 bilingual tools',
+    'footer-right':      'Oxford · Stanford · Certified AI Ethicist · MIT AI Risk Prioritization Study (Co-author)',
   },
   ar: {
-    'tb-brand':        'مجموعة أدوات الذكاء الاصطناعي المسؤول',
-    'hero-eyebrow':    'باللغتين · وصول مفتوح',
-    'hero-title':      'مجموعة أدوات الذكاء الاصطناعي المسؤول',
-    'hero-subtitle':   'Responsible AI Toolkit',
-    'hero-lead':       '.مجموعة من الأدوات التفاعلية ثنائية اللغة لممارسي الذكاء الاصطناعي وضباط الامتثال وفرق الموارد البشرية وصناع السياسات والمؤسسات في العالم العربي، مبنية وفق معايير الهيئة السعودية للبيانات والذكاء الاصطناعي (سدايا) ونظام حماية البيانات الشخصية والمعايير الدولية',
-    'cred-location':   '📍 المملكة العربية السعودية',
-    'cred-edu':        '🎓 أكسفورد · ستانفورد · أخصائي معتمد في أخلاقيات الذكاء الاصطناعي',
-    'cred-mit':        '📊  دراسة مؤشر مخاطر الذكاء الاصطناعي - MIT - مؤلف مشارك',
-    'cred-glossary':   '📖 فهرس مصطلحات الذكاء الاصطناعي ثنائي اللغة · 1001 مصطلح',
-    'cred-ai-use-cases':   '📖 تحليل أكثر من 3000 حالة استخدام للذكاء الاصطناعي',
-    'cred-lang':       '🌐 English · العربية',
-    'hero-li-btn':     'تواصل عبر LinkedIn ←',
-    'hero-explore-btn':'استكشف الأدوات ↓',
-    'stat1-label':     'أداة تفاعلية',
-    'stat2-label':     'لغتان (EN · AR)',
-    'stat3-label':     'أطر تنظيمية وأكثر',
-    'stat4-label':     'مصطلح ثنائي اللغة',
-    'stat5-label':     'لا يلزم إنشاء حساب',
-    'active-eyebrow':  'متاح الآن',
-    'active-title':    'أدوات تفاعلية',
-    'active-desc':     'استخدم هذه الأدوات مباشرة - لا حساب ولا تسجيل دخول ولا تثبيت.',
-    't1-badge':        'وصول مفتوح',
-    't1-name':         'تقييم معرفة الذكاء الاصطناعي',
-    't1-name-sub':     'AI Literacy Assessment',
-    't1-desc':         'قِس المعرفة بالذكاء الاصطناعي على المستوى الفردي أو المؤسسي عبر ستة محاور أساسية. حدّد فجوات المهارات واحصل على مسارات تعلم مخصصة - مبني بمصطلحات سداية المعيارية.',
-    't1-audience':     '👤 فرق الموارد البشرية والتطوير · المتعلمون · المعلمون',
-    't1-cta':          'تشغيل الأداة ←',
-    't2-badge':        'التقرير الكامل محجوب',
-    't2-name':         'قائمة التحقق من جاهزية الذكاء الاصطناعي',
-    't2-name-sub':     'AI Readiness Checklist',
-    't2-desc':         'تقييم ذاتي من 10 إلى 15 دقيقة عبر سبعة أبعاد للجاهزية المسؤولة في الذكاء الاصطناعي - حوكمة البيانات والمهارات والأخلاقيات وإدارة المخاطر. أكمل التقييم ثم تواصل لفتح تقريرك المُقيَّم.',
-    't2-audience':     '🏛️ المدراء التقنيون · قيادات التحول الرقمي · مجالس الإدارة',
-    't2-cta':          'ابدأ التقييم ←',
-    't3-badge':        'التقرير الكامل محجوب',
-    't3-name':         'بطاقة تقييم مخاطر الذكاء الاصطناعي',
-    't3-name-sub':     'AI Risk Assessment Scorecard',
-    't3-desc':         '32 سؤالاً عبر ثمانية أبعاد للذكاء الاصطناعي المسؤول - تنتج ملف مخاطر مُقيَّم وتفصيلاً لكل قسم وخارطة طريق للمعالجة، جاهزة للعرض على مجلس الإدارة أو لجنة المخاطر.',
-    't3-audience':     '🎯 ضباط المخاطر · أصحاب المنتجات · مجالس مراجعة الأخلاقيات',
-    't3-cta':          'ابدأ التقييم ←',
-    'prev-eyebrow':    'متاح بالطلب',
-    'prev-title':      'أدوات متقدمة',
-    'prev-desc':       'هذه الأدوات متاحة للمؤسسات والمحترفين من خلال التواصل المباشر. تواصل عبر LinkedIn لطلب الوصول أو مناقشة نشر مخصص.',
-    'p1-badge':        'بالطلب',
-    'p1-name':         'بطاقة تقييم شراء أنظمة الذكاء الاصطناعي',
-    'p1-name-sub':     'AI Procurement Scorecard',
-    'p1-desc':         'قيّم موردي الذكاء الاصطناعي عبر سبعة أبعاد للمشتريات المسؤولة قبل توقيع العقد. تنتج تقييماً مُقيَّماً بتوصيات على مستوى الفئات وفق معايير سداية وساما والمعايير الدولية.',
-    'p1-audience':     '🛒 ضباط المشتريات · مدراء تقنية المعلومات · المدراء الرقميون',
-    'p1-cta':          'طلب الوصول ←',
-    'p2-badge':        'بالطلب',
-    'p2-name':         'منشئ إطار حوكمة الذكاء الاصطناعي',
-    'p2-name-sub':     'AI Governance Builder',
-    'p2-desc':         'معالج إرشادي من 7 خطوات - من المبادئ المؤسسية إلى الرصد - ينتج وثيقة سياسة أخلاقيات وحوكمة مخصصة للذكاء الاصطناعي، جاهزة للقيادة أو الجهات التنظيمية.',
-    'p2-audience':     '👔 مدراء الذكاء الاصطناعي · فرق القانون والسياسات · مجالس الإدارة',
-    'p2-cta':          'طلب الوصول ←',
-    'p3-badge':        'بالطلب',
-    'p3-name':         'تدقيق الامتثال والتحيز في الذكاء الاصطناعي',
-    'p3-name-sub':     'AI Compliance & Bias Audit',
-    'p3-desc':         'إطار تدقيق منظم من خمس مراحل يُعيّن نظامك إلى نظام PDPL السعودي ومبادئ سداية وقانون الذكاء الاصطناعي الأوروبي وإطار NIST وأطر القطاع الخليجي بما فيها ساما وإمارات.',
-    'p3-audience':     '⚖️ ضباط الامتثال · المدققون الداخليون · المستشارون القانونيون',
-    'p3-cta':          'طلب الوصول ←',
-    'std-label':       'مبني وفق:',
-    'about-name':      'عباس آل مهدي',
-    'about-role':      'مستشار وخبير معتمد في الذكاء الاصطناعي · المملكة العربية السعودية',
-    'about-bio':       'مؤلف مشارك في دراسة مؤشر مخاطر الذكاء الاصطناعي من MIT. حاصل على مؤهلات من أكسفورد وستانفورد وأخصائي معتمد في أخلاقيات الذكاء الاصطناعي. مؤلف معجم الذكاء الاصطناعي ثنائي اللغة (1001 مصطلح) باستخدام مصطلحات سداية المعيارية. صُمِّمت هذه المجموعة لمنح ممارسي الذكاء الاصطناعي وفرق الامتثال وقادة الموارد البشرية وصانعي السياسات في العالم العربي أدوات مسؤولة ودقيقة وذات صلة - بلغتهم، ومعيّنة إلى أنظمتهم التنظيمية.',
-    'about-li-btn':    'تواصل عبر LinkedIn ←',
-    'about-email-btn': 'أرسل بريداً إلكترونياً',
-    'footer-left':     '© 2025 عباس آل مهدي · مجموعة أدوات الذكاء الاصطناعي المسؤول · 20 أداة ثنائية اللغة',
-    'footer-right':    ' SDAIA · PDPL · EU AI Act · NIST AI RMF · ISO 42001 · UNESCO · Stanford HAI · OECD',
+    'tb-brand':          'مجموعة أدوات الذكاء الاصطناعي المسؤول',
+    'hero-tag':          'مجاني · ثنائي اللغة · وصول مفتوح',
+    'hero-title':        'الذكاء الاصطناعي المسؤول،',
+    'hero-em':           'في متناول الجميع.',
+    'hero-lead':         'مجموعة من الأدوات التفاعلية باللغتين العربية والإنجليزية لممارسي الذكاء الاصطناعي وضباط الامتثال وفرق الموارد البشرية وصانعي السياسات. مبنية وفق معايير محلية ودولية.',
+    'cred-location':     '📍 المملكة العربية السعودية',
+    'cred-edu':          '🎓 أكسفورد · ستانفورد · أخصائي معتمد في أخلاقيات الذكاء الاصطناعي',
+    'cred-mit':          '📊 مؤشر مخاطر الذكاء الاصطناعي - MIT - مؤلف مشارك',
+    'cred-glossary':     '📖 معجم الذكاء الاصطناعي ثنائي اللغة · 1001 مصطلح',
+    'cred-usecases':     '📊 تحليل أكثر من 3000 حالة استخدام',
+    'cred-lang':         '🌐 English · العربية',
+    'hero-li-btn':       'تواصل عبر LinkedIn',
+    'hero-explore-btn':  'استكشف الأدوات',
+    'stat1-label':       'أداة تفاعلية',
+    'stat2-label':       'لغتان (EN / AR)',
+    'stat3-label':       'أطر تنظيمية وأكثر',
+    'stat4-label':       'مصطلح ثنائي اللغة',
+    'stat5-label':       'لا يلزم إنشاء حساب',
+    'active-eyebrow':    'متاح الآن',
+    'active-title':      'أدوات تفاعلية',
+    'active-desc':       'استخدم هذه الأدوات مباشرة. لا تحتاج إلى حساب أو تسجيل دخول أو تثبيت.',
+    't1-badge':          'وصول مفتوح',
+    't1-name':           'تقييم الإلمام بالذكاء الاصطناعي',
+    't1-name-ar':        'AI Literacy Assessment',
+    't1-desc':           'أداة لقياس المعرفة والإلمام بالذكاء الاصطناعي على المستوى الفردي أو المؤسسي عبر ستة محاور أساسية تمكنك من تحديد فجوات المهارات كيف تحصل على مسارات تعلم مخصصة. مستوحى جزئياً من إطار اليونسكو لكفاءات الذكاء الاصطناعي للمواطنين (2024).',
+    't1-audience':       '👤 فرق الموارد البشرية والتطوير · المتعلمون · المعلمون',
+    't1-cta':            'تشغيل الأداة',
+    't2-badge':          'التقرير الكامل محجوب',
+    't2-name':           'قائمة التحقق من جاهزية الذكاء الاصطناعي',
+    't2-name-ar':        'AI Readiness Checklist',
+    't2-desc':           'تقييم ذاتي يأخذ 10 إلى 15 دقيقة يحتوي على سبعة أبعاد للتحقق من الجاهزية: حوكمة البيانات والمهارات والأخلاقيات وإدارة المخاطر. أكمل التقييم ثم تواصل للحصول على تقرير كامل ومناقشته.',
+    't2-audience':       '🏛️ المدراء التقنيون · قيادات التحول الرقمي · مجالس الإدارة',
+    't2-cta':            'ابدأ التقييم',
+    't3-badge':          'التقرير الكامل محجوب',
+    't3-name':           'بطاقة تقييم مخاطر الذكاء الاصطناعي',
+    't3-name-ar':        'AI Risk Assessment Scorecard',
+    't3-desc':           'عدة أسئلة موزعة على ثمانية أبعاد للذكاء الاصطناعي المسؤول. ينتج عنها ملف تصنيف للمخاطر مع تفصيل لكل بعد وخارطة طريق للمعالجة وتحديد الأولويات.',
+    't3-audience':       '🎯 ضباط المخاطر · أصحاب المنتجات · مجالس مراجعة الأخلاقيات',
+    't3-cta':            'ابدأ التقييم',
+    'prev-eyebrow':      'متاح عند الطلب',
+    'prev-title':        'أدوات متقدمة',
+    'prev-desc':         'هذه الأدوات متاحة للمؤسسات والمحترفين من خلال التواصل المباشر. تواصل عبر LinkedIn أو البريد الإلكتروني لطلب الوصول أو مناقشة مشاريع تنفيذ مخصصة.',
+    'p1-badge':          'بالطلب',
+    'p1-name':           'بطاقة تقييم شراء أنظمة الذكاء الاصطناعي',
+    'p1-name-ar':        'AI Procurement Scorecard',
+    'p1-desc':           'تقييم موردي الذكاء الاصطناعي وفقًا لسبعة أبعاد تتعلق بشراء أنظمة الذكاء الاصطناعي قبل توقيع العقد. تعطي الأداة نتيجة محسوبة مع توصيات للتحسين تتماشى مع معايير محلية ودولية.',
+    'p1-audience':       '🛒 أقسام المشتريات · مدراء تقنية المعلومات · المدراء الرقميون',
+    'p1-cta':            'طلب الوصول',
+    'p2-badge':          'بالطلب',
+    'p2-name':           'منشئ إطار حوكمة الذكاء الاصطناعي',
+    'p2-name-ar':        'AI Governance Builder',
+    'p2-desc':           'مساعد إرشادي من سبع خطوات بدءًا بالمبادئ التنظيمية وحتى المراقبة يقوم بإنشاء وثيقة سياسة أخلاقيات وحوكمة الذكاء الاصطناعي مصممة خصيصًا، كخطوة تسهل مشاركتها مع القيادة أو تقديمها إلى الجهات التنظيمية.',
+    'p2-audience':       '👔 مدراء الذكاء الاصطناعي · فرق القانون والسياسات · مجالس الإدارة',
+    'p2-cta':            'طلب الوصول',
+    'p3-badge':          'بالطلب',
+    'p3-name':           'تدقيق الامتثال والتحيز في الذكاء الاصطناعي',
+    'p3-name-ar':        'AI Compliance & Bias Audit',
+    'p3-desc':           'إطار تدقيق من خمس مراحل يربط نظام الذكاء الاصطناعي الخاص بك بمبادئ أخلاقيات الذكاء الاصطناعي من سدايا وقانون الذكاء الاصطناعي للاتحاد الأوروبي (EU AI Act)، واللائحة العامة لحماية البيانات (GDPR)، وإطار إدارة مخاطر الذكاء الاصطناعي NIST، وأطر عمل قطاع الخليج، بما في ذلك البنك المركزي السعودي (ساما).',
+    'p3-audience':       '⚖️ ضباط الامتثال · المدققون الداخليون · المستشارون القانونيون',
+    'p3-cta':            'طلب الوصول',
+    'fw-label':          'مستوحاة جزئيًا من',
+    'why-label':         'لماذا قمت بنشر هذه المجموعة من الأدوات؟',
+    'why-heading':       'استخدم الذكاء الاصطناعي بثقة. وظّفه بمسؤولية.',
+    'why-p1':            'يحدد قانون الذكاء الاصطناعي للاتحاد الأوروبي، وإطار إدارة مخاطر الذكاء الاصطناعي الصادر عن المعهد الوطني للمعايير والتكنولوجيا (NIST AI RMF)، و ISO 42001 معاييرًا عالية لحوكمة الذكاء الاصطناعي المسؤولة. إلا أن الأدوات والتدريب والتقييمات التي تساعد المجتمعات والشركات والمؤسسات على تحقيق هذه المعايير متوفرة باللغة الإنجليزية في الغالب، التي تكون مبنية على المعايير التنظيمية الغربية.',
+    'why-p2':            'هذه المجموعة من الأدوات تساعد على سد الفجوة: تقييمات عملية مبنية على مبادئ محلية (مثل سدايا) باللغتين العربية والإنجليزية، مجانية ومتاحة عبر المتصفح، مع نتائج يمكن تطبيقها.',
+    'why-li-btn':        'تواصل عبر LinkedIn',
+    'stat-a-title':      'ثنائي اللغة بالكامل',
+    'stat-a-sub':        'باللغتين العربية والإنجليزية (التبديل بضغطة زر)',
+    'stat-b-title':      'صُممت لتكون مألوفة',
+    'stat-b-sub':        'الأنظمة والمصطلحات والسياقات المناسبة',
+    'stat-c-title':      'بلا عوائق',
+    'stat-c-sub':        'دخول مباشر من المتصفح بدون تسجيل حساب أو تثبيت',
+    'stat-d-title':      'الأدوات مجرد بداية',
+    'stat-d-sub':        'تواصل للحصول على الاستشارات العملية وخرائط الطريق واستراتيجيات الحوكمة',
+    'profile-eyebrow':   'عن المؤلف',
+    'profile-name':      'عباس آل مهدي',
+    'profile-title':     'مستشار وخبير معتمد في الذكاء الاصطناعي · المملكة العربية السعودية',
+    'profile-bio':       'مؤلف مشارك في دراسة مؤشر مخاطر الذكاء الاصطناعي من MIT. حاصل على مؤهلات من أكسفورد وستانفورد وأخصائي معتمد في أخلاقيات الذكاء الاصطناعي. مؤلف معجم الذكاء الاصطناعي ثنائي اللغة (1001 مصطلح). حلّل أكثر من 3000 حالة استخدام وسيناريو تطبيق للذكاء الاصطناعي. تم تصميم هذه المجموعة لمنح ممارسي الذكاء الاصطناعي وفرق الامتثال وقادة الموارد البشرية وصانعي السياسات أدوات مسؤولة ودقيقة وفقًا لأنظمتهم وما يناسبهم.',
+    'profile-li-btn':    'تواصل عبر LinkedIn',
+    'profile-toolkit-btn':'🧰 استكشف الأدوات',
+    'profile-usecases-btn':'📚 مكتبة حالات استخدام الذكاء الاصطناعي',
+    'profile-glossary-btn':'📖 معجم الذكاء الاصطناعي',
+    'proj1-label':       'متاح الآن',
+    'proj1-title':       'مجموعة أدوات الذكاء الاصطناعي المسؤول ↗',
+    'proj1-desc':        '20 أداة ثنائية اللغة لممارسي الذكاء الاصطناعي وصانعي السياسات',
+    'proj2-label':       'مجموعة بيانات',
+    'proj2-title':       'مكتبة حالات استخدام الذكاء الاصطناعي ↗',
+    'proj2-desc':        'أكثر من 3000 حالة استخدام مصنفة حسب القطاع والمنطقة',
+    'proj3-label':       'قريباً',
+    'proj3-title':       'معجم الذكاء الاصطناعي المسؤول',
+    'proj3-desc':        '1001 مصطلح ثنائي اللغة في حوكمة وأخلاقيات الذكاء الاصطناعي',
+    'footer-left':       '© 2026 عباس آل مهدي · مجموعة أدوات الذكاء الاصطناعي المسؤول · 20 أداة ثنائية اللغة',
+    'footer-right':      ' أكسفورد · ستانفورد · أخصائي معتمد في أخلاقيات الذكاء الاصطناعي ·مؤلف مشارك في دراسة MIT',
   }
 };
 
@@ -808,6 +950,7 @@ function applyLang(l) {
     const el = document.getElementById(id);
     if (el) el.textContent = d[id];
   });
+  /* Profile image is language-agnostic — no swap needed */
 }
 
 function toggleLang() {
