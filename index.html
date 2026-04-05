@@ -434,7 +434,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   <div class="topbar-brand" id="tb-brand">Responsible <span>AI</span> Toolkit</div>
   <div class="topbar-actions">
     <button id="rai-lang" class="topbar-btn" onclick="toggleLang()">AR</button>
-    <button id="rai-thm"  class="topbar-btn" onclick="toggleTheme()">Dark</button>
+    <button id="rai-thm"  class="topbar-btn" onclick="toggleTheme()">☾</button>
   </div>
 </header>
 
@@ -446,6 +446,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 
   <div class="hero-actions">
     <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="btn-primary" id="hero-li-btn">Connect on LinkedIn</a>
+    <a href="https://calendly.com/abbasmahdi-ai/consultation-request" target="_blank" class="btn-ghost" id="hero-cal-btn">📅 Book a Consultation</a>
     <a href="#tools" class="btn-ghost" id="hero-explore-btn">Explore the Toolkit</a>
   </div>
 
@@ -694,9 +695,11 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
       <p class="profile-bio" id="profile-bio">Co-author of a forthcoming MIT AI Risk Prioritization Study (part of the MIT AI Risk Initiative). Credentials from Oxford, Stanford, and CAIE. Author of a 1,001-term bilingual Arabic/English AI Glossary. Analyzed 3,000+ AI use cases and deployment scenarios. This toolkit was designed to give AI practitioners, compliance teams, HR leaders, and policymakers access to rigorous, culturally grounded responsible AI tools, in their language, mapped to their regulations.</p>
       <div class="profile-links">
         <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="profile-link profile-link-primary" id="profile-li-btn">Connect on LinkedIn</a>
+        <a href="https://calendly.com/abbasmahdi-ai/consultation-request" target="_blank" class="profile-link" id="profile-cal-btn">📅 Book a Consultation</a>
         <a href="#tools"  class="profile-link" id="profile-toolkit-btn">🧰 Explore the Toolkit</a>
         <a href="https://github.com/abbasmahdi-ai/ai-use-cases-library" target="_blank" class="profile-link" id="profile-usecases-btn">📚 AI Use Cases Library</a>
-        <span class="profile-link" style="opacity:.5;cursor:default;" id="profile-glossary-btn">📖 AI Glossary</span>
+        <a href="./glossary/index.html" class="profile-link" id="profile-glossary-btn">📖 AI Glossary (Preview)</a>
+        <a href="./courses/f01/index.html" class="profile-link" id="profile-f01-btn">🎓 AI Literacy Course</a>
       </div>
       <div class="profile-tags">
         <span class="profile-tag">AI Governance</span>
@@ -720,21 +723,21 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 <!-- ── Projects bar ───────────────────────────────────────────────────────-->
 <div class="projects-bar">
   <div class="projects-inner">
-    <a href="https://abbasmahdi-ai.github.io" class="project-item">
-      <div class="project-item-label" id="proj1-label">Live now</div>
-      <div class="project-item-title" id="proj1-title">Responsible AI Toolkit ↗</div>
-      <div class="project-item-desc"  id="proj1-desc">20 bilingual tools for AI practitioners and policymakers</div>
+    <a href="./courses/f01/index.html" class="project-item">
+      <div class="project-item-label" id="proj1-label">Free · Live Now</div>
+      <div class="project-item-title" id="proj1-title">AI Literacy Course ↗</div>
+      <div class="project-item-desc"  id="proj1-desc">Module 1 free; practical AI literacy for everyone</div>
     </a>
     <a href="https://github.com/abbasmahdi-ai/ai-use-cases-library" target="_blank" class="project-item">
       <div class="project-item-label" id="proj2-label">Dataset</div>
       <div class="project-item-title" id="proj2-title">AI Use Cases Library ↗</div>
       <div class="project-item-desc"  id="proj2-desc">3,000+ analyzed AI use cases with sector and region tagging</div>
     </a>
-    <div class="project-item" style="opacity:.5;cursor:default;">
-      <div class="project-item-label" id="proj3-label">Coming soon</div>
-      <div class="project-item-title" id="proj3-title">Responsible AI Glossary</div>
-      <div class="project-item-desc"  id="proj3-desc">1,001-term bilingual glossary of AI governance and ethics terms</div>
-    </div>
+    <a href="./glossary/index.html" class="project-item">
+      <div class="project-item-label" id="proj3-label">Live now</div>
+      <div class="project-item-title" id="proj3-title">Responsible AI Glossary ↗</div>
+      <div class="project-item-desc"  id="proj3-desc">79 bilingual responsible AI terms, searchable and filterable</div>
+    </a>
   </div>
 </div>
 
@@ -760,6 +763,7 @@ const T = {
     'cred-usecases':     '📊 3,000+ AI Use Cases Analyzed',
     'cred-lang':         '🌐 English · العربية',
     'hero-li-btn':       'Connect on LinkedIn',
+    'hero-cal-btn':      '📅 Book a Consultation',
     'hero-explore-btn':  'Explore the Toolkit',
     'stat1-label':       'Interactive Tools',
     'stat2-label':       'Languages (EN / AR)',
@@ -827,18 +831,20 @@ const T = {
     'profile-title':     'Certified AI Consultant, Advisor & Educator · Saudi Arabia',
     'profile-bio':       'Co-author of a forthcoming MIT AI Risk Prioritization Study (part of the MIT AI Risk Initiative). Credentials from Oxford, Stanford, and CAIE. Author of a 1,001-term bilingual Arabic/English AI Glossary. Analyzed 3,000+ AI use cases and deployment scenarios. This toolkit was designed to give AI practitioners, compliance teams, HR leaders, and policymakers access to rigorous, culturally grounded responsible AI tools, in their language, mapped to their regulations.',
     'profile-li-btn':    'Connect on LinkedIn',
+    'profile-cal-btn':   '📅 Book a Consultation',
     'profile-toolkit-btn':'🧰 Explore the Toolkit',
     'profile-usecases-btn':'📚 AI Use Cases Library',
-    'profile-glossary-btn':'📖 AI Glossary',
-    'proj1-label':       'Live now',
-    'proj1-title':       'Responsible AI Toolkit ↗',
-    'proj1-desc':        '20 bilingual tools for AI practitioners and policymakers',
+    'profile-glossary-btn':'📖 AI Glossary (Preview)',
+    'profile-f01-btn':   '🎓 AI Literacy Course',
+    'proj1-label':       'Free · Live Now',
+    'proj1-title':       'AI Literacy Course ↗',
+    'proj1-desc':        'Module 1 free; practical AI literacy for everyone',
     'proj2-label':       'Dataset',
     'proj2-title':       'AI Use Cases Library ↗',
     'proj2-desc':        '3,000+ analyzed AI use cases with sector and region tagging',
-    'proj3-label':       'Coming soon',
-    'proj3-title':       'Responsible AI Glossary',
-    'proj3-desc':        '1,001-term bilingual glossary of AI governance and ethics terms',
+    'proj3-label':       'Preview · 100 Terms',
+    'proj3-title':       'Responsible AI Glossary ↗',
+    'proj3-desc':        '100 bilingual terms live · 1,001 coming in full release',
     'footer-left':       '© 2026 Abbas Al Mahdi · Responsible AI Toolkit · 20 bilingual tools',
     'footer-right':      'Oxford · Stanford · Certified AI Ethicist · MIT AI Risk Prioritization Study (Co-author)',
   },
@@ -851,10 +857,11 @@ const T = {
     'cred-location':     '📍 المملكة العربية السعودية',
     'cred-edu':          '🎓 أكسفورد · ستانفورد · أخصائي معتمد في أخلاقيات الذكاء الاصطناعي',
     'cred-mit':          '📊 مؤشر مخاطر الذكاء الاصطناعي - MIT - مؤلف مشارك',
-    'cred-glossary':     '📖 معجم الذكاء الاصطناعي ثنائي اللغة · 1001 مصطلح',
+    'cred-glossary':     '📖 فهرس مصطلحات الذكاء الاصطناعي · 1001 مصطلح',
     'cred-usecases':     '📊 تحليل أكثر من 3000 حالة استخدام',
     'cred-lang':         '🌐 English · العربية',
     'hero-li-btn':       'تواصل عبر LinkedIn',
+    'hero-cal-btn':      '📅 احجز استشارة',
     'hero-explore-btn':  'استكشف الأدوات',
     'stat1-label':       'أداة تفاعلية',
     'stat2-label':       'لغتان (EN / AR)',
@@ -920,20 +927,22 @@ const T = {
     'profile-eyebrow':   'عن المؤلف',
     'profile-name':      'عباس آل مهدي',
     'profile-title':     'مستشار وخبير معتمد في الذكاء الاصطناعي · المملكة العربية السعودية',
-    'profile-bio':       'مؤلف مشارك في دراسة مؤشر مخاطر الذكاء الاصطناعي من MIT. حاصل على مؤهلات من أكسفورد وستانفورد وأخصائي معتمد في أخلاقيات الذكاء الاصطناعي. مؤلف معجم الذكاء الاصطناعي ثنائي اللغة (1001 مصطلح). حلّل أكثر من 3000 حالة استخدام وسيناريو تطبيق للذكاء الاصطناعي. تم تصميم هذه المجموعة لمنح ممارسي الذكاء الاصطناعي وفرق الامتثال وقادة الموارد البشرية وصانعي السياسات أدوات مسؤولة ودقيقة وفقًا لأنظمتهم وما يناسبهم.',
+    'profile-bio':       'مؤلف مشارك في دراسة مؤشر مخاطر الذكاء الاصطناعي من MIT. حاصل على مؤهلات من أكسفورد وستانفورد وأخصائي معتمد في أخلاقيات الذكاء الاصطناعي. مؤلف فهرس مصطلحات الذكاء الاصطناعي (1001 مصطلح). حلّل أكثر من 3000 حالة استخدام وسيناريو تطبيق للذكاء الاصطناعي. تم تصميم هذه المجموعة لمنح ممارسي الذكاء الاصطناعي وفرق الامتثال وقادة الموارد البشرية وصانعي السياسات أدوات مسؤولة ودقيقة وفقًا لأنظمتهم وما يناسبهم.',
     'profile-li-btn':    'تواصل عبر LinkedIn',
+    'profile-cal-btn':   '📅 احجز استشارة',
     'profile-toolkit-btn':'🧰 استكشف الأدوات',
     'profile-usecases-btn':'📚 مكتبة حالات استخدام الذكاء الاصطناعي',
-    'profile-glossary-btn':'📖 معجم الذكاء الاصطناعي',
-    'proj1-label':       'متاح الآن',
-    'proj1-title':       'مجموعة أدوات الذكاء الاصطناعي المسؤول ↗',
-    'proj1-desc':        '20 أداة ثنائية اللغة لممارسي الذكاء الاصطناعي وصانعي السياسات',
+    'profile-glossary-btn':'📖 فهرس مصطلحات الذكاء الاصطناعي (إصدار أولي)',
+    'profile-f01-btn':   '🎓 دورة الإلمام بالذكاء الاصطناعي',
+    'proj1-label':       'مجاني · متاح الآن',
+    'proj1-title':       'دورة الإلمام بالذكاء الاصطناعي ↗',
+    'proj1-desc':        'الوحدة الأولى مجانية؛ محو الأمية في الذكاء الاصطناعي للجميع',
     'proj2-label':       'مجموعة بيانات',
     'proj2-title':       'مكتبة حالات استخدام الذكاء الاصطناعي ↗',
     'proj2-desc':        'أكثر من 3000 حالة استخدام مصنفة حسب القطاع والمنطقة',
-    'proj3-label':       'قريباً',
-    'proj3-title':       'معجم الذكاء الاصطناعي المسؤول',
-    'proj3-desc':        '1001 مصطلح ثنائي اللغة في حوكمة وأخلاقيات الذكاء الاصطناعي',
+    'proj3-label':       'إصدار أولي · 100 مصطلح',
+    'proj3-title':       'فهرس مصطلحات الذكاء الاصطناعي ↗',
+    'proj3-desc':        '100 مصطلح ثنائي اللغة متاح · 1,001 مصطلح في الإصدار الكامل',
     'footer-left':       '© 2026 عباس آل مهدي · مجموعة أدوات الذكاء الاصطناعي المسؤول · 20 أداة ثنائية اللغة',
     'footer-right':      ' أكسفورد · ستانفورد · أخصائي معتمد في أخلاقيات الذكاء الاصطناعي ·مؤلف مشارك في دراسة MIT',
   }
@@ -964,15 +973,12 @@ function toggleTheme() {
   const t  = el.dataset.theme === 'light' ? 'dark' : 'light';
   el.dataset.theme = t;
   localStorage.setItem('rai-theme', t);
-  document.getElementById('rai-thm').textContent = t === 'dark' ? 'Light' : 'Dark';
+  document.getElementById('rai-thm').textContent = t === 'dark' ? '☀' : '☾';
 }
 
-/* Init */
-(function () {
-  applyLang(lang);
-  const t = localStorage.getItem('rai-theme') || 'light';
-  document.getElementById('rai-thm').textContent = t === 'dark' ? 'Light' : 'Dark';
-})();
+/* Initial render — respects localStorage on first load */
+applyLang(lang);
+document.getElementById('rai-thm').textContent = (localStorage.getItem('rai-theme') || 'light') === 'dark' ? '☀' : '☾';
 </script>
 </body>
 </html>
