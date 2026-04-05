@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AI Literacy Foundations: Course Overview</title>
+<meta name="description" content="Build practical AI literacy for your team. 6 modules, bilingual EN/AR, module 1 free."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ── Design tokens (mirrors toolkit) ─────────────────────────────────────── */
+:root {
+  --blue-dk:   #0f3670;
+  --blue-mid:  #1a5296;
+  --blue-lt:   #2d6bcc;
+  --gold:      #c8930a;
+  --gold-lt:   #f0b429;
+  --accent:    var(--blue-lt);
+  --bg:        #ffffff;
+  --bg-alt:    #f5f7fa;
+  --surface:   #ffffff;
+  --border:    #dde3ec;
+  --text:      #1a2332;
+  --text-sub:  #4a5568;
+  --text-muted:#718096;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.13);
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-ar:   'Noto Kufi Arabic', 'Segoe UI', sans-serif;
+  --transition: .2s ease;
+}
+[data-theme="dark"] {
+  --bg:        #0d1117;
+  --bg-alt:    #161b24;
+  --surface:   #1c2333;
+  --border:    #2d3748;
+  --text:      #e8edf4;
+  --text-sub:  #a0aec0;
+  --text-muted:#718096;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.5);
+}
+
+/* ── Reset & base ──────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 16px;
+  transition: background var(--transition), color var(--transition);
+}
+[lang="ar"] body, body.ar { font-family: var(--font-ar); }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ── Topbar ────────────────────────────────────────────────────────────────── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--blue-dk);
+  color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .75rem 2rem;
+  gap: 1rem;
+}
+.topbar-left { display: flex; align-items: center; gap: 1rem; }
+.back-link {
+  font-size: .8rem; opacity: .75;
+  display: flex; align-items: center; gap: .3rem;
+  transition: opacity var(--transition);
+}
+.back-link:hover { opacity: 1; }
+.topbar-brand { font-size: .95rem; font-weight: 600; letter-spacing: -.01em; }
+.topbar-right { display: flex; align-items: center; gap: .5rem; }
+.btn-icon {
+  background: rgba(255,255,255,.12);
+  border: none; border-radius: var(--radius-sm);
+  color: #fff; cursor: pointer;
+  font-size: .8rem; font-weight: 600;
+  padding: .35rem .7rem;
+  transition: background var(--transition);
+}
+.btn-icon:hover { background: rgba(255,255,255,.22); }
+
+/* ── Hero ──────────────────────────────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, var(--blue-dk) 0%, var(--blue-mid) 55%, var(--blue-lt) 100%);
+  color: #fff;
+  padding: 5rem 2rem 4rem;
+}
+.hero-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 420px; gap: 4rem; align-items: center;
+}
+.hero-eyebrow {
+  font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; opacity: .7; margin-bottom: 1rem;
+}
+.hero h1 {
+  font-size: 2.8rem; font-weight: 700; line-height: 1.15;
+  letter-spacing: -.03em; margin-bottom: 1.25rem;
+}
+.hero-desc {
+  font-size: 1.05rem; opacity: .88; line-height: 1.7;
+  max-width: 520px; margin-bottom: 2rem;
+}
+.meta-pills {
+  display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem;
+}
+.meta-pill {
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 100px;
+  font-size: .78rem; font-weight: 500;
+  padding: .3rem .85rem;
+}
+.meta-pill.free {
+  background: rgba(200,147,10,.25);
+  border-color: rgba(240,180,41,.4);
+  color: #ffd86e;
+}
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--gold); color: #fff;
+  border: none; border-radius: var(--radius-sm);
+  font-size: .95rem; font-weight: 700;
+  padding: .85rem 1.8rem; cursor: pointer;
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  display: inline-flex; align-items: center; gap: .5rem;
+  box-shadow: 0 4px 16px rgba(200,147,10,.35);
+}
+.btn-primary:hover { background: #b07d08; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(200,147,10,.45); }
+.btn-secondary {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
+  color: #fff; border-radius: var(--radius-sm);
+  font-size: .9rem; font-weight: 600;
+  padding: .85rem 1.6rem; cursor: pointer;
+  transition: background var(--transition);
+  display: inline-flex; align-items: center; gap: .5rem;
+}
+.btn-secondary:hover { background: rgba(255,255,255,.2); }
+
+/* ── LMS Preview mockup ────────────────────────────────────────────────────── */
+.lms-preview {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
+}
+.preview-titlebar {
+  background: rgba(0,0,0,.25);
+  padding: .6rem .9rem;
+  display: flex; align-items: center; gap: .5rem;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-r { background: #ff5f57; }
+.dot-y { background: #febc2e; }
+.dot-g { background: #28c840; }
+.preview-url {
+  background: rgba(255,255,255,.1);
+  border-radius: 4px;
+  padding: .2rem .6rem;
+  font-size: .65rem; opacity: .6;
+  flex: 1;
+}
+.preview-body {
+  display: grid; grid-template-columns: 130px 1fr;
+}
+.preview-sidebar {
+  background: rgba(0,0,0,.2);
+  padding: .8rem .6rem;
+  font-size: .6rem;
+}
+.preview-sidebar-brand {
+  font-weight: 700; font-size: .65rem; opacity: .9;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: .5rem;
+}
+.preview-mod {
+  padding: .3rem .5rem; border-radius: 4px;
+  font-size: .58rem; opacity: .6; margin-bottom: .2rem;
+  cursor: default;
+}
+.preview-mod.active {
+  background: rgba(45,107,204,.5);
+  opacity: 1; font-weight: 600;
+}
+.preview-mod.locked { opacity: .35; }
+.preview-content {
+  padding: 1rem .9rem;
+  font-size: .62rem;
+}
+.preview-section-title {
+  font-weight: 700; font-size: .7rem;
+  margin-bottom: .5rem; opacity: .9;
+}
+.preview-p { opacity: .6; line-height: 1.6; margin-bottom: .4rem; }
+.preview-highlight {
+  background: rgba(45,107,204,.2);
+  border-inline-start: 2px solid var(--blue-lt);
+  padding: .35rem .5rem;
+  border-radius: 0 4px 4px 0;
+  font-size: .58rem; opacity: .75; margin-top: .5rem;
+}
+
+/* ── Stats bar ─────────────────────────────────────────────────────────────── */
+.stats-bar {
+  background: var(--blue-dk);
+  color: #fff;
+  padding: 1.5rem 2rem;
+}
+.stats-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 2.5rem;
+}
+.stat-item { text-align: center; }
+.stat-num { font-size: 1.6rem; font-weight: 700; color: var(--gold-lt); line-height: 1; }
+.stat-label { font-size: .72rem; opacity: .65; text-transform: uppercase; letter-spacing: .08em; margin-top: .2rem; }
+
+/* ── Section scaffolding ───────────────────────────────────────────────────── */
+.section { padding: 4.5rem 2rem; }
+.section-alt { background: var(--bg-alt); }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 3rem; }
+.section-header h2 { font-size: 1.9rem; font-weight: 700; letter-spacing: -.02em; }
+.section-header p { font-size: 1rem; color: var(--text-sub); margin-top: .6rem; max-width: 580px; margin-inline: auto; }
+
+/* ── Module grid ───────────────────────────────────────────────────────────── */
+.module-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+}
+.module-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition);
+  position: relative; overflow: hidden;
+}
+.module-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.module-card.is-free { border-color: rgba(200,147,10,.35); }
+.module-card.is-free::before {
+  content: '';
+  position: absolute; inset-block-start: 0; inset-inline-start: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-lt));
+}
+.module-card-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 1rem; margin-bottom: 1rem;
+}
+.module-num {
+  width: 40px; height: 40px; border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--blue-dk), var(--blue-lt));
+  color: #fff; font-weight: 700; font-size: .85rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.module-badge {
+  font-size: .68rem; font-weight: 700;
+  padding: .25rem .6rem; border-radius: 100px;
+  letter-spacing: .04em; text-transform: uppercase;
+}
+.badge-free { background: rgba(200,147,10,.12); color: var(--gold); }
+.badge-locked { background: var(--bg-alt); color: var(--text-muted); border: 1px solid var(--border); }
+.module-title { font-size: 1.05rem; font-weight: 700; margin-bottom: .5rem; }
+.module-desc { font-size: .88rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 1rem; }
+.module-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+.module-tag {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: .7rem; color: var(--text-muted);
+  padding: .2rem .6rem;
+}
+
+/* ── Audience grid ─────────────────────────────────────────────────────────── */
+.audience-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem;
+}
+.audience-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition);
+}
+.audience-card:hover { box-shadow: var(--shadow-md); }
+.audience-icon { font-size: 2rem; margin-bottom: .75rem; }
+.audience-title { font-size: .95rem; font-weight: 700; margin-bottom: .5rem; }
+.audience-desc { font-size: .83rem; color: var(--text-sub); line-height: 1.6; }
+
+/* ── Delivery formats ──────────────────────────────────────────────────────── */
+.delivery-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+}
+.delivery-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+.delivery-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+.delivery-title { font-size: 1.05rem; font-weight: 700; margin-bottom: .3rem; }
+.delivery-duration { font-size: .8rem; color: var(--gold); font-weight: 600; margin-bottom: .75rem; }
+.delivery-desc { font-size: .87rem; color: var(--text-sub); line-height: 1.65; }
+
+/* ── Credentials strip ─────────────────────────────────────────────────────── */
+.credentials-strip {
+  background: var(--bg-alt);
+  border-block: 1px solid var(--border);
+  padding: 2rem;
+}
+.credentials-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 2.5rem;
+}
+.cred-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); text-align: center; }
+.cred-badge {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: .5rem 1rem;
+  font-size: .8rem; font-weight: 600; color: var(--text-sub);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Trainer card ──────────────────────────────────────────────────────────── */
+.trainer-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  display: flex; align-items: flex-start; gap: 2rem;
+  box-shadow: var(--shadow-md);
+  max-width: 800px; margin: 0 auto;
+}
+.trainer-photo {
+  width: 100px; height: 100px; border-radius: 50%;
+  object-fit: cover; flex-shrink: 0;
+  border: 3px solid var(--border);
+}
+.trainer-photo-fallback {
+  width: 100px; height: 100px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue-dk), var(--blue-lt));
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 2rem; flex-shrink: 0;
+}
+.trainer-name { font-size: 1.2rem; font-weight: 700; margin-bottom: .25rem; }
+.trainer-title { font-size: .85rem; color: var(--text-muted); margin-bottom: .75rem; }
+.trainer-bio { font-size: .9rem; color: var(--text-sub); line-height: 1.7; margin-bottom: .85rem; }
+.trainer-creds { display: flex; flex-wrap: wrap; gap: .4rem; }
+.trainer-cred { font-size: .72rem; font-weight: 600; padding: .22rem .6rem; border-radius: 20px; background: var(--bg-alt); color: var(--text-sub); border: 1px solid var(--border); }
+
+/* ── Access model ──────────────────────────────────────────────────────────── */
+.access-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+  max-width: 800px; margin: 0 auto;
+}
+.access-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+.access-card.featured {
+  border-color: var(--blue-lt);
+  box-shadow: 0 0 0 1px var(--blue-lt), var(--shadow-md);
+}
+.access-tier { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); margin-bottom: .5rem; }
+.access-price { font-size: 1.6rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
+.access-sub { font-size: .83rem; color: var(--text-sub); margin-bottom: 1.25rem; }
+.access-features { list-style: none; padding: 0; }
+.access-features li {
+  font-size: .87rem; color: var(--text-sub);
+  padding: .35rem 0;
+  border-block-end: 1px solid var(--border);
+  display: flex; align-items: center; gap: .5rem;
+}
+.access-features li:last-child { border-block-end: none; }
+.access-features li::before { content: '✓'; color: var(--blue-lt); font-weight: 700; }
+
+/* ── Final CTA ─────────────────────────────────────────────────────────────── */
+.cta-section {
+  background: linear-gradient(135deg, var(--blue-dk) 0%, var(--blue-mid) 100%);
+  color: #fff;
+  padding: 5rem 2rem;
+  text-align: center;
+}
+.cta-section h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: 1rem; }
+.cta-section p { font-size: 1.05rem; opacity: .85; max-width: 540px; margin: 0 auto 2.5rem; }
+.cta-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; }
+
+/* ── Footer ────────────────────────────────────────────────────────────────── */
+.footer {
+  background: var(--blue-dk);
+  color: rgba(255,255,255,.6);
+  padding: 2rem;
+  font-size: .82rem;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+}
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { transition: color var(--transition); }
+.footer-links a:hover { color: #fff; }
+
+/* ── RTL support ───────────────────────────────────────────────────────────── */
+html[dir="rtl"] .hero-inner { direction: rtl; }
+html[dir="rtl"] .trainer-card { flex-direction: row-reverse; }
+html[dir="rtl"] .stats-inner { flex-direction: row-reverse; }
+
+/* ── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .lms-preview { display: none; }
+  .audience-grid { grid-template-columns: repeat(2, 1fr); }
+  .delivery-grid { grid-template-columns: 1fr; }
+  .module-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .hero h1 { font-size: 2rem; }
+  .topbar { padding: .75rem 1rem; }
+  .section { padding: 3rem 1rem; }
+  .audience-grid { grid-template-columns: 1fr; }
+  .access-grid { grid-template-columns: 1fr; }
+  .stats-inner { gap: 1.5rem; }
+}
+
+/* ── Lang visibility ───────────────────────────────────────────────────────── */
+/* !important needed to override element-specific display rules (e.g. li { display: flex }) */
+html[lang="en"] .lang-ar  { display: none !important; }
+html[lang="ar"] .lang-en  { display: none !important; }
+html[lang="ar"] .lang-ar  { display: block; }
+html[lang="ar"] li.lang-ar { display: flex; }
+html[lang="ar"] .lang-ar.inline { display: inline; }
+html[lang="ar"] { font-family: var(--font-ar); }
+</style>
+</head>
+
+<body>
+
+<!-- ── Topbar ─────────────────────────────────────────────────────────────── -->
+<header class="topbar" role="banner">
+  <div class="topbar-left">
+    <a href="../../index.html" class="back-link" id="back-link">
+      <span>←</span>
+      <span class="lang-en inline" id="back-text-en">Responsible AI Toolkit</span>
+      <span class="lang-ar inline" id="back-text-ar">مجموعة أدوات الذكاء الاصطناعي المسؤول</span>
+    </a>
+  </div>
+  <div class="topbar-brand">
+    <span class="lang-en inline" id="brand-en">AI Literacy Foundations</span>
+    <span class="lang-ar inline" id="brand-ar">أساسيات الإلمام بالذكاء الاصطناعي</span>
+  </div>
+  <div class="topbar-right">
+    <button class="btn-icon" onclick="toggleLang()" id="lang-toggle" aria-label="Switch language">AR / EN</button>
+    <button class="btn-icon" onclick="toggleTheme()" id="theme-toggle" aria-label="Toggle theme">☾</button>
+  </div>
+</header>
+
+<!-- ── Hero ───────────────────────────────────────────────────────────────── -->
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="hero-eyebrow">
+        <span class="lang-en inline">Foundation Course</span>
+        <span class="lang-ar inline">دورة تأسيسية</span>
+      </p>
+      <h1 id="hero-heading">
+        <span class="lang-en inline">AI Literacy<br>Foundations</span>
+        <span class="lang-ar inline">أساسيات الإلمام<br>بالذكاء الاصطناعي</span>
+      </h1>
+      <p class="hero-desc">
+        <span class="lang-en inline">Build practical AI literacy across your organisation. Understand how AI works, where it falls short, and how to use it responsibly, in both English and Arabic.</span>
+        <span class="lang-ar inline">طوّر معرفتك العملية بالذكاء الاصطناعي في مؤسستك. افهم كيف يعمل، وأين تكمن حدوده، وكيفية استخدامه بمسؤولية، بالعربية والإنجليزية.</span>
+      </p>
+      <div class="meta-pills">
+        <span class="meta-pill lang-en inline">4–6 Hours</span>
+        <span class="meta-pill lang-ar inline">٤–٦ ساعات</span>
+        <span class="meta-pill lang-en inline">6 Modules</span>
+        <span class="meta-pill lang-ar inline">٦ وحدات</span>
+        <span class="meta-pill lang-en inline">Bilingual EN / AR</span>
+        <span class="meta-pill lang-ar inline">ثنائي اللغة</span>
+        <span class="meta-pill lang-en inline">Foundation Level</span>
+        <span class="meta-pill lang-ar inline">مستوى تأسيسي</span>
+        <span class="meta-pill lang-en inline">No Prerequisites</span>
+        <span class="meta-pill lang-ar inline">لا متطلبات سابقة</span>
+        <span class="meta-pill free lang-en inline">Free Course</span>
+        <span class="meta-pill free lang-ar inline">دورة مجانية</span>
+      </div>
+      <div class="hero-ctas">
+        <a href="./lms.html" class="btn-primary">
+          <span class="lang-en inline">Start Now, It's Free →</span>
+          <span class="lang-ar inline">ابدأ الآن، مجاناً ←</span>
+        </a>
+        <a href="mailto:abbasmahdi.ai@gmail.com?subject=AI%20Literacy%20Course%3A%20Team%20Delivery%20Inquiry" class="btn-secondary">
+          <span>📅</span>
+          <span class="lang-en inline">Book for Your Team</span>
+          <span class="lang-ar inline">احجز لفريقك</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- LMS preview mockup — always LTR regardless of page direction -->
+    <div class="lms-preview" aria-hidden="true" dir="ltr">
+      <div class="preview-titlebar">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+        <span class="preview-url">courses/f01/lms.html</span>
+      </div>
+      <div class="preview-body">
+        <div class="preview-sidebar">
+          <div class="preview-sidebar-brand">AI Literacy Foundations</div>
+          <div class="preview-mod active">M1: What Is AI?</div>
+          <div class="preview-mod locked">🔒 M2: AI in Your World</div>
+          <div class="preview-mod locked">🔒 M3: Understanding Outputs</div>
+          <div class="preview-mod locked">🔒 M4: Fairness &amp; Harm</div>
+          <div class="preview-mod locked">🔒 M5: Responsible Use</div>
+          <div class="preview-mod locked">🔒 M6: Your Learning Journey</div>
+        </div>
+        <div class="preview-content">
+          <div class="preview-section-title">What Is Artificial Intelligence?</div>
+          <div class="preview-p">AI refers to software that performs tasks we would normally associate with human intelligence: recognising patterns, making predictions, generating text.</div>
+          <div class="preview-p">The key insight is that today's AI learns from examples rather than from explicit rules.</div>
+          <div class="preview-highlight">💡 AI does not understand; it predicts.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats bar ───────────────────────────────────────────────────────────── -->
+<div class="stats-bar" role="region" aria-label="Course stats">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">6</div>
+      <div class="stat-label lang-en">Modules</div>
+      <div class="stat-label lang-ar">وحدات</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4–6</div>
+      <div class="stat-label lang-en">Hours</div>
+      <div class="stat-label lang-ar">ساعات</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">36</div>
+      <div class="stat-label lang-en">Sections</div>
+      <div class="stat-label lang-ar">قسمًا</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2</div>
+      <div class="stat-label lang-en">Languages</div>
+      <div class="stat-label lang-ar">لغتان</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0</div>
+      <div class="stat-label lang-en">Prerequisites</div>
+      <div class="stat-label lang-ar">متطلبات سابقة</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Module grid ─────────────────────────────────────────────────────────── -->
+<section class="section" aria-labelledby="modules-heading">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2 id="modules-heading">
+        <span class="lang-en inline">Course Modules</span>
+        <span class="lang-ar inline">وحدات الدورة</span>
+      </h2>
+      <p>
+        <span class="lang-en inline">Six structured modules from foundational concepts to responsible practice.</span>
+        <span class="lang-ar inline">ست وحدات منظمة من المفاهيم الأساسية إلى الممارسة المسؤولة.</span>
+      </p>
+    </div>
+    <div class="module-grid">
+
+      <!-- M1 -->
+      <div class="module-card is-free">
+        <div class="module-card-header">
+          <div class="module-num">M1</div>
+          <span class="module-badge badge-free lang-en inline">Open Access</span>
+          <span class="module-badge badge-free lang-ar inline">وصول مفتوح</span>
+        </div>
+        <div class="module-title lang-en">What Is AI?</div>
+        <div class="module-title lang-ar">ما هو الذكاء الاصطناعي؟</div>
+        <div class="module-desc lang-en">AI gets described as magic, as a threat, as the future of everything. This module gives you the plain-language foundation to engage with AI critically, as a literate person.</div>
+        <div class="module-desc lang-ar">يُوصَف الذكاء الاصطناعي بأنه سحر، وبأنه تهديد، وبأنه مستقبل كل شيء. تُزوّدك هذه الوحدة بأساسيات ومصطلحات مبسطة للتفاعل مع الذكاء الاصطناعي بشكل نقدي، كشخص مُلِمّ.</div>
+        <div class="module-tags">
+          <span class="module-tag lang-en">Defining AI</span><span class="module-tag lang-ar">تعريف الذكاء الاصطناعي</span>
+          <span class="module-tag lang-en">How AI Learns</span><span class="module-tag lang-ar">كيف يتعلم الذكاء الاصطناعي</span>
+          <span class="module-tag lang-en">Types &amp; Limits</span><span class="module-tag lang-ar">الأنواع والحدود</span>
+        </div>
+      </div>
+
+      <!-- M2 -->
+      <div class="module-card">
+        <div class="module-card-header">
+          <div class="module-num">M2</div>
+          <span class="module-badge badge-locked lang-en inline">🔓 Free · Email to Unlock</span>
+          <span class="module-badge badge-locked lang-ar inline">🔓 مجاني · أدخل بريدك للوصول</span>
+        </div>
+        <div class="module-title lang-en">AI in Your World</div>
+        <div class="module-title lang-ar">الذكاء الاصطناعي في حياتك</div>
+        <div class="module-desc lang-en">Where AI already touches your life, visible and invisible. Maps your own AI exposure across direct use, invisible influence, and workplace impact.</div>
+        <div class="module-desc lang-ar">الذكاء الاصطناعي يلمس حياتك بالفعل، بشكل مرئي وخفي. توضح هذه الوحدة مدى تعرّضك للذكاء الاصطناعي عبر الاستخدام المباشر والتأثير الخفي وأثره في بيئة العمل.</div>
+        <div class="module-tags">
+          <span class="module-tag lang-en">AI You Know</span><span class="module-tag lang-ar">الذكاء الاصطناعي الذي تعرفه</span>
+          <span class="module-tag lang-en">AI at Work</span><span class="module-tag lang-ar">الذكاء الاصطناعي في العمل</span>
+          <span class="module-tag lang-en">Promise vs. Concern</span><span class="module-tag lang-ar">الوعد مقابل المخاوف</span>
+        </div>
+      </div>
+
+      <!-- M3 -->
+      <div class="module-card">
+        <div class="module-card-header">
+          <div class="module-num">M3</div>
+          <span class="module-badge badge-locked lang-en inline">🔓 Free · Email to Unlock</span>
+          <span class="module-badge badge-locked lang-ar inline">🔓 مجاني · أدخل بريدك للوصول</span>
+        </div>
+        <div class="module-title lang-en">Understanding Outputs</div>
+        <div class="module-title lang-ar">فهم المخرجات</div>
+        <div class="module-desc lang-en">How to evaluate what AI tells you, and when to trust it. A practical critical framework for assessing AI output, including synthetic media and deepfakes.</div>
+        <div class="module-desc lang-ar">كيف تُقيّم ما يُخبرك به الذكاء الاصطناعي، ومتى تثق به. إطار نقدي عملي لتقييم مخرجات الذكاء الاصطناعي، بما فيها الوسائط الاصطناعية والتزييف العميق.</div>
+        <div class="module-tags">
+          <span class="module-tag lang-en">What AI Produces</span><span class="module-tag lang-ar">ما ينتجه الذكاء الاصطناعي</span>
+          <span class="module-tag lang-en">Red Flags</span><span class="module-tag lang-ar">علامات التحذير</span>
+          <span class="module-tag lang-en">Deepfakes</span><span class="module-tag lang-ar">التزييف العميق</span>
+        </div>
+      </div>
+
+      <!-- M4 -->
+      <div class="module-card">
+        <div class="module-card-header">
+          <div class="module-num">M4</div>
+          <span class="module-badge badge-locked lang-en inline">🔓 Free · Email to Unlock</span>
+          <span class="module-badge badge-locked lang-ar inline">🔓 مجاني · أدخل بريدك للوصول</span>
+        </div>
+        <div class="module-title lang-en">Fairness &amp; Harm</div>
+        <div class="module-title lang-ar">الإنصاف والضرر</div>
+        <div class="module-desc lang-en">AI doesn't just reflect the world; it amplifies existing inequalities. Examines where bias enters AI systems, who gets harmed, and what responses look like.</div>
+        <div class="module-desc lang-ar">الذكاء الاصطناعي لا يعكس العالم فحسب، بل يضخم التفاوتات القائمة. تفحص هذه الوحدة مصادر التحيز في أنظمة الذكاء الاصطناعي، ومن يتضرر، وكيفية التعامل معه.</div>
+        <div class="module-tags">
+          <span class="module-tag lang-en">Where Bias Comes From</span><span class="module-tag lang-ar">مصادر التحيز</span>
+          <span class="module-tag lang-en">Documented Harms</span><span class="module-tag lang-ar">أضرار موثّقة</span>
+          <span class="module-tag lang-en">Responding to Bias</span><span class="module-tag lang-ar">الاستجابة للتحيز</span>
+        </div>
+      </div>
+
+      <!-- M5 -->
+      <div class="module-card">
+        <div class="module-card-header">
+          <div class="module-num">M5</div>
+          <span class="module-badge badge-locked lang-en inline">🔓 Free · Email to Unlock</span>
+          <span class="module-badge badge-locked lang-ar inline">🔓 مجاني · أدخل بريدك للوصول</span>
+        </div>
+        <div class="module-title lang-en">Responsible Use</div>
+        <div class="module-title lang-ar">الاستخدام المسؤول</div>
+        <div class="module-desc lang-en">What it means to use AI well, as an individual and as a citizen. Covers privacy, your legal rights, and the habits that distinguish responsible use from careless reliance.</div>
+        <div class="module-desc lang-ar">ما معنى استخدام الذكاء الاصطناعي بشكل جيد، كفرد ومواطن. تتناول هذه الوحدة الخصوصية وحقوقك القانونية والعادات التي تُميّز الاستخدام المسؤول عن الاعتماد الأعمى.</div>
+        <div class="module-tags">
+          <span class="module-tag lang-en">Privacy &amp; Consent</span><span class="module-tag lang-ar">الخصوصية والموافقة</span>
+          <span class="module-tag lang-en">Your Rights</span><span class="module-tag lang-ar">حقوقك</span>
+          <span class="module-tag lang-en">Healthy Habits</span><span class="module-tag lang-ar">عادات صحية</span>
+        </div>
+      </div>
+
+      <!-- M6 -->
+      <div class="module-card">
+        <div class="module-card-header">
+          <div class="module-num">M6</div>
+          <span class="module-badge badge-locked lang-en inline">🔓 Free · Email to Unlock</span>
+          <span class="module-badge badge-locked lang-ar inline">🔓 مجاني · أدخل بريدك للوصول</span>
+        </div>
+        <div class="module-title lang-en">Your Learning Journey</div>
+        <div class="module-title lang-ar">مسيرة تعلمك</div>
+        <div class="module-desc lang-en">Where you are now, and the path forward. Introduces the AI Literacy Assessment framework and maps how each domain connects to the broader learning portfolio.</div>
+        <div class="module-desc lang-ar">أين أنت الآن وما المسار إلى الأمام. تُقدّم هذه الوحدة إطار تقييم الإلمام بالذكاء الاصطناعي وترسم كيف يتصل كل مجال بالحقيبة التعليمية الأشمل.</div>
+        <div class="module-tags">
+          <span class="module-tag lang-en">Six Domains</span><span class="module-tag lang-ar">المجالات الستة</span>
+          <span class="module-tag lang-en">Reading Your Scores</span><span class="module-tag lang-ar">قراءة درجاتك</span>
+          <span class="module-tag lang-en">Free Resources</span><span class="module-tag lang-ar">موارد مجانية</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Who it's for ────────────────────────────────────────────────────────── -->
+<section class="section section-alt" aria-labelledby="audience-heading">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2 id="audience-heading">
+        <span class="lang-en inline">Who It's For</span>
+        <span class="lang-ar inline">لمن هذه الدورة؟</span>
+      </h2>
+      <p>
+        <span class="lang-en inline">Designed for professionals across roles and sectors. No technical background needed.</span>
+        <span class="lang-ar inline">مصممة للمهنيين في مختلف الأدوار والقطاعات، دون الحاجة إلى خلفية تقنية.</span>
+      </p>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card">
+        <div class="audience-icon">👔</div>
+        <div class="audience-title lang-en">Leaders &amp; Managers</div>
+        <div class="audience-title lang-ar">القادة والمديرون</div>
+        <div class="audience-desc lang-en">Build the literacy to ask the right questions about AI adoption, risk, and strategy.</div>
+        <div class="audience-desc lang-ar">اكتسب المعرفة اللازمة لطرح الأسئلة الصحيحة حول اعتماد الذكاء الاصطناعي ومخاطره واستراتيجيته.</div>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">🎓</div>
+        <div class="audience-title lang-en">HR &amp; L&amp;D Teams</div>
+        <div class="audience-title lang-ar">فرق الموارد البشرية والتطوير</div>
+        <div class="audience-desc lang-en">Deploy a credible, bilingual upskilling programme your workforce will actually use.</div>
+        <div class="audience-desc lang-ar">أطلق برنامجاً موثوقاً وثنائي اللغة يستفيد منه موظفوك عملياً.</div>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">⚖️</div>
+        <div class="audience-title lang-en">Compliance &amp; Policy</div>
+        <div class="audience-title lang-ar">الامتثال والسياسات</div>
+        <div class="audience-desc lang-en">Understand AI well enough to craft governance policies and assess regulatory exposure.</div>
+        <div class="audience-desc lang-ar">افهم الذكاء الاصطناعي بعمق كافٍ لصياغة سياسات الحوكمة وتقييم المخاطر التنظيمية.</div>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">💡</div>
+        <div class="audience-title lang-en">Anyone Curious</div>
+        <div class="audience-title lang-ar">كل مهتم بالموضوع</div>
+        <div class="audience-desc lang-en">No prerequisites. Start with Module 1 for free and see if this course is right for you.</div>
+        <div class="audience-desc lang-ar">لا متطلبات سابقة. ابدأ بالوحدة الأولى مجاناً لتكتشف إن كانت الدورة مناسبة لك.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Delivery formats ────────────────────────────────────────────────────── -->
+<section class="section" aria-labelledby="delivery-heading">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2 id="delivery-heading">
+        <span class="lang-en inline">Delivery Options</span>
+        <span class="lang-ar inline">خيارات التقديم</span>
+      </h2>
+    </div>
+    <div class="delivery-grid">
+      <div class="delivery-card">
+        <div class="delivery-icon">🖥️</div>
+        <div class="delivery-title lang-en">Self-Paced Online</div>
+        <div class="delivery-title lang-ar">تعلّم ذاتي عبر الإنترنت</div>
+        <div class="delivery-duration lang-en">2–3 hours</div>
+        <div class="delivery-duration lang-ar">2–3 ساعات</div>
+        <div class="delivery-desc lang-en">Work through the course at your own pace. Module 1 opens immediately; enter your name and email to unlock Modules 2–6. No payment required.</div>
+        <div class="delivery-desc lang-ar">أكمل الدورة وفق وتيرتك الخاصة. الوحدة الأولى تفتح فوراً؛ أدخل اسمك وبريدك الإلكتروني لفتح الوحدات من 2 إلى 6. لا يلزم أي دفع.</div>
+      </div>
+      <div class="delivery-card">
+        <div class="delivery-icon">🏫</div>
+        <div class="delivery-title lang-en">Facilitated Workshop</div>
+        <div class="delivery-title lang-ar">ورشة عمل مُيسَّرة</div>
+        <div class="delivery-duration lang-en">4–6 hours</div>
+        <div class="delivery-duration lang-ar">4–6 ساعات</div>
+        <div class="delivery-desc lang-en">Live session with discussion, activities, and Q&amp;A. Delivered in-person or virtually for teams of any size.</div>
+        <div class="delivery-desc lang-ar">جلسة حية تشمل نقاشات وأنشطة وأسئلة وأجوبة. تُقدَّم حضورياً أو افتراضياً لفرق من أي حجم.</div>
+      </div>
+      <div class="delivery-card">
+        <div class="delivery-icon">🏢</div>
+        <div class="delivery-title lang-en">Licensed for L&amp;D</div>
+        <div class="delivery-title lang-ar">ترخيص للمؤسسات</div>
+        <div class="delivery-duration lang-en">Custom</div>
+        <div class="delivery-duration lang-ar">حسب الطلب</div>
+        <div class="delivery-desc lang-en">White-label the course for your LMS, add custom branding, and track completion across your organisation.</div>
+        <div class="delivery-desc lang-ar">أضف علامتك التجارية على الدورة، وأدمجها في منصة التعلم الخاصة بك، وتابع معدلات الإتمام عبر مؤسستك.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Credentials ─────────────────────────────────────────────────────────── -->
+<div class="credentials-strip" role="region" aria-label="Content references">
+  <div class="credentials-inner">
+    <div class="cred-label lang-en">Content draws on</div>
+    <div class="cred-label lang-ar">يستند المحتوى جزئيًا إلى</div>
+    <span class="cred-badge">SDAIA</span>
+    <span class="cred-badge">Stanford HAI</span>
+    <span class="cred-badge">Oxford</span>
+    <span class="cred-badge">MIT</span>
+    <span class="cred-badge">EU AI Act</span>
+    <span class="cred-badge">OECD</span>
+    <span class="cred-badge">UNESCO</span>
+  </div>
+</div>
+
+<!-- ── Trainer ─────────────────────────────────────────────────────────────── -->
+<section class="section section-alt" aria-labelledby="trainer-heading">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2 id="trainer-heading">
+        <span class="lang-en inline">Your Trainer</span>
+        <span class="lang-ar inline">المدرّب</span>
+      </h2>
+    </div>
+    <div class="trainer-card">
+      <img
+        class="trainer-photo"
+        src="../../profile-pfp-1.png"
+        alt="Abbas Al Mahdi"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <div class="trainer-photo-fallback" style="display:none;" aria-hidden="true">👤</div>
+      <div>
+        <div class="trainer-name lang-en">Abbas Al Mahdi</div>
+        <div class="trainer-name lang-ar">عباس آل مهدي</div>
+        <div class="trainer-title lang-en">AI Consultant, Advisor &amp; Educator · Saudi Arabia</div>
+        <div class="trainer-title lang-ar">مستشار ومحلل ومُعلِّم في الذكاء الاصطناعي · المملكة العربية السعودية</div>
+        <p class="trainer-bio lang-en">Co-author of a forthcoming MIT AI Risk Prioritization Study. Credentials from Oxford, Stanford, and CAIE. Author of a 1,001-term bilingual Arabic/English AI Glossary. Analyzed 3,000+ AI use cases. This course was built to give every learner, regardless of technical background or language, a confident, grounded entry point into responsible AI.</p>
+        <p class="trainer-bio lang-ar">شارك في تأليف دراسة MIT لترتيب أولويات مخاطر الذكاء الاصطناعي (قيد النشر). حاصل على شهادات من أكسفورد وستانفورد وCAIE. مؤلف معجم ثنائي اللغة (عربي/إنجليزي) يضم 1,001 مصطلحاً في الذكاء الاصطناعي. حلّل أكثر من 3,000 حالة استخدام. بُنيت هذه الدورة لتمنح كل متعلم، بصرف النظر عن خلفيته التقنية أو لغته، نقطة دخول واثقة ورصينة إلى الذكاء الاصطناعي المسؤول.</p>
+        <div class="trainer-creds">
+          <span class="trainer-cred">📊 MIT AI Risk Initiative</span>
+          <span class="trainer-cred">🎓 Oxford AI Ethics</span>
+          <span class="trainer-cred">🎓 Stanford HAI</span>
+          <span class="trainer-cred">🌐 English &amp; Arabic Delivery</span>
+          <span class="trainer-cred">📚 1,001-Term AI Glossary</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Access model ────────────────────────────────────────────────────────── -->
+<section class="section" aria-labelledby="access-heading">
+  <div class="section-inner">
+    <div class="section-header">
+      <h2 id="access-heading">
+        <span class="lang-en inline">Get Access</span>
+        <span class="lang-ar inline">صلاحية الدخول</span>
+      </h2>
+      <p>
+        <span class="lang-en inline">Start learning today. No account needed for Module 1.</span>
+        <span class="lang-ar inline">ابدأ التعلم اليوم. لا تحتاج إلى حساب للوحدة الأولى.</span>
+      </p>
+    </div>
+    <div class="access-grid">
+      <div class="access-card">
+        <div class="access-tier lang-en">Open Access</div>
+        <div class="access-tier lang-ar">وصول مفتوح</div>
+        <div class="access-price lang-en">Module 1</div>
+        <div class="access-price lang-ar">الوحدة الأولى</div>
+        <div class="access-sub lang-en">Start immediately: no sign-up, no payment.</div>
+        <div class="access-sub lang-ar">ابدأ فوراً: بدون تسجيل أو رسوم.</div>
+        <ul class="access-features">
+          <li class="lang-en">6 sections on AI foundations</li>
+          <li class="lang-ar">٦ أقسام حول أسس الذكاء الاصطناعي</li>
+          <li class="lang-en">Bilingual EN / AR throughout</li>
+          <li class="lang-ar">ثنائي اللغة طوال الدورة</li>
+          <li class="lang-en">Key AI terms explained inline</li>
+          <li class="lang-ar">شرح مصطلحات الذكاء الاصطناعي داخل المحتوى</li>
+        </ul>
+        <br/>
+        <a href="./lms.html" class="btn-primary" style="width:100%; justify-content:center;">
+          <span class="lang-en inline">Start Now →</span>
+          <span class="lang-ar inline">ابدأ الآن ←</span>
+        </a>
+      </div>
+      <div class="access-card featured">
+        <div class="access-tier lang-en">Full Course (Free)</div>
+        <div class="access-tier lang-ar">الدورة الكاملة (مجاناً)</div>
+        <div class="access-price lang-en">All 6 Modules</div>
+        <div class="access-price lang-ar">جميع الوحدات الست</div>
+        <div class="access-sub lang-en">Enter your name and email to unlock Modules 2–6. No payment ever.</div>
+        <div class="access-sub lang-ar">أدخل اسمك وبريدك الإلكتروني لفتح الوحدات من 2 إلى 6. لا رسوم أبداً.</div>
+        <ul class="access-features">
+          <li class="lang-en">36 sections across 6 modules</li>
+          <li class="lang-ar">٣٦ قسماً عبر ٦ وحدات</li>
+          <li class="lang-en">Unlock with name + email only</li>
+          <li class="lang-ar">الوصول باسمك وبريدك فقط</li>
+          <li class="lang-en">Recommended learning pathways included</li>
+          <li class="lang-ar">مسارات التعلم الموصى بها مدرجة</li>
+          <li class="lang-en">Instructor-led delivery available</li>
+          <li class="lang-ar">خيار التدريب المباشر مع مدرب متاح</li>
+        </ul>
+        <br/>
+        <a href="./lms.html" class="btn-primary" style="width:100%; justify-content:center;">
+          <span class="lang-en inline">Start &amp; Unlock →</span>
+          <span class="lang-ar inline">ابدأ وافتح الوحدات ←</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Final CTA ───────────────────────────────────────────────────────────── -->
+<section class="cta-section" aria-labelledby="cta-heading">
+  <h2 id="cta-heading">
+    <span class="lang-en inline">Ready to build AI literacy?</span>
+    <span class="lang-ar inline">هل أنت مستعد لتعزيز معرفتك بالذكاء الاصطناعي؟</span>
+  </h2>
+  <p>
+    <span class="lang-en inline">The entire course is free. Module 1 opens instantly; enter your email to unlock the rest. Bilingual, about 45 minutes per module.</span>
+    <span class="lang-ar inline">الدورة بالكامل مجانية. الوحدة الأولى تفتح فوراً؛ أدخل بريدك لفتح الباقي. ثنائية اللغة، نحو ٤٥ دقيقة لكل وحدة.</span>
+  </p>
+  <div class="cta-buttons">
+    <a href="./lms.html" class="btn-primary">
+      <span class="lang-en inline">Start Now, It's Free →</span>
+      <span class="lang-ar inline">ابدأ الآن، مجاناً ←</span>
+    </a>
+    <a href="mailto:abbasmahdi.ai@gmail.com?subject=AI%20Literacy%20Course%3A%20Team%20Delivery%20Inquiry" class="btn-secondary">
+      <span>📅</span>
+      <span class="lang-en inline">Book for Your Team</span>
+      <span class="lang-ar inline">احجز لفريقك</span>
+    </a>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────────── -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div>
+      <span class="lang-en inline">© 2026 Responsible AI Toolkit</span>
+      <span class="lang-ar inline">© 2026 مجموعة أدوات الذكاء الاصطناعي المسؤول</span>
+    </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <a href="../../index.html" class="lang-en inline">← Toolkit</a>
+      <a href="../../index.html" class="lang-ar inline">← مجموعة الأدوات</a>
+      <a href="./lms.html" class="lang-en inline">Start Course</a>
+      <a href="./lms.html" class="lang-ar inline">ابدأ الدورة</a>
+      <a href="https://www.linkedin.com/in/abbasalmahdi/" target="_blank" rel="noopener">LinkedIn</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+const UI = {
+  en: {
+    'back-text':  'Responsible AI Toolkit',
+    'brand':      'AI Literacy Foundations',
+    'theme-dark': '☾',
+    'theme-light':'☀',
+  },
+  ar: {
+    'back-text':  'مجموعة أدوات الذكاء الاصطناعي المسؤول',
+    'brand':      'أساسيات الإلمام بالذكاء الاصطناعي',
+    'theme-dark': '☾',
+    'theme-light':'☀',
+  }
+};
+
+let currentLang = 'en';
+let currentTheme = localStorage.getItem('rat-theme') || 'light';
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'ar' : 'en';
+  applyLang();
+}
+
+function applyLang() {
+  const html = document.documentElement;
+  if (currentLang === 'ar') {
+    html.setAttribute('lang', 'ar');
+    html.setAttribute('dir', 'rtl');
+  } else {
+    html.setAttribute('lang', 'en');
+    html.setAttribute('dir', 'ltr');
+  }
+  document.getElementById('lang-toggle').textContent = currentLang === 'en' ? 'AR' : 'EN';
+}
+
+function toggleTheme() {
+  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  applyTheme();
+  localStorage.setItem('rat-theme', currentTheme);
+}
+
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.textContent = currentTheme === 'dark' ? '☀' : '☾';
+}
+
+function init() {
+  applyTheme();
+  applyLang();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
