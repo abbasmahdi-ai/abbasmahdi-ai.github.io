@@ -39,6 +39,7 @@
   /* ── Config ──────────────────────────────────────────────────────────── */
   const DEFAULTS = {
     linkedInUrl:       'https://www.linkedin.com/in/abbas-al-mahdi/',
+    calendlyUrl:       'https://calendly.com/abbasmahdi-ai/consultation-request',
     emailAddress:      'abbasmahdi.ai@gmail.com',
     toolNameEn:        'this tool',
     toolNameAr:        'هذه الأداة',
@@ -59,6 +60,7 @@
       sessionHint:   'Quote this when you reach out so I can pull up your exact results.',
       sub:           (name) => `To unlock your full ${name} report, including your section-by-section breakdown and prioritised recommendations, connect with Abbas Al Mahdi on LinkedIn.`,
       li:            'Connect on LinkedIn →',
+      calendly:      '📅 Book a Consultation',
       email:         'Send an Email',
       why:           'Why is this gated?',
       whyText:       'The full report includes scored benchmarks, gap analysis, and tailored recommendations, content normally delivered in a paid engagement. Connecting on LinkedIn is the only thing asked in return.',
@@ -73,6 +75,7 @@
       sessionHint:   'أرسل هذا الرمز عند التواصل حتى أتمكن من استرجاع نتائجك الكاملة.',
       sub:         (name) => `للاطلاع على التقرير الكامل لـ${name}، بما في ذلك التقييم المُفصَّل والتوصيات المرتبة حسب الأولوية، تواصل مع عباس آل مهدي عبر LinkedIn.`,
       li:            'تواصل عبر LinkedIn ←',
+      calendly:      '📅 احجز استشارة',
       email:         'أرسل بريداً إلكترونياً',
       why:           'لماذا هذا التقرير محجوب؟',
       whyText:       'يتضمن التقرير الكامل معايير مُقيَّمة وتحليل فجوات وتوصيات مخصصة (محتوى يتم تقديمه عادة في إطار اتفاقيات مدفوعة). التواصل عبر LinkedIn هو الشيء الوحيد المطلوب في المقابل.',
@@ -361,6 +364,9 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             ${copy.li}
           </a>
+          ${cfg.calendlyUrl ? `<a href="${cfg.calendlyUrl}" target="_blank" class="rai-gate-btn-email" style="border-color:var(--gold,#c8930a);color:var(--gold,#c8930a)">
+            ${copy.calendly}
+          </a>` : ''}
           <a id="rai-gate-email-btn" href="${mailtoHref}" class="rai-gate-btn-email">
             ✉ ${copy.email}
           </a>
@@ -426,10 +432,11 @@
         el.classList.remove('rai-gate-blurred');
       });
       gateShown   = false;
+          gateShown   = false;
       resultsData = {};
     }
   };
 
   global.RAIGate = RAIGate;
 
-})(window);
+}(window));
