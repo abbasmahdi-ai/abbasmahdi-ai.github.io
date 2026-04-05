@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AI Literacy Foundations – Abbas Al Mahdi</title>
+<meta name="description" content="AI Literacy Foundations: a 4–6 hour bilingual course covering what AI is, how it works, fairness, responsible use, and your learning path. Foundation level. No prerequisites."/>
+<script>
+(function(){
+  var l = localStorage.getItem('rai-lang') || 'en';
+  document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.lang = l;
+  var t = localStorage.getItem('rai-theme') || 'light';
+  document.documentElement.dataset.theme = t;
+})();
+</script>
+<style>
+:root {
+  --sidebar-w:  272px;
+  --topbar-h:   50px;
+  --bg:         #f7f9fc;
+  --bg-card:    #ffffff;
+  --bg-sub:     #f1f5f9;
+  --blue-dk:    #0f3670;
+  --blue:       #1a56a0;
+  --blue-lt:    #e8f0fb;
+  --accent:     #1a56a0;
+  --gold:       #c8930a;
+  --green:      #1a7a4a;
+  --green-bg:   #d1fae5;
+  --red:        #b91c1c;
+  --purple:     #7c3aed;
+  --teal:       #0e7490;
+  --text:       #1a1a2e;
+  --text-sub:   #36454f;
+  --text-muted: #5a6278;
+  --text-dim:   #8896a8;
+  --border:     #d4dbe8;
+  --border-lt:  #eaecf0;
+  --shadow:     0 2px 12px rgba(26,86,160,.08);
+  --shadow-lg:  0 8px 30px rgba(26,86,160,.14);
+  --radius-sm:  4px;
+  --radius:     8px;
+  --radius-lg:  12px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+[data-theme="dark"] {
+  --bg:         #11131a;
+  --bg-card:    #1a1d24;
+  --bg-sub:     #14171f;
+  --blue-lt:    #1e2d45;
+  --border:     #2a2d3a;
+  --border-lt:  #222533;
+  --text:       #eaecf0;
+  --text-sub:   #c8ccd1;
+  --text-muted: #8896a8;
+  --text-dim:   #5a6278;
+  --blue:       #4a84d8;
+  --accent:     #6ea8fe;
+  --gold:       #d4a520;
+  --green:      #4ac79a;
+  --green-bg:   #0d2b24;
+  --shadow:     0 2px 12px rgba(0,0,0,.3);
+  --shadow-lg:  0 8px 30px rgba(0,0,0,.45);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; font-size: 14px; }
+
+/* ── Sidebar ──────────────────────────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w); background: var(--blue-dk);
+  display: flex; flex-direction: column; flex-shrink: 0;
+  overflow-y: auto; position: relative; z-index: 10;
+  box-shadow: 2px 0 16px rgba(0,0,0,.2);
+}
+.sidebar-header {
+  padding: 1.25rem 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  flex-shrink: 0;
+}
+.sidebar-brand { font-size: .63rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: .45rem; }
+.sidebar-course-title { font-size: .96rem; font-weight: 800; color: #fff; line-height: 1.3; }
+.sidebar-progress-wrap { margin-top: .85rem; }
+.sidebar-progress-label { font-size: .62rem; color: rgba(255,255,255,.45); font-weight: 700; letter-spacing: .06em; margin-bottom: .35rem; }
+.sidebar-progress-bar { height: 3px; background: rgba(255,255,255,.15); border-radius: 2px; overflow: hidden; }
+.sidebar-progress-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width .5s ease; }
+.sidebar-nav { padding: .5rem 0; flex: 1; }
+.sidebar-module {
+  padding: .7rem 1.25rem; display: flex; align-items: center; gap: .7rem;
+  cursor: pointer; border-inline-start: 3px solid transparent;
+  transition: background .15s, border-color .15s; user-select: none;
+}
+.sidebar-module:hover:not(.locked) { background: rgba(255,255,255,.07); }
+.sidebar-module.active { background: rgba(255,255,255,.1); border-inline-start-color: var(--gold); }
+.sidebar-module.locked { opacity: .5; cursor: default; }
+.sidebar-module.locked:hover { background: transparent; }
+.sm-indicator {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,.28); display: flex; align-items: center; justify-content: center;
+  font-size: .62rem; font-weight: 800; color: transparent; transition: all .2s;
+}
+.sidebar-module.completed .sm-indicator { background: var(--green); border-color: var(--green); color: #fff; }
+.sidebar-module.active:not(.completed) .sm-indicator { border-color: var(--gold); background: rgba(200,147,10,.15); }
+.sm-info { flex: 1; min-width: 0; }
+.sm-code { font-size: .6rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: .08rem; }
+.sm-title { font-size: .81rem; font-weight: 600; color: rgba(255,255,255,.8); line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sidebar-module.active .sm-title { color: #fff; font-weight: 700; }
+.sm-lock { font-size: .7rem; color: rgba(255,255,255,.3); flex-shrink: 0; }
+.sidebar-footer {
+  padding: 1rem 1.25rem; border-top: 1px solid rgba(255,255,255,.08); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: space-between; gap: .5rem;
+}
+.sidebar-footer a { font-size: .72rem; color: rgba(255,255,255,.4); text-decoration: none; transition: color .15s; }
+.sidebar-footer a:hover { color: rgba(255,255,255,.7); }
+.sidebar-theme-btn {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+  color: #fff; border-radius: var(--radius-sm); padding: .2rem .55rem;
+  font-size: .8rem; cursor: pointer; font-family: var(--font); line-height: 1.4;
+}
+.sidebar-theme-btn:hover { background: rgba(255,255,255,.18); }
+
+/* ── Mobile hamburger ─────────────────────────────────────────────────────── */
+.mob-menu-btn {
+  display: none; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
+  color: #fff; border-radius: var(--radius-sm); padding: .28rem .65rem;
+  font-size: 1rem; cursor: pointer; font-family: var(--font); line-height: 1;
+  align-items: center; justify-content: center;
+}
+.sidebar-backdrop {
+  display: none; position: fixed; inset: 0; z-index: 150; background: rgba(0,0,0,.45);
+}
+.sidebar-backdrop.show { display: block; }
+
+/* ── Main area ────────────────────────────────────────────────────────────── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+
+.main-topbar {
+  height: var(--topbar-h); flex-shrink: 0;
+  background: var(--blue-dk); border-bottom: 3px solid var(--gold);
+  padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between;
+}
+.topbar-left { display: flex; align-items: center; gap: .65rem; }
+.topbar-breadcrumb { font-size: .78rem; color: rgba(255,255,255,.55); }
+.topbar-breadcrumb strong { color: #fff; font-weight: 700; }
+.topbar-right { display: flex; align-items: center; gap: .5rem; }
+.topbar-page { font-size: .72rem; color: rgba(255,255,255,.45); font-weight: 700; letter-spacing: .04em; }
+.topbar-btn {
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
+  color: #fff; border-radius: var(--radius-sm); padding: .25rem .65rem;
+  font-size: .75rem; font-weight: 600; cursor: pointer; font-family: var(--font);
+  text-decoration: none; display: inline-block; transition: background .15s;
+}
+.topbar-btn:hover { background: rgba(255,255,255,.22); }
+
+/* Section progress strip */
+.sec-progress {
+  background: var(--bg-card); border-bottom: 1px solid var(--border-lt);
+  padding: .65rem 2rem; display: flex; align-items: center; gap: .45rem; flex-shrink: 0;
+}
+.sp-dot {
+  width: 32px; height: 4px; border-radius: 2px; background: var(--border);
+  cursor: pointer; transition: background .25s; flex-shrink: 0;
+}
+.sp-dot:hover { background: var(--blue-lt); }
+.sp-dot.done { background: var(--green); }
+.sp-dot.active { background: var(--accent); }
+.sp-label { font-size: .68rem; color: var(--text-dim); font-weight: 600; margin-left: .25rem; white-space: nowrap; }
+
+/* Content area */
+.content-scroll { flex: 1; overflow-y: auto; padding: 3.5rem 3rem 6rem; background: var(--bg); }
+.content-inner { max-width: 700px; margin: 0 auto; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+.fade-up { animation: fadeUp .28s ease; }
+
+/* Typography */
+.sec-eyebrow { font-size: .66rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: .55rem; }
+.sec-heading { font-size: 1.65rem; font-weight: 900; color: var(--text); line-height: 1.2; margin-bottom: .7rem; }
+.sec-divider { width: 44px; height: 3px; background: var(--gold); border-radius: 2px; margin-bottom: 2rem; }
+.content-para { font-size: .94rem; color: var(--text-sub); line-height: 1.85; margin-bottom: 1.1rem; }
+.bullet-list { list-style: none; display: flex; flex-direction: column; gap: .55rem; margin-bottom: 1.2rem; }
+.bullet-list li { display: block; padding-inline-start: 1.3rem; position: relative; font-size: .9rem; color: var(--text-sub); line-height: 1.75; }
+.bullet-list li::before { content: '◆'; color: var(--accent); font-size: .5rem; position: absolute; inset-inline-start: 0; top: .52rem; }
+.callout-box {
+  background: var(--blue-lt); border-left: 4px solid var(--blue);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem 1.25rem; font-size: .88rem; color: var(--text); line-height: 1.75; margin-bottom: 1.2rem;
+}
+.activity-tag { display: inline-flex; align-items: center; gap: .35rem; font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: var(--blue-lt); color: var(--blue); border: 1px solid var(--accent); border-radius: var(--radius-sm); padding: .25rem .65rem; margin-bottom: .85rem; }
+[data-theme="dark"] .activity-tag { color: var(--accent); border-color: var(--accent); }
+.takeaway-box { background: var(--green-bg); border: 1px solid #86efac; border-radius: var(--radius); padding: 1.4rem; }
+[data-theme="dark"] .takeaway-box { border-color: #1a4a38; }
+.takeaway-box-title { font-size: .67rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--green); margin-bottom: .85rem; }
+.takeaway-item { display: flex; gap: .65rem; margin-bottom: .65rem; font-size: .88rem; color: var(--text); line-height: 1.65; }
+.takeaway-item:last-child { margin-bottom: 0; }
+.takeaway-num { width: 22px; height: 22px; border-radius: 50%; background: var(--green); color: #fff; font-size: .63rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: .08rem; }
+[data-theme="dark"] .takeaway-num { color: #11131a; }
+.unesco-badge { display: inline-flex; align-items: center; gap: .4rem; font-size: .72rem; font-weight: 600; color: var(--text-muted); background: var(--bg-sub); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .25rem .65rem; margin-top: .75rem; }
+
+/* Delivery & pathway cards (M7 page) */
+.delivery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: 2rem; }
+.delivery-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+.delivery-icon { font-size: 1.4rem; margin-bottom: .5rem; }
+.delivery-title { font-size: .95rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+.delivery-meta { font-size: .7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .45rem; }
+.delivery-desc { font-size: .845rem; color: var(--text-muted); line-height: 1.6; }
+.delivery-best { font-size: .7rem; font-weight: 700; color: var(--green); background: var(--green-bg); border-radius: var(--radius-sm); padding: .15rem .5rem; display: inline-block; margin-top: .6rem; }
+.pathway-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .65rem; }
+.pathway-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: .9rem 1rem; }
+.pathway-code { font-size: .67rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: .2rem; }
+.pathway-title { font-size: .875rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; line-height: 1.3; }
+.pathway-desc { font-size: .78rem; color: var(--text-muted); line-height: 1.5; }
+
+/* Trainer card */
+.trainer-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; display: flex; gap: 1.25rem; align-items: flex-start; margin-top: 2rem; }
+.trainer-photo { width: 72px; height: 72px; border-radius: var(--radius); object-fit: cover; object-position: top center; flex-shrink: 0; box-shadow: var(--shadow); }
+.trainer-name { font-size: 1rem; font-weight: 800; color: var(--text); margin-bottom: .15rem; }
+.trainer-title { font-size: .78rem; color: var(--text-muted); margin-bottom: .65rem; }
+.trainer-bio { font-size: .855rem; color: var(--text-sub); line-height: 1.7; }
+.trainer-creds { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .65rem; }
+.trainer-cred { font-size: .68rem; font-weight: 600; padding: .18rem .55rem; border-radius: 20px; background: var(--blue-lt); color: var(--blue); border: 1px solid var(--border); }
+[data-theme="dark"] .trainer-cred { color: var(--accent); }
+
+/* CTA block */
+.cta-block { background: linear-gradient(135deg, var(--blue-dk) 0%, var(--blue) 100%); border-radius: var(--radius-lg); padding: 2rem; text-align: center; margin-top: 2rem; }
+.cta-block-title { font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: .35rem; }
+.cta-block-sub { font-size: .875rem; color: rgba(255,255,255,.7); margin-bottom: 1.25rem; line-height: 1.6; }
+.cta-block-actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+.btn-gold { background: var(--gold); color: #fff; font-weight: 700; padding: .65rem 1.5rem; border-radius: var(--radius-sm); text-decoration: none; font-size: .9rem; border: none; cursor: pointer; font-family: var(--font); transition: opacity .15s; }
+.btn-gold:hover { opacity: .88; }
+.btn-ghost-white { background: transparent; color: #fff; font-weight: 600; padding: .65rem 1.4rem; border-radius: var(--radius-sm); text-decoration: none; font-size: .9rem; border: 1px solid rgba(255,255,255,.35); transition: background .15s; }
+.btn-ghost-white:hover { background: rgba(255,255,255,.1); }
+
+/* Module complete banner */
+.complete-banner { background: linear-gradient(135deg, #0f3670 0%, #1a56a0 100%); border-radius: var(--radius); padding: 1.5rem; text-align: center; margin-top: 1.5rem; color: #fff; }
+.complete-banner-icon { font-size: 2rem; margin-bottom: .4rem; }
+.complete-banner-title { font-size: 1.05rem; font-weight: 800; margin-bottom: .2rem; }
+.complete-banner-sub { font-size: .84rem; color: rgba(255,255,255,.7); }
+
+/* Action bar */
+.action-bar {
+  position: fixed; bottom: 0; inset-inline-start: var(--sidebar-w); inset-inline-end: 0; z-index: 50;
+  background: var(--bg-card); border-top: 1px solid var(--border);
+  padding: .9rem 2rem; display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 -4px 16px rgba(0,0,0,.06);
+  padding-bottom: max(.9rem, env(safe-area-inset-bottom));
+}
+.action-label { font-size: .77rem; color: var(--text-dim); font-weight: 600; }
+.action-label strong { color: var(--text-muted); }
+.btn-continue {
+  background: var(--blue-dk); color: #fff; font-weight: 700;
+  padding: .72rem 2.2rem; border-radius: var(--radius-sm); border: none;
+  font-size: .85rem; letter-spacing: .07em; text-transform: uppercase;
+  cursor: pointer; font-family: var(--font); transition: background .15s, transform .1s;
+}
+.btn-continue:hover { background: var(--blue); transform: translateY(-1px); }
+.btn-continue:active { transform: none; }
+.btn-continue.gold { background: var(--gold); }
+.btn-continue.gold:hover { background: #b8820a; }
+.btn-continue.done-btn { background: var(--green); }
+[data-theme="dark"] .btn-continue { color: #11131a; }
+
+/* Gate overlay */
+.gate-overlay {
+  display: none; position: absolute; inset: 0; z-index: 100;
+  background: rgba(15,54,112,.55); backdrop-filter: blur(3px);
+  align-items: center; justify-content: center;
+}
+.gate-overlay.show { display: flex; }
+.gate-card {
+  background: var(--bg-card); border: 2px solid var(--accent);
+  border-radius: var(--radius-lg); padding: 2.5rem 2rem; max-width: 460px; width: 92%;
+  text-align: center; box-shadow: 0 24px 64px rgba(26,86,160,.25);
+  animation: popIn .25s ease; position: relative;
+}
+@keyframes popIn { from { opacity:0; transform:scale(.95) translateY(8px); } to { opacity:1; transform:scale(1) translateY(0); } }
+.gate-close { position: absolute; top: .85rem; right: 1rem; background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-dim); font-family: var(--font); line-height: 1; }
+.gate-close:hover { color: var(--text); }
+.gate-icon { font-size: 2.2rem; margin-bottom: .75rem; }
+.gate-title { font-size: 1.2rem; font-weight: 800; color: var(--text); margin-bottom: .45rem; }
+.gate-sub { font-size: .875rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem; }
+.gate-modules { display: flex; flex-wrap: wrap; gap: .35rem; justify-content: center; margin-bottom: 1.25rem; }
+.gate-mod-pill { font-size: .7rem; font-weight: 700; padding: .2rem .6rem; border-radius: 20px; background: var(--blue-lt); color: var(--blue); border: 1px solid var(--border); }
+[data-theme="dark"] .gate-mod-pill { color: var(--accent); }
+.gate-form { display: flex; flex-direction: column; gap: .55rem; }
+.gate-input {
+  padding: .7rem 1rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  font-size: .9rem; font-family: var(--font); outline: none; transition: border-color .15s;
+  background: var(--bg); color: var(--text);
+}
+.gate-input:focus { border-color: var(--accent); }
+.btn-unlock {
+  background: var(--accent); color: #fff; font-weight: 700; padding: .75rem;
+  border-radius: var(--radius-sm); border: none; font-size: .92rem;
+  font-family: var(--font); cursor: pointer; transition: opacity .15s;
+}
+.btn-unlock:hover { opacity: .88; }
+[data-theme="dark"] .btn-unlock { color: #11131a; }
+.gate-note { font-size: .7rem; color: var(--text-dim); margin-top: .5rem; }
+#gate-msg { font-size: .82rem; margin-top: .25rem; display: none; }
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+@media(max-width: 680px) {
+  .sidebar {
+    position: fixed; inset-inline-start: -100%; top: 0; bottom: 0; z-index: 200;
+    transition: inset-inline-start .25s ease; width: min(var(--sidebar-w), 88vw);
+  }
+  .sidebar.open { inset-inline-start: 0; }
+  .mob-menu-btn { display: flex; }
+  .action-bar { inset-inline-start: 0; padding: .75rem 1.25rem; padding-bottom: max(.75rem, env(safe-area-inset-bottom)); }
+  .content-scroll { padding: 2rem 1.25rem 6rem; }
+  .sec-progress { padding: .6rem 1.25rem; }
+  .main-topbar { padding: 0 1rem; }
+  .topbar-page { display: none; }
+  .delivery-grid { grid-template-columns: 1fr; }
+  .pathway-grid { grid-template-columns: 1fr 1fr; }
+  .trainer-card { flex-direction: column; }
+  .cta-block-actions { flex-direction: column; align-items: center; }
+}
+@media(max-width: 400px) {
+  .pathway-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Sidebar ──────────────────────────────────────────────────────────────── -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-brand" id="sidebar-brand-txt">Foundation Course</div>
+    <div class="sidebar-course-title" id="sidebar-course-txt">AI Literacy Foundations</div>
+    <div class="sidebar-progress-wrap">
+      <div class="sidebar-progress-label" id="progress-label">0% COMPLETE</div>
+      <div class="sidebar-progress-bar">
+        <div class="sidebar-progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+    </div>
+  </div>
+  <nav class="sidebar-nav" id="sidebar-nav"></nav>
+  <div class="sidebar-footer">
+    <a href="../../index.html" id="back-link">← Toolkit</a>
+    <button class="sidebar-theme-btn" id="rai-thm" onclick="toggleTheme()">☾</button>
+    <button class="sidebar-theme-btn" id="rai-lang" onclick="toggleLang()">AR</button>
+  </div>
+</aside>
+
+<!-- ── Sidebar backdrop (mobile) ───────────────────────────────────────────── -->
+<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
+
+<!-- ── Main ────────────────────────────────────────────────────────────────── -->
+<div class="main">
+  <div class="main-topbar">
+    <div class="topbar-left">
+      <button class="mob-menu-btn" onclick="toggleSidebar()" aria-label="Open module list">☰</button>
+      <span class="topbar-breadcrumb" id="topbar-crumb"><strong>M1</strong> · What Is AI?</span>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-page" id="topbar-page">Section 1 of 6</span>
+      <a href="../../index.html" class="topbar-btn" id="topbar-back-btn">← Toolkit</a>
+    </div>
+  </div>
+
+  <div class="sec-progress" id="sec-progress"></div>
+
+  <div class="content-scroll" id="content-scroll">
+    <div class="content-inner" id="content-area"></div>
+  </div>
+
+  <div class="action-bar">
+    <span class="action-label" id="action-label">Up next: <strong>Defining AI</strong></span>
+    <button class="btn-continue" id="btn-continue" onclick="handleContinue()">CONTINUE</button>
+  </div>
+
+  <!-- Gate overlay -->
+  <div class="gate-overlay" id="gate-overlay">
+    <div class="gate-card">
+      <button class="gate-close" onclick="closeGate()">✕</button>
+      <div class="gate-icon">📖</div>
+      <div class="gate-title" id="gate-title">Unlock Modules 2–6</div>
+      <div class="gate-sub" id="gate-sub">Enter your email to access the full course: five more modules, activities, delivery formats, and your personalised learning path.</div>
+      <div class="gate-modules" id="gate-pills">
+        <span class="gate-mod-pill">M2 · AI in Your World</span>
+        <span class="gate-mod-pill">M3 · Understanding Outputs</span>
+        <span class="gate-mod-pill">M4 · Fairness &amp; Harm</span>
+        <span class="gate-mod-pill">M5 · Responsible Use</span>
+        <span class="gate-mod-pill">M6 · Learning Journey</span>
+      </div>
+      <div class="gate-form">
+        <input class="gate-input" type="text" id="gate-name" placeholder="Your name" autocomplete="name"/>
+        <input class="gate-input" type="email" id="gate-email" placeholder="Your email" autocomplete="email"/>
+        <button class="btn-unlock" id="btn-unlock" onclick="submitGate()">Unlock Full Course →</button>
+        <div id="gate-msg"></div>
+        <div class="gate-note" id="gate-note">No account required. Your email lets Abbas follow up with resources relevant to your context.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Course data ──────────────────────────────────────────────────────────────
+const MODULES = [
+  {
+    code: 'M1', title: 'What Is AI?', title_ar: 'ما هو الذكاء الاصطناعي؟', free: true,
+    sections: [
+      {
+        label: 'Introduction', label_ar: 'المقدمة',
+        next: 'Defining AI', next_ar: 'تعريف الذكاء الاصطناعي',
+        eyebrow: 'Free Preview · Module 1 of 6', eyebrow_ar: 'معاينة مجانية · الوحدة 1 من 6',
+        heading: 'What Is AI and How Does It Work?', heading_ar: 'ما هو الذكاء الاصطناعي وكيف يعمل؟',
+        html: `
+          <p class="content-para">AI gets described as magic, as a threat, as the future of everything. Almost none of those descriptions are accurate. This module gives you the plain-language foundation you need to engage with AI critically, not as a believer or a sceptic, but as a literate person.</p>
+          <p class="content-para">By the end of this module, you'll be able to describe what AI is, how it learns, and why it makes the kinds of mistakes it makes.</p>
+          <div class="callout-box">🎓 <strong>UNESCO AI Competency Framework:</strong> This module addresses the <em>Understand AI</em> competency: foundational knowledge of AI concepts, mechanisms, and vocabulary.</div>
+        `,
+        html_ar: `
+          <p class="content-para">يُوصَف الذكاء الاصطناعي بأنه سحر، أو تهديد، أو مستقبل كل شيء. وكاد أيٌّ من هذه الأوصاف يكون دقيقاً. تمنحك هذه الوحدة الأساس اللغوي السليم الذي تحتاجه للتعامل مع الذكاء الاصطناعي بعقل ناقد، لا مؤمناً ولا متشككاً، بل شخصاً متعلماً ومدركاً.</p>
+          <p class="content-para">بنهاية هذه الوحدة، ستتمكن من وصف ماهية الذكاء الاصطناعي، وكيفية تعلمه، ولماذا يرتكب النوع من الأخطاء التي يرتكبها.</p>
+          <div class="callout-box">🎓 <strong>إطار كفاءات اليونسكو للذكاء الاصطناعي:</strong> تعالج هذه الوحدة كفاءة <em>فهم الذكاء الاصطناعي</em>: المعرفة الأساسية بمفاهيم الذكاء الاصطناعي وآلياته ومصطلحاته.</div>
+        `
+      },
+      {
+        label: 'Defining AI', label_ar: 'تعريف الذكاء الاصطناعي',
+        next: 'How AI Learns', next_ar: 'كيف يتعلم الذكاء الاصطناعي',
+        eyebrow: 'Section 1 of 3', eyebrow_ar: 'القسم 1 من 3',
+        heading: 'What AI Actually Is', heading_ar: 'ما هو الذكاء الاصطناعي فعلاً',
+        html: `
+          <ul class="bullet-list">
+            <li>A plain-language definition: AI as the capability of computer systems to perform tasks that typically require human intelligence</li>
+            <li>The AI family tree: AI → Machine Learning → Deep Learning → Generative AI, with each level building on and narrowing the one before it</li>
+            <li>What AI <em>is</em>: pattern recognition at scale, systems that learn from examples, tools that predict, classify, and generate</li>
+            <li>What AI <em>is not</em>: consciousness, human-like understanding, or a single technology</li>
+            <li>Rule-based systems vs. learning-based systems: what changed and why it matters</li>
+          </ul>
+          <span class="unesco-badge">🎓 UNESCO Competency: <strong>Understand AI</strong>: foundational knowledge of AI concepts and mechanisms</span>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>تعريف مبسّط: الذكاء الاصطناعي هو قدرة أنظمة الحاسوب على أداء مهام تستلزم عادةً ذكاءً بشرياً</li>
+            <li>شجرة عائلة الذكاء الاصطناعي: الذكاء الاصطناعي ← تعلم الآلة ← التعلم العميق ← الذكاء الاصطناعي التوليدي، مع بناء كل مستوى على السابق وتضييق نطاقه</li>
+            <li>ما هو الذكاء الاصطناعي <em>فعلاً</em>: التعرف على الأنماط على نطاق واسع، وأنظمة تتعلم من الأمثلة، وأدوات تتنبأ وتصنّف وتُنشئ</li>
+            <li>ما هو الذكاء الاصطناعي <em>ليس</em>: وعياً، أو فهماً بشرياً، أو تقنية واحدة</li>
+            <li>الأنظمة المبنية على القواعد مقابل الأنظمة المبنية على التعلم: ما الذي تغير ولماذا يهم</li>
+          </ul>
+          <span class="unesco-badge">🎓 كفاءة اليونسكو: <strong>فهم الذكاء الاصطناعي</strong>: المعرفة الأساسية بمفاهيم الذكاء الاصطناعي وآلياته</span>
+        `
+      },
+      {
+        label: 'How AI Learns', label_ar: 'كيف يتعلم الذكاء الاصطناعي',
+        next: 'Types & Limits', next_ar: 'الأنواع والحدود',
+        eyebrow: 'Section 2 of 3', eyebrow_ar: 'القسم 2 من 3',
+        heading: 'Training, Inference, and Hallucination', heading_ar: 'التدريب والاستدلال والهلوسة',
+        html: `
+          <ul class="bullet-list">
+            <li>The training pipeline: Collect → Train → Validate → Deploy</li>
+            <li>Why AI learns from examples rather than explicit rules, and what that means for its reliability</li>
+            <li>Training data: large datasets of labelled examples that shape everything the model knows</li>
+            <li>Inference: how a trained model processes new inputs and generates outputs</li>
+            <li>Hallucination: AI-generated content that sounds plausible but is factually wrong. A structural feature of how language models work, not an occasional glitch.</li>
+          </ul>
+          <div class="callout-box">⚠️ <strong>Hallucination is structural, not a bug.</strong> Language models predict the most statistically likely next token. They have no mechanism to verify truth. Fluency is a style feature, not a reliability signal.</div>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>مسار التدريب: جمع البيانات ← التدريب ← التحقق ← النشر</li>
+            <li>لماذا يتعلم الذكاء الاصطناعي من الأمثلة لا من القواعد الصريحة، وما يعنيه ذلك من حيث الموثوقية</li>
+            <li>بيانات التدريب: مجموعات بيانات ضخمة من الأمثلة المُصنَّفة التي تُشكّل كل ما يعرفه النموذج</li>
+            <li>الاستدلال: كيف يعالج النموذج المُدرَّب مدخلات جديدة ويُنتج مخرجات</li>
+            <li>الهلوسة: محتوى يُنتجه الذكاء الاصطناعي يبدو منطقياً لكنه غير صحيح واقعياً. سمة بنيوية في طريقة عمل نماذج اللغة، لا خللٌ عارض.</li>
+          </ul>
+          <div class="callout-box">⚠️ <strong>الهلوسة بنيوية، ليست خطأً عارضاً.</strong> تتنبأ نماذج اللغة بالوحدة النصية الأرجح تالياً. وليس لديها أي آلية للتحقق من الصحة. الطلاقة خاصية أسلوبية، لا إشارة موثوقية.</div>
+        `
+      },
+      {
+        label: 'Types & Limits', label_ar: 'الأنواع والحدود',
+        next: 'Activity', next_ar: 'النشاط',
+        eyebrow: 'Section 3 of 3', eyebrow_ar: 'القسم 3 من 3',
+        heading: 'Types, Limits, and Key Vocabulary', heading_ar: 'الأنواع والحدود والمصطلحات الأساسية',
+        html: `
+          <ul class="bullet-list">
+            <li>Narrow AI (one task, done extremely well) vs. Foundation Models vs. Artificial General Intelligence (AGI)</li>
+            <li>Key vocabulary for the AI-literate person: Model, Training Data, Prompt, Token, Inference, Parameter</li>
+            <li>The confidence problem: AI sounds equally certain whether it is right or completely wrong; fluency is not accuracy</li>
+            <li>Common misconceptions: AI does not "understand", does not "think", and does not "know" things the way humans do</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>الذكاء الاصطناعي الضيق (مهمة واحدة تُنجَز باحترافية عالية) مقابل النماذج الأساسية مقابل الذكاء الاصطناعي العام (AGI)</li>
+            <li>المصطلحات الأساسية للشخص المُلمّ بالذكاء الاصطناعي: النموذج، بيانات التدريب، الأمر (Prompt)، الوحدة (Token)، الاستدلال، المعامل (Parameter)</li>
+            <li>مشكلة الثقة: الذكاء الاصطناعي يبدو بالقدر ذاته من اليقين سواء أكان صحيحاً أم مخطئاً تماماً؛ الطلاقة ليست دقةً</li>
+            <li>المفاهيم الخاطئة الشائعة: الذكاء الاصطناعي لا "يفهم"، ولا "يفكر"، ولا "يعرف" الأشياء بالطريقة التي يعرفها البشر</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Activity', label_ar: 'النشاط',
+        next: 'Key Takeaways', next_ar: 'النقاط الرئيسية',
+        eyebrow: 'Module Activity · 10 Minutes', eyebrow_ar: 'نشاط الوحدة · 10 دقائق',
+        heading: 'AI: Myth or Fact?', heading_ar: 'الذكاء الاصطناعي: خرافة أم حقيقة؟',
+        html: `
+          <div class="activity-tag">✋ Pair &amp; Share · 10 min</div>
+          <ul class="bullet-list">
+            <li><strong>AI: Myth or Fact?</strong> Learners evaluate statements and decide: is this a common AI myth or an accurate fact? Debrief as a group to unpack the misconceptions.</li>
+            <li>Example statements: "AI systems understand language the way humans do." / "AI always learns from the internet." / "If AI is confident, it's probably right."</li>
+          </ul>
+        `,
+        html_ar: `
+          <div class="activity-tag">✋ عمل ثنائي ومشاركة · 10 دقائق</div>
+          <ul class="bullet-list">
+            <li><strong>الذكاء الاصطناعي: خرافة أم حقيقة؟</strong> يُقيّم المتعلمون عبارات ويقررون: هل هي خرافة شائعة أم حقيقة دقيقة؟ يُناقَش الجواب جماعياً لتفكيك المفاهيم الخاطئة.</li>
+            <li>أمثلة على العبارات: "تفهم أنظمة الذكاء الاصطناعي اللغة كما يفهمها البشر." / "يتعلم الذكاء الاصطناعي دائماً من الإنترنت." / "إذا كان الذكاء الاصطناعي واثقاً، فهو على الأرجح على صواب."</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Key Takeaways', label_ar: 'النقاط الرئيسية',
+        next: null, next_ar: null,
+        eyebrow: 'Module 1 Complete', eyebrow_ar: 'اكتملت الوحدة 1',
+        heading: 'Key Takeaways · M1', heading_ar: 'النقاط الرئيسية · الوحدة 1',
+        html: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">Key Takeaways · M1</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>AI is pattern recognition at scale, not consciousness, not magic. Systems learn statistical relationships from data.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>The AI family tree matters: AI → ML → Deep Learning → GenAI. Each layer builds on and constrains the one before.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>Hallucination is structural, not occasional: language models predict, they do not recall. Confidence is a style feature, not a reliability signal.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">4</div><div>Rule-based systems are auditable; learning-based systems are powerful but less transparent. Both are in use today.</div></div>
+          </div>
+          <div class="complete-banner">
+            <div class="complete-banner-icon">✓</div>
+            <div class="complete-banner-title">Module 1 Complete</div>
+            <div class="complete-banner-sub">Continue to Module 2: AI in Your World</div>
+          </div>
+        `,
+        html_ar: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">النقاط الرئيسية · الوحدة 1</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>الذكاء الاصطناعي هو التعرف على الأنماط على نطاق واسع، لا وعيٌ ولا سحر. تتعلم الأنظمة العلاقات الإحصائية من البيانات.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>شجرة عائلة الذكاء الاصطناعي مهمة: الذكاء الاصطناعي ← تعلم الآلة ← التعلم العميق ← الذكاء التوليدي. كل طبقة تبني على السابقة وتُقيّدها.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>الهلوسة بنيوية لا عرَضية؛ نماذج اللغة تتنبأ ولا تسترجع. الثقة خاصية أسلوبية، لا إشارة موثوقية.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">4</div><div>الأنظمة المبنية على القواعد قابلة للتدقيق؛ والأنظمة المبنية على التعلم أكثر قدرةً لكن أقل شفافية. كلاهما مستخدَم اليوم.</div></div>
+          </div>
+          <div class="complete-banner">
+            <div class="complete-banner-icon">✓</div>
+            <div class="complete-banner-title">اكتملت الوحدة 1</div>
+            <div class="complete-banner-sub">تابع إلى الوحدة 2: الذكاء الاصطناعي في حياتك</div>
+          </div>
+        `
+      },
+    ]
+  },
+  {
+    code: 'M2', title: 'AI in Your World', title_ar: 'الذكاء الاصطناعي في حياتك', free: false,
+    sections: [
+      {
+        label: 'Introduction', label_ar: 'المقدمة',
+        next: 'AI You Know', next_ar: 'الذكاء الاصطناعي الذي تعرفه',
+        eyebrow: 'Module 2 of 6', eyebrow_ar: 'الوحدة 2 من 6',
+        heading: 'AI in Your World', heading_ar: 'الذكاء الاصطناعي في حياتك',
+        html: `
+          <p class="content-para">Where AI already touches your life, visible and invisible. This module maps your own AI exposure across direct use, invisible influence, and workplace impact, and examines the structural implications for Arabic speakers and MENA communities.</p>
+          <div class="callout-box">🎓 <strong>Stanford HAI:</strong> Societal Transformation: AI's impact on work, creativity, and access to opportunity.</div>
+        `,
+        html_ar: `
+          <p class="content-para">الذكاء الاصطناعي يلمس حياتك بالفعل، بشكل مرئي وخفي. تُرسم في هذه الوحدة خريطة تعرّضك الشخصي للذكاء الاصطناعي عبر الاستخدام المباشر، والتأثير الخفي، وأثره في بيئة العمل، فضلاً عن دراسة التداعيات البنيوية لمجتمعات اللغة العربية ومنطقة الشرق الأوسط وشمال أفريقيا.</p>
+          <div class="callout-box">🎓 <strong>معهد ستانفورد للذكاء الاصطناعي البشري (HAI):</strong> التحول المجتمعي: أثر الذكاء الاصطناعي في العمل، والإبداع، والوصول إلى الفرص.</div>
+        `
+      },
+      {
+        label: 'AI You Know', label_ar: 'الذكاء الاصطناعي الذي تعرفه',
+        next: 'AI at Work', next_ar: 'الذكاء الاصطناعي في العمل',
+        eyebrow: 'Section 1 of 3', eyebrow_ar: 'القسم 1 من 3',
+        heading: 'Direct and Invisible AI', heading_ar: 'الذكاء الاصطناعي المرئي والخفي',
+        html: `
+          <ul class="bullet-list">
+            <li>Direct AI tools: ChatGPT, Claude, Gemini, AI-powered search, smart recommendations, voice assistants, translation</li>
+            <li>Invisible AI: credit and loan scoring, CV-screening algorithms, content moderation, insurance risk models; systems that make decisions <em>about</em> you without your knowledge</li>
+            <li>Activity: Personal AI Map; learners map their own AI exposure across direct use, invisible influence, and workplace impact</li>
+          </ul>
+          <span class="unesco-badge">🎓 Stanford HAI: Societal Transformation: AI's impact on work, creativity, and access</span>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>أدوات الذكاء الاصطناعي المباشرة: ChatGPT وClaude وGemini والبحث المدعوم بالذكاء الاصطناعي والتوصيات الذكية والمساعدات الصوتية والترجمة</li>
+            <li>الذكاء الاصطناعي الخفي: تقييم الائتمان والقروض، وخوارزميات فرز السير الذاتية، وإدارة المحتوى، ونماذج مخاطر التأمين؛ أنظمة تتخذ قرارات <em>بشأنك</em> دون علمك</li>
+            <li>نشاط: خريطتي مع الذكاء الاصطناعي؛ يرسم المتعلمون خريطة تعرّضهم للذكاء الاصطناعي عبر ثلاثة محاور: الاستخدام المباشر، والتأثير الخفي، وأثره في العمل</li>
+          </ul>
+          <span class="unesco-badge">🎓 معهد ستانفورد HAI: التحول المجتمعي: أثر الذكاء الاصطناعي في العمل والإبداع والوصول</span>
+        `
+      },
+      {
+        label: 'AI at Work', label_ar: 'الذكاء الاصطناعي في العمل',
+        next: 'Promise vs. Concern', next_ar: 'الوعد مقابل المخاوف',
+        eyebrow: 'Section 2 of 3', eyebrow_ar: 'القسم 2 من 3',
+        heading: 'AI in Work and Society', heading_ar: 'الذكاء الاصطناعي في العمل والمجتمع',
+        html: `
+          <ul class="bullet-list">
+            <li>AI in the workplace: writing, data analysis, customer service, code generation, forecasting, available now and reshaping what skills matter</li>
+            <li>AI in creative fields: journalism, visual art, music, design, with opportunities, attribution debates, and integrity concerns</li>
+            <li>The MENA context: UAE AI Strategy 2031, Saudi Vision 2030, Arabic under-representation in training data (under 1% of most LLMs), and what that means for Arabic speakers</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>الذكاء الاصطناعي في بيئة العمل: الكتابة، وتحليل البيانات، وخدمة العملاء، وتوليد الكود، والتنبؤ، متاح الآن ويُعيد تشكيل ما يهم من مهارات</li>
+            <li>الذكاء الاصطناعي في المجالات الإبداعية: الصحافة، والفن البصري، والموسيقى، والتصميم، مع فرص ونقاشات حول الاعتراف بالمؤلفية، وتساؤلات أخلاقية</li>
+            <li>السياق الإقليمي: استراتيجية الإمارات للذكاء الاصطناعي 2031، ورؤية المملكة 2030، وضعف تمثيل اللغة العربية في بيانات التدريب (أقل من 1% في معظم النماذج اللغوية الكبيرة)، وما يعنيه ذلك للناطقين بالعربية</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Promise vs. Concern', label_ar: 'الوعد مقابل المخاوف',
+        next: 'Activity', next_ar: 'النشاط',
+        eyebrow: 'Section 3 of 3', eyebrow_ar: 'القسم 3 من 3',
+        heading: 'Promise vs. Concern', heading_ar: 'الوعد مقابل المخاوف',
+        html: `
+          <ul class="bullet-list">
+            <li>The promise: efficiency, access (AI doctors in remote areas, personalised education), scientific discovery at scale</li>
+            <li>The concern: job displacement in cognitive work, over-dependency and automation bias, inequality between those who control AI and those affected by it</li>
+            <li>Augmentation, not just replacement: most near-term AI impact is task-level change, not wholesale job elimination. The distribution of benefit matters.</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>الوعد: الكفاءة، وتوسيع الوصول (أطباء بالذكاء الاصطناعي في المناطق النائية، والتعليم المخصص)، والاكتشاف العلمي على نطاق واسع</li>
+            <li>المخاوف: إزاحة الوظائف في الأعمال المعرفية، والاعتماد المفرط والتحيز نحو الأتمتة، والتفاوت بين من يتحكمون في الذكاء الاصطناعي ومن يتأثرون به</li>
+            <li>التعزيز لا مجرد الاستبدال: معظم أثر الذكاء الاصطناعي في المدى القريب تغييرٌ على مستوى المهام لا إلغاء كامل للوظائف، غير أن توزيع الفائدة يظل مسألةً جوهرية</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Activity', label_ar: 'النشاط',
+        next: 'Key Takeaways', next_ar: 'النقاط الرئيسية',
+        eyebrow: 'Module Activity · 8 Minutes', eyebrow_ar: 'نشاط الوحدة · 8 دقائق',
+        heading: 'Personal AI Map', heading_ar: 'خريطتي مع الذكاء الاصطناعي',
+        html: `
+          <div class="activity-tag">🗺️ Individual Reflection · 8 min</div>
+          <p class="content-para">Map your own AI exposure across three dimensions: Direct use (AI tools you choose to use), Invisible influence (AI systems making decisions about you), and Workplace impact (AI changing your role or tasks). Share two observations with a partner.</p>
+        `,
+        html_ar: `
+          <div class="activity-tag">🗺️ تأمل فردي · 8 دقائق</div>
+          <p class="content-para">ارسم خريطة تعرّضك للذكاء الاصطناعي عبر ثلاثة محاور: الاستخدام المباشر (أدوات الذكاء الاصطناعي التي تختار استخدامها)، والتأثير الخفي (أنظمة الذكاء الاصطناعي التي تتخذ قرارات بشأنك)، وأثر العمل (الذكاء الاصطناعي الذي يُغيّر دورك أو مهامك). شارك زميلاً بملاحظتين.</p>
+        `
+      },
+      {
+        label: 'Key Takeaways', label_ar: 'النقاط الرئيسية',
+        next: null, next_ar: null,
+        eyebrow: 'Module 2 Complete', eyebrow_ar: 'اكتملت الوحدة 2',
+        heading: 'Key Takeaways · M2', heading_ar: 'النقاط الرئيسية · الوحدة 2',
+        html: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">Key Takeaways · M2</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>AI is both direct and invisible: you choose some AI tools; other AI systems choose for you, often without disclosure.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>Arabic speakers face a structural gap; under-representation in training data means lower accuracy, more hallucination, and reduced cultural relevance.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>The benefits of AI are not automatically distributed. Access, literacy, and representation determine who gains.</div></div>
+          </div>
+          <div class="complete-banner">
+            <div class="complete-banner-icon">✓</div>
+            <div class="complete-banner-title">Module 2 Complete</div>
+            <div class="complete-banner-sub">Continue to Module 3: Understanding Outputs</div>
+          </div>
+        `,
+        html_ar: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">النقاط الرئيسية · الوحدة 2</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>الذكاء الاصطناعي مباشر وخفي في آنٍ واحد: أنت تختار بعض الأدوات، وأنظمة أخرى تختار بدلاً منك، كثيراً دون إفصاح.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>الناطقون بالعربية يواجهون فجوة بنيوية؛ ضعف التمثيل في بيانات التدريب يعني دقةً أقل، وهلوسةً أكثر، وملاءمةً ثقافية أدنى.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>فوائد الذكاء الاصطناعي لا توزَّع تلقائياً. الوصول والإلمام والتمثيل هي التي تحدد من يستفيد.</div></div>
+          </div>
+          <div class="complete-banner">
+            <div class="complete-banner-icon">✓</div>
+            <div class="complete-banner-title">اكتملت الوحدة 2</div>
+            <div class="complete-banner-sub">تابع إلى الوحدة 3: فهم المخرجات</div>
+          </div>
+        `
+      },
+    ]
+  },
+  {
+    code: 'M3', title: 'Understanding Outputs', title_ar: 'فهم المخرجات', free: false,
+    sections: [
+      {
+        label: 'Introduction', label_ar: 'المقدمة',
+        next: 'What AI Produces', next_ar: 'ما ينتجه الذكاء الاصطناعي',
+        eyebrow: 'Module 3 of 6', eyebrow_ar: 'الوحدة 3 من 6',
+        heading: 'Understanding AI Outputs', heading_ar: 'فهم مخرجات الذكاء الاصطناعي',
+        html: `
+          <p class="content-para">How to evaluate what AI tells you, and when to trust it. This module gives you a practical critical framework for assessing AI output, including synthetic media and deepfakes.</p>
+          <div class="callout-box">🎓 <strong>UNESCO Competency: Evaluate AI</strong>: critically assessing AI outputs and their reliability.</div>
+        `,
+        html_ar: `
+          <p class="content-para">كيف تُقيّم ما يُخبرك به الذكاء الاصطناعي، ومتى تثق به. تمنحك هذه الوحدة إطاراً نقدياً عملياً لتقييم مخرجات الذكاء الاصطناعي، بما فيها الوسائط الاصطناعية ومقاطع التزييف العميق (Deepfakes).</p>
+          <div class="callout-box">🎓 <strong>كفاءة اليونسكو: تقييم الذكاء الاصطناعي</strong>: التقييم النقدي لمخرجات الذكاء الاصطناعي ومدى موثوقيتها.</div>
+        `
+      },
+      {
+        label: 'What AI Produces', label_ar: 'ما ينتجه الذكاء الاصطناعي',
+        next: 'Red Flags', next_ar: 'علامات التحذير',
+        eyebrow: 'Section 1 of 3', eyebrow_ar: 'القسم 1 من 3',
+        heading: 'Predictions, Not Facts', heading_ar: 'تنبؤات لا حقائق',
+        html: `
+          <ul class="bullet-list">
+            <li>Predictions, completions, and generations, not facts, not retrieved answers, not verified information</li>
+            <li>The confidence problem: AI-generated text sounds equally confident whether completely accurate or entirely fabricated</li>
+            <li>Documented example: language models fabricating academic citations: plausible titles, authors, journals, page numbers; all invented</li>
+            <li>Fluency is a style feature, not a reliability signal</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>تنبؤات وإكمالات وتوليدات، لا حقائق ولا إجابات مسترجعة ولا معلومات موثّقة</li>
+            <li>مشكلة الثقة: يبدو النص المُنتَج بالذكاء الاصطناعي بنفس القدر من الثقة سواء أكان دقيقاً تماماً أم مختلَقاً كلياً</li>
+            <li>مثال موثّق: نماذج اللغة تختلق مراجع أكاديمية: عناوين ومؤلفون ومجلات وأرقام صفحات تبدو منطقية، لكنها مخترعة بالكامل</li>
+            <li>الطلاقة خاصية أسلوبية، لا إشارة موثوقية</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Red Flags', label_ar: 'علامات التحذير',
+        next: 'Deepfakes', next_ar: 'التزييف العميق',
+        eyebrow: 'Section 2 of 3', eyebrow_ar: 'القسم 2 من 3',
+        heading: 'Red Flags &amp; Verification', heading_ar: 'علامات التحذير والتحقق',
+        html: `
+          <ul class="bullet-list">
+            <li>Red flags: hyper-specific statistics ("87.3% of users..."), citations that feel too perfect, no source attribution, absolute certainty on contested topics</li>
+            <li>The SIFT Framework applied to AI content: Stop · Investigate the source · Find better coverage · Trace claims</li>
+            <li>Practical verification habits: cross-reference statistics, trace citations, ask AI to explain its reasoning step by step</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>علامات التحذير: إحصاءات بالغة التحديد ("87.3% من المستخدمين...")، ومراجع تبدو مثالية للغاية، وغياب الإسناد، وقطعية مطلقة في مسائل خلافية</li>
+            <li>إطار SIFT مطبَّقاً على محتوى الذكاء الاصطناعي: توقّف · تحقق من المصدر · ابحث عن تغطية أفضل · تتبّع المزاعم</li>
+            <li>عادات التحقق العملي: ضع الإحصاءات في مراجع مقارنة، وتتبّع الاستشهادات، واطلب من الذكاء الاصطناعي شرح تفكيره خطوةً بخطوة</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Deepfakes', label_ar: 'التزييف العميق',
+        next: 'Activity', next_ar: 'النشاط',
+        eyebrow: 'Section 3 of 3', eyebrow_ar: 'القسم 3 من 3',
+        heading: 'Synthetic Media &amp; Deepfakes', heading_ar: 'الوسائط الاصطناعية والتزييف العميق',
+        html: `
+          <ul class="bullet-list">
+            <li>Deepfakes: AI-synthesised media that places a real person's face, voice, or likeness into fabricated situations. How they are made and why they are convincing is itself instructive.</li>
+            <li>Detection signals: unnatural blinking, audio-visual sync issues, lighting inconsistencies, background artefacts</li>
+            <li>Provenance and practical habits: reverse image search, C2PA content credentials, source verification before sharing</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>التزييف العميق (Deepfakes): وسائط مُركَّبة بالذكاء الاصطناعي تضع وجه شخص حقيقي أو صوته أو صورته في مواقف مختلَقة؛ كيف تُصنَع ولماذا تبدو مقنعة</li>
+            <li>إشارات الكشف: رمش غير طبيعي، وعدم تزامن الصوت مع الصورة، وتناقضات في الإضاءة، وتشوهات في الخلفية</li>
+            <li>المصدر والعادات العملية: البحث العكسي عن الصور، وبيانات اعتماد المحتوى (C2PA)، والتحقق من المصدر قبل المشاركة</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Activity', label_ar: 'النشاط',
+        next: 'Key Takeaways', next_ar: 'النقاط الرئيسية',
+        eyebrow: 'Module Activity · 15 Minutes', eyebrow_ar: 'نشاط الوحدة · 15 دقيقة',
+        heading: 'Spot the AI', heading_ar: 'اكشف الذكاء الاصطناعي',
+        html: `
+          <div class="activity-tag">👥 Group Discussion · 15 min</div>
+          <ul class="bullet-list">
+            <li><strong>Spot the AI: Human or Machine?</strong> The facilitator displays 6 short text samples. Groups decide: human or AI-generated? Explain reasoning. Debrief covers red flags and verification strategies.</li>
+          </ul>
+        `,
+        html_ar: `
+          <div class="activity-tag">👥 نقاش جماعي · 15 دقيقة</div>
+          <ul class="bullet-list">
+            <li><strong>اكشف الذكاء الاصطناعي: إنسان أم آلة؟</strong> يعرض المُيسِّر 6 عينات نصية قصيرة. تقرر المجموعات: هل كتبها إنسان أم ذكاء اصطناعي؟ مع تبرير القرار. يتناول النقاش الختامي علامات التحذير واستراتيجيات التحقق.</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Key Takeaways', label_ar: 'النقاط الرئيسية',
+        next: null, next_ar: null,
+        eyebrow: 'Module 3 Complete', eyebrow_ar: 'اكتملت الوحدة 3',
+        heading: 'Key Takeaways · M3', heading_ar: 'النقاط الرئيسية · الوحدة 3',
+        html: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">Key Takeaways · M3</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>AI produces outputs, not facts; all responses are statistical constructions. Treat them as a starting point, not a conclusion.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>Confidence is not accuracy. The same tone regardless of correctness. Never use fluency as a proxy for truth.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>Verification is a skill: SIFT, source tracing, and cross-referencing are habits, not occasional checks.</div></div>
+          </div>
+          <div class="complete-banner">
+            <div class="complete-banner-icon">✓</div>
+            <div class="complete-banner-title">Module 3 Complete</div>
+            <div class="complete-banner-sub">Continue to Module 4: Fairness &amp; Harm</div>
+          </div>
+        `,
+        html_ar: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">النقاط الرئيسية · الوحدة 3</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>الذكاء الاصطناعي يُنتج مخرجات لا حقائق؛ كل الردود بناءات إحصائية. تعامل معها كنقطة بداية لا خاتمة.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>الثقة ليست دقة؛ نبرة واحدة بصرف النظر عن الصحة. لا تستخدم الطلاقة مقياساً للحقيقة.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>التحقق مهارة: SIFT وتتبع المصادر والمقارنة المرجعية عادات لا فحوصات عارضة.</div></div>
+          </div>
+          <div class="complete-banner">
+            <div class="complete-banner-icon">✓</div>
+            <div class="complete-banner-title">اكتملت الوحدة 3</div>
+            <div class="complete-banner-sub">تابع إلى الوحدة 4: الإنصاف والضرر</div>
+          </div>
+        `
+      },
+    ]
+  },
+  {
+    code: 'M4', title: 'Fairness &amp; Harm', title_ar: 'الإنصاف والضرر', free: false,
+    sections: [
+      {
+        label: 'Introduction', label_ar: 'المقدمة',
+        next: 'Where Bias Comes From', next_ar: 'مصادر التحيز',
+        eyebrow: 'Module 4 of 6', eyebrow_ar: 'الوحدة 4 من 6',
+        heading: 'Fairness, Bias, and Who Gets Harmed', heading_ar: 'الإنصاف والتحيز ومن يتضرر',
+        html: `
+          <p class="content-para">AI doesn't just reflect the world; it amplifies existing inequalities. This module examines where bias enters AI systems, who gets harmed, and what technical and human responses look like.</p>
+          <div class="callout-box">🎓 <strong>UNESCO Competency: Ethics</strong>: fairness, inclusion, and harm prevention in AI design and deployment.</div>
+        `,
+        html_ar: `
+          <p class="content-para">الذكاء الاصطناعي لا يعكس العالم فحسب، بل يُضخّم التفاوتات القائمة. تفحص هذه الوحدة مصادر التحيز في أنظمة الذكاء الاصطناعي، ومن يتضرر منه، وكيف تبدو الاستجابات التقنية والبشرية.</p>
+          <div class="callout-box">🎓 <strong>كفاءة اليونسكو: الأخلاقيات</strong>: الإنصاف والشمولية ومنع الضرر في تصميم الذكاء الاصطناعي ونشره.</div>
+        `
+      },
+      {
+        label: 'Where Bias Comes From', label_ar: 'مصادر التحيز',
+        next: 'Documented Harms', next_ar: 'أضرار موثّقة',
+        eyebrow: 'Section 1 of 3', eyebrow_ar: 'القسم 1 من 3',
+        heading: 'The Origins of Bias', heading_ar: 'أصول التحيز',
+        html: `
+          <ul class="bullet-list">
+            <li>Training data bias: AI trained on historical data learns historical patterns, including historical discrimination baked into hiring records, legal documents, healthcare databases</li>
+            <li>Design bias: who builds AI shapes what gets solved. AI research is dominated by a narrow demographic; teams that lack diversity miss failure modes affecting people unlike them</li>
+            <li>Feedback loops: biased outputs become inputs to future decisions, causing bias to compound, including predictive policing, hiring algorithms, content moderation</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>تحيز بيانات التدريب: الذكاء الاصطناعي المُدرَّب على بيانات تاريخية يتعلم الأنماط التاريخية، بما فيها التمييز التاريخي المتجذّر في سجلات التوظيف، والوثائق القانونية، وقواعد البيانات الصحية</li>
+            <li>تحيز التصميم: من يبني الذكاء الاصطناعي يحدد ما يُحَل. يهيمن على بحوث الذكاء الاصطناعي تركيبة ديموغرافية ضيقة؛ فرق تفتقر إلى التنوع تُغفل أوجه الفشل التي تطال أشخاصاً مختلفين عنهم</li>
+            <li>حلقات التغذية الراجعة: تصبح المخرجات المتحيزة مدخلات لقرارات مستقبلية، مما يُراكم التحيز، في ذلك الشرطة التنبؤية، وخوارزميات التوظيف، وإدارة المحتوى</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Documented Harms', label_ar: 'أضرار موثّقة',
+        next: 'Responding to Bias', next_ar: 'الاستجابة للتحيز',
+        eyebrow: 'Section 2 of 3', eyebrow_ar: 'القسم 2 من 3',
+        heading: 'Documented Harms', heading_ar: 'أضرار موثّقة',
+        html: `
+          <ul class="bullet-list">
+            <li><strong>Amazon Hiring Tool (2018):</strong> ML model trained on a decade of CVs from a male-dominated workforce systematically downgraded CVs containing the word "women's". Discovered only after years of deployment.</li>
+            <li><strong>COMPAS Recidivism Score:</strong> Algorithm used by US courts to predict re-offending. ProPublica found Black defendants were nearly twice as likely to be falsely flagged as high risk.</li>
+            <li><strong>Facial recognition error rates:</strong> Buolamwini &amp; Gebru (2018): 0.8% error for light-skinned men, 34.7% for dark-skinned women. Deployed in law enforcement before these disparities were documented.</li>
+            <li><strong>The MENA dimension:</strong> Arabic represents under 1% of most large language model training data despite 400+ million speakers; lower accuracy, more hallucination, reduced cultural relevance for Arabic users.</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li><strong>أداة التوظيف في أمازون (2018):</strong> نموذج تعلم الآلة مُدرَّب على عقدٍ من السير الذاتية من بيئة عمل يهيمن عليها الذكور أخفض تلقائياً تقييم السير الذاتية التي تحتوي على كلمة "نساء". اكتُشف ذلك بعد سنوات من النشر.</li>
+            <li><strong>درجة COMPAS للعود الإجرامي:</strong> خوارزمية تستخدمها المحاكم الأمريكية للتنبؤ بالعود إلى الجريمة. وجدت منظمة ProPublica أن المتهمين السود كانوا ضعف احتمالية تصنيفهم خطأً كخطرٍ مرتفع.</li>
+            <li><strong>معدلات خطأ التعرف على الوجه:</strong> بولاميني وجيبرو (2018): 0.8% خطأ للرجال ذوي البشرة الفاتحة، و34.7% للنساء ذوات البشرة الداكنة. نُشرت في إنفاذ القانون قبل توثيق هذه التفاوتات.</li>
+            <li><strong>البُعد الإقليمي:</strong> تمثل اللغة العربية أقل من 1% من بيانات تدريب معظم نماذج اللغة الكبيرة على الرغم من أكثر من 400 مليون متحدث؛ دقة أقل، وهلوسة أكثر، وملاءمة ثقافية أدنى للمستخدمين العرب.</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Responding to Bias', label_ar: 'الاستجابة للتحيز',
+        next: 'Activity', next_ar: 'النشاط',
+        eyebrow: 'Section 3 of 3', eyebrow_ar: 'القسم 3 من 3',
+        heading: 'Technical &amp; Human Responses', heading_ar: 'الاستجابات التقنية والبشرية',
+        html: `
+          <ul class="bullet-list">
+            <li>Technical responses: bias audits before deployment, fairness metrics, diverse training datasets, disaggregated evaluation by demographic group</li>
+            <li>Organisational responses: diverse teams, ethics review boards, red-teaming, deployment documentation</li>
+            <li>Individual responses: demanding explanations for automated decisions, using your right to contest, reporting documented harms</li>
+            <li>Intersectionality: harm concentrates at the intersection of multiple marginalised identities: gender, race, and language compound the effect</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>الاستجابات التقنية: مراجعة التحيز قبل النشر، ومقاييس الإنصاف، وتنويع مجموعات بيانات التدريب، والتقييم المُجزَّأ حسب الفئات الديموغرافية</li>
+            <li>الاستجابات المؤسسية: تنويع الفرق، ولجان مراجعة أخلاقيات، واختبار الاختراق الأحمر، وتوثيق النشر</li>
+            <li>الاستجابات الفردية: المطالبة بتفسيرات للقرارات الآلية، واستخدام حقك في الاعتراض، والإبلاغ عن الأضرار الموثّقة</li>
+            <li>التقاطعية: يتركّز الضرر عند تقاطع هويات مهمَّشة متعددة: الجندر والعرق واللغة تُضاعف الأثر لا تجمعه فحسب</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Activity', label_ar: 'النشاط',
+        next: 'Key Takeaways', next_ar: 'النقاط الرئيسية',
+        eyebrow: 'Module Activity · 15 Minutes', eyebrow_ar: 'نشاط الوحدة · 15 دقيقة',
+        heading: 'Case Study: What Went Wrong?', heading_ar: 'دراسة حالة: أين الخطأ؟',
+        html: `
+          <div class="activity-tag">👥 Small Group · 15 min</div>
+          <ul class="bullet-list">
+            <li><strong>Case Study: What Went Wrong?</strong> Groups analyse a case (municipality AI for housing maintenance prioritisation trained on biased historical data). Answer: what went wrong, who was harmed, what should have been done, and who should be accountable.</li>
+          </ul>
+        `,
+        html_ar: `
+          <div class="activity-tag">👥 مجموعات صغيرة · 15 دقيقة</div>
+          <ul class="bullet-list">
+            <li><strong>دراسة حالة: أين الخطأ؟</strong> تحلل المجموعات حالةً (بلدية استخدمت ذكاءً اصطناعياً لترتيب أولويات صيانة الإسكان مُدرَّباً على بيانات تاريخية متحيزة). الأسئلة: ما الخطأ الذي حدث؟ من تضرر؟ ما الذي كان ينبغي فعله؟ من يجب أن يتحمل المسؤولية؟</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Key Takeaways', label_ar: 'النقاط الرئيسية',
+        next: null, next_ar: null,
+        eyebrow: 'Module 4 Complete', eyebrow_ar: 'اكتملت الوحدة 4',
+        heading: 'Key Takeaways · M4', heading_ar: 'النقاط الرئيسية · الوحدة 4',
+        html: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">Key Takeaways · M4</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>Data is never neutral: training data encodes historical inequality. AI reproduces and scales those patterns unless actively corrected.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>Harm concentrates at intersections: people facing multiple marginalised identities experience compounded AI bias, not just additive effects.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>Accountability requires naming: someone must be responsible for AI decisions that affect people's lives. "The algorithm decided" is not an answer.</div></div>
+          </div>
+          <div class="complete-banner">
+            <div class="complete-banner-icon">✓</div>
+            <div class="complete-banner-title">Module 4 Complete</div>
+            <div class="complete-banner-sub">Continue to Module 5: Responsible Use</div>
+          </div>
+        `,
+        html_ar: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">النقاط الرئيسية · الوحدة 4</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>البيانات ليست محايدة أبداً: تُرمِّز بيانات التدريب التفاوتات التاريخية. يعيد الذكاء الاصطناعي إنتاج هذه الأنماط ويُضخّمها ما لم يُصحَّح بشكل نشط.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>يتركّز الضرر عند التقاطعات: الأشخاص الذين يواجهون هويات مهمَّشة متعددة يعانون من تحيز مُتراكم في الذكاء الاصطناعي، لا مجرد تأثيرات إضافية.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>المساءلة تستلزم التسمية: يجب أن يتحمل شخص ما مسؤولية قرارات الذكاء الاصطناعي التي تؤثر في حياة الناس. "الخوارزمية قررت" ليست إجابة مقبولة.</div></div>
+          </div>
+          <div class="complete-banner">
+            <div class="complete-banner-icon">✓</div>
+            <div class="complete-banner-title">اكتملت الوحدة 4</div>
+            <div class="complete-banner-sub">تابع إلى الوحدة 5: الاستخدام المسؤول</div>
+          </div>
+        `
+      },
+    ]
+  },
+  {
+    code: 'M5', title: 'Responsible Use', title_ar: 'الاستخدام المسؤول', free: false,
+    sections: [
+      {
+        label: 'Introduction', label_ar: 'المقدمة',
+        next: 'Privacy & Consent', next_ar: 'الخصوصية والموافقة',
+        eyebrow: 'Module 5 of 6', eyebrow_ar: 'الوحدة 5 من 6',
+        heading: 'Responsible Use and Digital Citizenship', heading_ar: 'الاستخدام المسؤول والمواطنة الرقمية',
+        html: `
+          <p class="content-para">What it means to use AI well, as an individual and as a citizen. This module covers privacy, your legal rights, and the habits that distinguish responsible AI use from careless reliance.</p>
+          <div class="callout-box">🎓 <strong>UNESCO Competency: Engage with Society</strong>: responsible, civic, and ethical AI participation.</div>
+        `,
+        html_ar: `
+          <p class="content-para">ما معنى استخدام الذكاء الاصطناعي بشكل جيد، كفردٍ ومواطن. تتناول هذه الوحدة الخصوصية وحقوقك القانونية، والعادات التي تُميّز الاستخدام المسؤول عن الاعتماد الأعمى.</p>
+          <div class="callout-box">🎓 <strong>كفاءة اليونسكو: الانخراط المجتمعي</strong>: المشاركة المسؤولة والمدنية والأخلاقية في الذكاء الاصطناعي.</div>
+        `
+      },
+      {
+        label: 'Privacy & Consent', label_ar: 'الخصوصية والموافقة',
+        next: 'Your Rights', next_ar: 'حقوقك',
+        eyebrow: 'Section 1 of 3', eyebrow_ar: 'القسم 1 من 3',
+        heading: 'Privacy and Consent', heading_ar: 'الخصوصية والموافقة',
+        html: `
+          <ul class="bullet-list">
+            <li>What you share with AI tools: direct input (text, files, images, voice) may be used for model training; check each tool's terms of service</li>
+            <li>Sharing others' data: uploading a colleague's report, client email, or patient file to an AI tool shares their data without their consent</li>
+            <li>Disclosure and attribution: when to say "AI helped write this". Academic institutions, workplaces, and publishers are setting different standards</li>
+            <li>Intellectual property: in most jurisdictions, substantially shaped and edited AI output may hold copyright for the human editor; AI itself cannot</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>ما تشاركه مع أدوات الذكاء الاصطناعي: قد تُستخدَم المدخلات المباشرة (نص، ملفات، صور، صوت) في تدريب النماذج؛ تحقق من شروط الخدمة لكل أداة</li>
+            <li>مشاركة بيانات الآخرين: رفع تقرير زميل أو بريد إلكتروني لعميل أو ملف مريض إلى أداة ذكاء اصطناعي يعني مشاركة بياناتهم دون موافقتهم</li>
+            <li>الإفصاح والإسناد: متى تقول "الذكاء الاصطناعي ساعد في كتابة هذا". المؤسسات الأكاديمية وأماكن العمل والناشرون يضعون معايير متفاوتة</li>
+            <li>الملكية الفكرية: في معظم الولايات القضائية، قد يحمل المحتوى المُشكَّل والمُحرَّر بشكل جوهري من مخرجات الذكاء الاصطناعي حقوق نشر للمحرر البشري؛ أما الذكاء الاصطناعي نفسه فلا يمكنه ذلك</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Your Rights', label_ar: 'حقوقك',
+        next: 'Healthy Habits', next_ar: 'عادات صحية',
+        eyebrow: 'Section 2 of 3', eyebrow_ar: 'القسم 2 من 3',
+        heading: 'Your Rights as an AI-Affected Person', heading_ar: 'حقوقك كشخص متأثر بالذكاء الاصطناعي',
+        html: `
+          <ul class="bullet-list">
+            <li>Right to explanation: automated decisions with significant effects must be explainable on request (GDPR Art. 22; EU AI Act)</li>
+            <li>Right to contest: individuals can challenge automated decisions that affect them, including loan refusals, content moderation, insurance outcomes</li>
+            <li>Right to redress: where AI causes documented harm, there are emerging legal pathways, and growing regulatory pressure for them to work</li>
+            <li>Saudi PDPL and MENA context: personal data rights and AI accountability obligations applicable to the region</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>الحق في الشرح: القرارات الآلية ذات الأثر الجوهري يجب أن تكون قابلة للتفسير عند الطلب (المادة 22 من اللائحة الأوروبية GDPR؛ قانون الذكاء الاصطناعي الأوروبي)</li>
+            <li>الحق في الاعتراض: يمكن للأفراد الطعن في القرارات الآلية التي تمسّهم، منها رفض القروض وإدارة المحتوى ونتائج التأمين</li>
+            <li>الحق في الانتصاف: حيثما يتسبب الذكاء الاصطناعي في ضرر موثّق، ثمة مسارات قانونية ناشئة، وضغط تنظيمي متزايد لإنجاحها</li>
+            <li>نظام حماية البيانات الشخصية السعودي (PDPL) والسياق الإقليمي: حقوق البيانات الشخصية والتزامات المساءلة المطبَّقة في المنطقة</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Healthy Habits', label_ar: 'عادات صحية',
+        next: 'Activity', next_ar: 'النشاط',
+        eyebrow: 'Section 3 of 3', eyebrow_ar: 'القسم 3 من 3',
+        heading: 'Healthy AI Habits', heading_ar: 'عادات صحية في استخدام الذكاء الاصطناعي',
+        html: `
+          <ul class="bullet-list">
+            <li>Automation bias: the tendency to trust automated systems even when wrong; documented in aviation, medicine, and everyday decision-making</li>
+            <li>Skill atrophy: over-relying on AI for writing, analysis, or navigation may reduce your ability to perform those tasks independently</li>
+            <li>The responsible AI user checklist: verify before sharing, avoid uploading sensitive third-party data, disclose AI assistance when expected, maintain your own judgement as the final check</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>التحيز نحو الأتمتة: الميل إلى الوثوق بالأنظمة الآلية حتى حين تكون مخطئة؛ موثّق في الطيران والطب وصنع القرار اليومي</li>
+            <li>ضمور المهارات: الإفراط في الاعتماد على الذكاء الاصطناعي في الكتابة أو التحليل أو التنقل قد يُضعف قدرتك على أداء هذه المهام باستقلالية</li>
+            <li>قائمة مراجعة مستخدم الذكاء الاصطناعي المسؤول: تحقق قبل المشاركة، وتجنب رفع بيانات حساسة لطرف ثالث، وأفصح عن مساعدة الذكاء الاصطناعي حين يُتوقع ذلك، واحتفظ بحكمك الشخصي كالفيصل الأخير</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Activity', label_ar: 'النشاط',
+        next: 'Key Takeaways', next_ar: 'النقاط الرئيسية',
+        eyebrow: 'Module Activity · 5 Minutes', eyebrow_ar: 'نشاط الوحدة · 5 دقائق',
+        heading: 'Audit Your AI Habits', heading_ar: 'راجع عاداتك مع الذكاء الاصطناعي',
+        html: `
+          <div class="activity-tag">✍️ Individual Reflection · 5 min</div>
+          <ul class="bullet-list">
+            <li><strong>Audit Your AI Habits:</strong> A personal inventory covering data practices, disclosure habits, verification frequency, and dependency awareness. Not shared; it is a starting point for self-directed improvement.</li>
+          </ul>
+        `,
+        html_ar: `
+          <div class="activity-tag">✍️ تأمل فردي · 5 دقائق</div>
+          <ul class="bullet-list">
+            <li><strong>راجع عاداتك مع الذكاء الاصطناعي:</strong> جرد شخصي يغطي ممارسات البيانات، وعادات الإفصاح، وتكرار التحقق، والوعي بالاعتمادية. غير مشترك؛ نقطة انطلاق للتطوير الذاتي.</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Key Takeaways', label_ar: 'النقاط الرئيسية',
+        next: null, next_ar: null,
+        eyebrow: 'Module 5 Complete', eyebrow_ar: 'اكتملت الوحدة 5',
+        heading: 'Key Takeaways · M5', heading_ar: 'النقاط الرئيسية · الوحدة 5',
+        html: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">Key Takeaways · M5</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>You share more than you realise: every AI interaction involves data exchange. Knowing what you share is the first step to using AI safely.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>Disclosure is increasingly expected: transparency about AI assistance is becoming the professional and academic standard.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>Your rights exist, but only if you know them. Explanation, contest, and redress are actionable rights, not abstract ideals.</div></div>
+          </div>
+          <div class="complete-banner">
+            <div class="complete-banner-icon">✓</div>
+            <div class="complete-banner-title">Module 5 Complete</div>
+            <div class="complete-banner-sub">Continue to Module 6: Your Learning Journey</div>
+          </div>
+        `,
+        html_ar: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">النقاط الرئيسية · الوحدة 5</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>أنت تشارك أكثر مما تدرك: كل تفاعل مع الذكاء الاصطناعي ينطوي على تبادل بيانات. معرفة ما تشاركه هي الخطوة الأولى نحو الاستخدام الآمن.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>الإفصاح بات متوقعاً بشكل متزايد: الشفافية بشأن مساعدة الذكاء الاصطناعي تتحول إلى المعيار المهني والأكاديمي.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>حقوقك موجودة، لكن فقط إذا عرفتها. الشرح والاعتراض والانتصاف حقوق قابلة للتطبيق، لا مُثُل مجردة.</div></div>
+          </div>
+          <div class="complete-banner">
+            <div class="complete-banner-icon">✓</div>
+            <div class="complete-banner-title">اكتملت الوحدة 5</div>
+            <div class="complete-banner-sub">تابع إلى الوحدة 6: مسيرة تعلمك</div>
+          </div>
+        `
+      },
+    ]
+  },
+  {
+    code: 'M6', title: 'Your Learning Journey', title_ar: 'مسيرة تعلمك', free: false,
+    sections: [
+      {
+        label: 'Introduction', label_ar: 'المقدمة',
+        next: 'Six Domains', next_ar: 'المجالات الستة',
+        eyebrow: 'Module 6 of 6', eyebrow_ar: 'الوحدة 6 من 6',
+        heading: 'Your AI Learning Journey', heading_ar: 'مسيرة تعلمك في الذكاء الاصطناعي',
+        html: `
+          <p class="content-para">Where you are now, and the path forward. This final module introduces the AI Literacy Assessment framework and maps how each domain connects to courses in the broader portfolio.</p>
+          <div class="callout-box">🎓 <strong>UNESCO Competency: Apply, Create, and Engage</strong>: integrating AI literacy into ongoing practice and continued learning.</div>
+        `,
+        html_ar: `
+          <p class="content-para">أين أنت الآن، وما المسار إلى الأمام. تُقدّم هذه الوحدة الأخيرة إطار تقييم الإلمام بالذكاء الاصطناعي، وترسم كيف يتصل كل مجال بالدورات في الحقيبة التعليمية الأشمل.</p>
+          <div class="callout-box">🎓 <strong>كفاءة اليونسكو: التطبيق والإنشاء والانخراط</strong>: دمج الإلمام بالذكاء الاصطناعي في الممارسة المستمرة والتعلم المتواصل.</div>
+        `
+      },
+      {
+        label: 'Six Domains', label_ar: 'المجالات الستة',
+        next: 'Reading Your Scores', next_ar: 'قراءة درجاتك',
+        eyebrow: 'Section 1 of 3', eyebrow_ar: 'القسم 1 من 3',
+        heading: 'The AI Literacy Assessment: Six Domains', heading_ar: 'تقييم الإلمام بالذكاء الاصطناعي: المجالات الستة',
+        html: `
+          <ul class="bullet-list">
+            <li><strong>AI Foundations:</strong> Core concepts, terminology, how AI systems work; directly addressed by M1 of this course</li>
+            <li><strong>Ethics &amp; Fairness:</strong> Bias, discrimination, harm, and fairness in AI systems; addressed by M4</li>
+            <li><strong>Critical Evaluation:</strong> Evaluating AI outputs, spotting hallucination, verifying claims; addressed by M3</li>
+            <li><strong>Privacy &amp; Data:</strong> Data rights, consent, privacy in AI interactions; addressed by M5</li>
+            <li><strong>Governance &amp; Policy:</strong> Regulatory frameworks, accountability, oversight; touched in M4 and M5</li>
+            <li><strong>Practical Application:</strong> Using AI tools effectively and responsibly, woven throughout all modules</li>
+          </ul>
+          <span class="unesco-badge">🎓 UNESCO Competency: Apply, Create, and Engage: integrating literacy into action</span>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li><strong>أساسيات الذكاء الاصطناعي:</strong> المفاهيم الجوهرية والمصطلحات وكيفية عمل الأنظمة؛ تُعالجها مباشرةً الوحدة 1 من هذه الدورة</li>
+            <li><strong>الأخلاقيات والإنصاف:</strong> التحيز والتمييز والضرر والإنصاف في أنظمة الذكاء الاصطناعي؛ تُعالجها الوحدة 4</li>
+            <li><strong>التقييم النقدي:</strong> تقييم مخرجات الذكاء الاصطناعي، وكشف الهلوسة، والتحقق من المزاعم؛ تُعالجها الوحدة 3</li>
+            <li><strong>الخصوصية والبيانات:</strong> حقوق البيانات، والموافقة، والخصوصية في تفاعلات الذكاء الاصطناعي؛ تُعالجها الوحدة 5</li>
+            <li><strong>الحوكمة والسياسات:</strong> الأطر التنظيمية، والمساءلة، والرقابة؛ تُلمَس في الوحدتين 4 و5</li>
+            <li><strong>التطبيق العملي:</strong> استخدام أدوات الذكاء الاصطناعي بفعالية ومسؤولية؛ منسوج في جميع الوحدات</li>
+          </ul>
+          <span class="unesco-badge">🎓 كفاءة اليونسكو: التطبيق والإنشاء والانخراط: ترجمة الإلمام إلى عمل</span>
+        `
+      },
+      {
+        label: 'Reading Your Scores', label_ar: 'قراءة درجاتك',
+        next: 'Free Resources', next_ar: 'موارد مجانية',
+        eyebrow: 'Section 2 of 3', eyebrow_ar: 'القسم 2 من 3',
+        heading: 'Reading Your Domain Scores', heading_ar: 'كيف تقرأ درجاتك في المجالات',
+        html: `
+          <ul class="bullet-list">
+            <li>Low in AI Foundations: continue with this course, then Foundations of AI</li>
+            <li>Low in Ethics &amp; Fairness: Responsible AI for Everyone goes deeper</li>
+            <li>Low in Governance &amp; Policy: AI Governance Foundations is the next step</li>
+            <li>Low in Practical Application: Everyday AI and Introduction to GenAI Tools are direct next steps</li>
+            <li>AI literacy is a living skill. UNESCO defines it as an "evolving competency." One course is a beginning, not a destination.</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li>ضعف في أساسيات الذكاء الاصطناعي: تابع هذه الدورة، ثم أساسيات الذكاء الاصطناعي</li>
+            <li>ضعف في الأخلاقيات والإنصاف: الذكاء الاصطناعي المسؤول للجميع يتعمق أكثر</li>
+            <li>ضعف في الحوكمة والسياسات: أساسيات حوكمة الذكاء الاصطناعي هو الخطوة التالية</li>
+            <li>ضعف في التطبيق العملي: الذكاء الاصطناعي في الحياة اليومية وأدوات الذكاء الاصطناعي التوليدي خطوات مباشرة</li>
+            <li>الإلمام بالذكاء الاصطناعي مهارة حية؛ تُعرّفه اليونسكو بأنه "كفاءة متطورة". الدورة الواحدة بداية لا غاية.</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Free Resources', label_ar: 'موارد مجانية',
+        next: 'Activity', next_ar: 'النشاط',
+        eyebrow: 'Section 3 of 3', eyebrow_ar: 'القسم 3 من 3',
+        heading: 'Free Resources You Can Use Right Now', heading_ar: 'موارد مجانية يمكنك استخدامها الآن',
+        html: `
+          <ul class="bullet-list">
+            <li><strong>AI Literacy Assessment:</strong> free, bilingual (EN/AR), open results, no sign-up; take it as a pre-course baseline and again after to measure growth</li>
+            <li><strong>AI Readiness Checklist:</strong> 7-dimension organisational assessment, for teams and decision-makers</li>
+            <li><strong>AI Risk Scorecard:</strong> 8 weighted dimensions for risk evaluation, for risk officers and compliance teams</li>
+            <li>All tools available at <em>abbasmahdi-ai.github.io</em>: free, browser-based, no account required</li>
+          </ul>
+        `,
+        html_ar: `
+          <ul class="bullet-list">
+            <li><strong>تقييم الإلمام بالذكاء الاصطناعي:</strong> مجاني، ثنائي اللغة (عربي/إنجليزي)، نتائج مفتوحة، لا تسجيل مطلوب؛ خذه كخط أساس قبل الدورة ومرة أخرى بعدها لقياس النمو</li>
+            <li><strong>قائمة التحقق من الجاهزية للذكاء الاصطناعي:</strong> تقييم مؤسسي بسبعة محاور، للفرق وصانعي القرار</li>
+            <li><strong>بطاقة تقييم مخاطر الذكاء الاصطناعي:</strong> ثمانية محاور مرجّحة لتقييم المخاطر، لمسؤولي المخاطر وفرق الامتثال</li>
+            <li>جميع الأدوات متاحة على <em>abbasmahdi-ai.github.io</em>: مجانية، تعمل في المتصفح، لا حساب مطلوب</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Activity', label_ar: 'النشاط',
+        next: 'Key Takeaways', next_ar: 'النقاط الرئيسية',
+        eyebrow: 'Module Activity · 6 Minutes', eyebrow_ar: 'نشاط الوحدة · 6 دقائق',
+        heading: 'Build Your Personal AI Learning Plan', heading_ar: 'ابنِ خطتك الشخصية لتعلم الذكاء الاصطناعي',
+        html: `
+          <div class="activity-tag">✍️ Individual + Partner Share · 6 min</div>
+          <ul class="bullet-list">
+            <li><strong>Build Your Personal AI Learning Plan:</strong> One key insight from the course. One thing you will do differently. Your single most important next step, shared with a partner for accountability.</li>
+          </ul>
+        `,
+        html_ar: `
+          <div class="activity-tag">✍️ فردي + مشاركة مع شريك · 6 دقائق</div>
+          <ul class="bullet-list">
+            <li><strong>ابنِ خطتك الشخصية لتعلم الذكاء الاصطناعي:</strong> رؤية رئيسية واحدة من الدورة. شيء واحد ستفعله بشكل مختلف. خطوتك الأهم التالية، تُشارَك مع زميل لتعزيز الالتزام.</li>
+          </ul>
+        `
+      },
+      {
+        label: 'Key Takeaways', label_ar: 'النقاط الرئيسية',
+        next: null, next_ar: null,
+        eyebrow: 'Course Complete', eyebrow_ar: 'اكتملت الدورة',
+        heading: 'Key Takeaways · M6', heading_ar: 'النقاط الرئيسية · الوحدة 6',
+        html: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">Key Takeaways · M6</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>The AI Literacy Assessment maps where you are; six domains, pre and post scores track real growth, not just completion.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>Domain scores are direction signs; a low score tells you exactly where to go next in the portfolio.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>The question that matters most is not "How do I use AI?" but rather "How do I use AI well?" Literacy is the skill that makes the difference.</div></div>
+          </div>
+          <div style="margin-top:2.5rem">
+            <div class="sec-eyebrow" style="margin-bottom:.5rem">Flexible Delivery</div>
+            <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:.4rem;color:var(--text)">Delivery Formats</h2>
+            <p class="content-para" style="margin-bottom:1rem">This course is designed to flex around your team's context, from a single all-staff day to a licensed curriculum for your L&amp;D team.</p>
+            <div class="delivery-grid">
+              <div class="delivery-card"><div class="delivery-icon">🏢</div><div class="delivery-title">Half-Day Workshop</div><div class="delivery-meta">4–6 hours · All 6 modules · Live facilitation</div><div class="delivery-desc">A single intensive session covering all six modules with live facilitation, group activities, and debrief.</div><span class="delivery-best">Best for: Corporate all-staff · Community groups</span></div>
+              <div class="delivery-card"><div class="delivery-icon">📅</div><div class="delivery-title">Modular Delivery</div><div class="delivery-meta">2–3 sessions · 1.5–2 hrs each</div><div class="delivery-desc">Course split into focused sessions, allowing reflection time between modules and better retention.</div><span class="delivery-best">Best for: Educational institutions · Part-time learners</span></div>
+              <div class="delivery-card"><div class="delivery-icon">💻</div><div class="delivery-title">Blended Format</div><div class="delivery-meta">Self-study pre-reading + live sessions</div><div class="delivery-desc">Learners complete reading and the AI Literacy Assessment independently, then join live sessions for discussion.</div><span class="delivery-best">Best for: Distributed teams · Low-bandwidth contexts</span></div>
+              <div class="delivery-card"><div class="delivery-icon">📦</div><div class="delivery-title">Licensed Content</div><div class="delivery-meta">Materials for independent delivery</div><div class="delivery-desc">Full course materials licensed for delivery by your own L&amp;D team or a certified trainer.</div><span class="delivery-best">Best for: Training centres · NGOs at scale</span></div>
+            </div>
+          </div>
+          <div style="margin-top:2rem">
+            <div class="sec-eyebrow" style="margin-bottom:.5rem">Where does this course lead?</div>
+            <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:.4rem;color:var(--text)">Pathway Connections</h2>
+            <p class="content-para" style="margin-bottom:1rem">Every course below follows directly from this course; choose by what your learners need most.</p>
+            <div class="pathway-grid">
+              <div class="pathway-card"><div class="pathway-title">Foundations of AI</div><div class="pathway-desc">Build a fuller technical and business AI foundation</div></div>
+              <div class="pathway-card"><div class="pathway-title">Responsible AI for Everyone</div><div class="pathway-desc">Go deeper on ethics, values, and AI citizenship</div></div>
+              <div class="pathway-card"><div class="pathway-title">Everyday AI</div><div class="pathway-desc">Apply AI to daily tasks and personal productivity</div></div>
+              <div class="pathway-card"><div class="pathway-title">Introduction to GenAI Tools</div><div class="pathway-desc">Confidently use ChatGPT, Claude, Gemini, and others</div></div>
+              <div class="pathway-card"><div class="pathway-title">Prompting Essentials</div><div class="pathway-desc">Get better results from AI language models</div></div>
+              <div class="pathway-card"><div class="pathway-title">AI Governance Foundations</div><div class="pathway-desc">Begin the governance and policy track</div></div>
+            </div>
+          </div>
+          <div class="trainer-card">
+            <img src="../../profile-pfp-1.png" alt="Abbas Al Mahdi" class="trainer-photo"/>
+            <div>
+              <div class="trainer-name">Abbas Al Mahdi</div>
+              <div class="trainer-title">AI Consultant, Advisor &amp; Educator · Saudi Arabia</div>
+              <p class="trainer-bio">Co-author of a forthcoming MIT AI Risk Prioritization Study. Credentials from Oxford, Stanford, and CAIE. Author of a 1,001-term bilingual Arabic/English AI Glossary. Analyzed 3,000+ AI use cases. This course was built to give every learner, regardless of technical background or language, a confident, grounded entry point into responsible AI.</p>
+              <div class="trainer-creds">
+                <span class="trainer-cred">📊 MIT AI Risk Initiative</span>
+                <span class="trainer-cred">🎓 Oxford AI Ethics</span>
+                <span class="trainer-cred">🎓 Stanford HAI</span>
+                <span class="trainer-cred">🌐 English &amp; Arabic Delivery</span>
+              </div>
+            </div>
+          </div>
+          <div class="cta-block">
+            <div class="cta-block-title">Ready to bring this course to your team?</div>
+            <div class="cta-block-sub">Available as a half-day workshop, modular series, blended programme, or licensed curriculum. Arabic delivery available. MENA-region context applied throughout.</div>
+            <div class="cta-block-actions">
+              <a href="https://calendly.com/abbasmahdi-ai/consultation-request" target="_blank" class="btn-gold">📅 Book a Consultation</a>
+              <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="btn-ghost-white">Connect on LinkedIn</a>
+            </div>
+          </div>
+        `,
+        html_ar: `
+          <div class="takeaway-box">
+            <div class="takeaway-box-title">النقاط الرئيسية · الوحدة 6</div>
+            <div class="takeaway-item"><div class="takeaway-num">1</div><div>يُحدّد تقييم الإلمام بالذكاء الاصطناعي مكانتك؛ ستة مجالات، والدرجات قبل وبعد تتتبع النمو الحقيقي لا مجرد الاكتمال.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">2</div><div>درجات المجالات علامات توجيهية؛ الدرجة المنخفضة تخبرك بالضبط إلى أين تتجه في مسيرة التعلم.</div></div>
+            <div class="takeaway-item"><div class="takeaway-num">3</div><div>السؤال الأهم ليس "كيف أستخدم الذكاء الاصطناعي؟"؛ بل "كيف أستخدمه بشكل جيد؟" الإلمام هو المهارة التي تصنع الفرق.</div></div>
+          </div>
+          <div style="margin-top:2.5rem">
+            <div class="sec-eyebrow" style="margin-bottom:.5rem">طرق التقديم المرنة</div>
+            <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:.4rem;color:var(--text)">أساليب التقديم</h2>
+            <p class="content-para" style="margin-bottom:1rem">صُمِّمت هذه الدورة لتتكيف مع سياق فريقك، من يوم مكثف للموظفين إلى منهج مرخَّص لفريق التعلم والتطوير لديك.</p>
+            <div class="delivery-grid">
+              <div class="delivery-card"><div class="delivery-icon">🏢</div><div class="delivery-title">ورشة نصف يوم</div><div class="delivery-meta">4–6 ساعات · جميع الوحدات الست · تيسير مباشر</div><div class="delivery-desc">جلسة مكثفة واحدة تغطي الوحدات الست كاملةً مع تيسير مباشر وأنشطة جماعية ونقاشات ختامية.</div><span class="delivery-best">الأنسب لـ: الشركات · المجموعات المجتمعية</span></div>
+              <div class="delivery-card"><div class="delivery-icon">📅</div><div class="delivery-title">التقديم المتدرج</div><div class="delivery-meta">2–3 جلسات · 1.5–2 ساعة لكل منها</div><div class="delivery-desc">تُقسَّم الدورة إلى جلسات تركيزية تتيح وقتاً للتأمل بين الوحدات وتُعزّز الاستيعاب.</div><span class="delivery-best">الأنسب لـ: المؤسسات التعليمية · المتعلمين بدوام جزئي</span></div>
+              <div class="delivery-card"><div class="delivery-icon">💻</div><div class="delivery-title">التنسيق المدمج</div><div class="delivery-meta">دراسة ذاتية مسبقة + جلسات مباشرة</div><div class="delivery-desc">يكمل المتعلمون القراءة وتقييم الإلمام بصورة مستقلة، ثم يلتحقون بالجلسات المباشرة للنقاش.</div><span class="delivery-best">الأنسب لـ: الفرق الموزعة · البيئات محدودة الاتصال</span></div>
+              <div class="delivery-card"><div class="delivery-icon">📦</div><div class="delivery-title">المحتوى المرخَّص</div><div class="delivery-meta">مواد للتقديم المستقل</div><div class="delivery-desc">مواد الدورة كاملةً مرخَّصة للتقديم من قِبل فريق التعلم والتطوير أو مدرب معتمد.</div><span class="delivery-best">الأنسب لـ: مراكز التدريب · المنظمات غير الربحية على نطاق واسع</span></div>
+            </div>
+          </div>
+          <div style="margin-top:2rem">
+            <div class="sec-eyebrow" style="margin-bottom:.5rem">إلى أين تؤدي هذه الدورة؟</div>
+            <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:.4rem;color:var(--text)">مسارات الاستمرار</h2>
+            <p class="content-para" style="margin-bottom:1rem">كل دورة أدناه تتبع مباشرةً من هذه الدورة؛ اختر وفق ما يحتاجه متعلموك أكثر.</p>
+            <div class="pathway-grid">
+              <div class="pathway-card"><div class="pathway-title">أساسيات الذكاء الاصطناعي</div><div class="pathway-desc">ابنِ أساساً تقنياً وتجارياً أشمل للذكاء الاصطناعي</div></div>
+              <div class="pathway-card"><div class="pathway-title">الذكاء الاصطناعي المسؤول للجميع</div><div class="pathway-desc">تعمّق في الأخلاقيات والقيم والمواطنة في عصر الذكاء الاصطناعي</div></div>
+              <div class="pathway-card"><div class="pathway-title">الذكاء الاصطناعي في حياتك اليومية</div><div class="pathway-desc">طبّق الذكاء الاصطناعي على المهام اليومية والإنتاجية الشخصية</div></div>
+              <div class="pathway-card"><div class="pathway-title">مقدمة إلى أدوات الذكاء الاصطناعي التوليدي</div><div class="pathway-desc">استخدم ChatGPT وClaude وGemini وغيرها بثقة</div></div>
+              <div class="pathway-card"><div class="pathway-title">أساسيات الأوامر (Prompting)</div><div class="pathway-desc">احصل على نتائج أفضل من نماذج اللغة</div></div>
+              <div class="pathway-card"><div class="pathway-title">أساسيات حوكمة الذكاء الاصطناعي</div><div class="pathway-desc">ابدأ مسار الحوكمة والسياسات</div></div>
+            </div>
+          </div>
+          <div class="trainer-card">
+            <img src="../../profile-pfp-1.png" alt="عباس المهدي" class="trainer-photo"/>
+            <div>
+              <div class="trainer-name">عباس المهدي</div>
+              <div class="trainer-title">مستشار ومحلل ومُعلِّم في الذكاء الاصطناعي · المملكة العربية السعودية</div>
+              <p class="trainer-bio">شارك في تأليف دراسة MIT لترتيب أولويات مخاطر الذكاء الاصطناعي (قيد النشر). حاصل على شهادات من أكسفورد وستانفورد وCAIE. مؤلف معجم ثنائي اللغة (عربي/إنجليزي) يضم 1,001 مصطلحاً في الذكاء الاصطناعي. حلّل أكثر من 3,000 حالة استخدام. بُنيت هذه الدورة لتمنح كل متعلم، بصرف النظر عن خلفيته التقنية أو لغته، نقطة دخول واثقة ورصينة إلى الذكاء الاصطناعي المسؤول.</p>
+              <div class="trainer-creds">
+                <span class="trainer-cred">📊 مبادرة MIT لمخاطر الذكاء الاصطناعي</span>
+                <span class="trainer-cred">🎓 أكسفورد - أخلاقيات الذكاء الاصطناعي</span>
+                <span class="trainer-cred">🎓 ستانفورد HAI</span>
+                <span class="trainer-cred">🌐 التقديم باللغتين العربية والإنجليزية</span>
+              </div>
+            </div>
+          </div>
+          <div class="cta-block">
+            <div class="cta-block-title">هل أنت مستعد لإطلاق هذه الدورة لفريقك؟</div>
+            <div class="cta-block-sub">متاح كورشة نصف يوم، أو سلسلة وحدات متدرجة، أو برنامج مدمج، أو منهج مرخَّص. التقديم باللغة العربية متاح. يُطبَّق السياق الإقليمي لمنطقة الشرق الأوسط وشمال أفريقيا في كامل المحتوى.</div>
+            <div class="cta-block-actions">
+              <a href="https://calendly.com/abbasmahdi-ai/consultation-request" target="_blank" class="btn-gold">📅 احجز استشارة</a>
+              <a href="https://www.linkedin.com/in/abbas-al-mahdi/" target="_blank" class="btn-ghost-white">تواصل على LinkedIn</a>
+            </div>
+          </div>
+        `
+      },
+    ]
+  },
+];
+
+// ── UI strings (bilingual) ────────────────────────────────────────────────────
+const UI = {
+  en: {
+    brand:       'Foundation Course',
+    courseTitle: 'AI Literacy Foundations',
+    backLink:    '← Toolkit',
+    topbarBack:  '← Toolkit',
+    pctComplete: p => `${p}% COMPLETE`,
+    secOf:       (a, b) => `Section ${a} of ${b}`,
+    upNext:      s => `Up next: <strong>${s}</strong>`,
+    btnContinue: 'CONTINUE',
+    btnNextMod:  'NEXT MODULE →',
+    btnDone:     'COURSE COMPLETE ✓',
+    gateTitle:   'Unlock Modules 2–6',
+    gateSub:     'Enter your email to access the full course: five more modules, activities, delivery formats, and your personalised learning path.',
+    gatePills:   ['M2 · AI in Your World','M3 · Understanding Outputs','M4 · Fairness &amp; Harm','M5 · Responsible Use','M6 · Learning Journey'],
+    namePh:      'Your name',
+    emailPh:     'Your email',
+    btnUnlock:   'Unlock Full Course →',
+    gateNote:    'No account required. Your email lets Abbas follow up with resources relevant to your context.',
+    unlocking:   'Unlocking...',
+    unlocked:    '✓ Unlocked! Loading your course...',
+  },
+  ar: {
+    brand:       'دورة تأسيسية',
+    courseTitle: 'أساسيات الإلمام بالذكاء الاصطناعي',
+    backLink:    'الأدوات →',
+    topbarBack:  'الأدوات →',
+    pctComplete: p => `${p}٪ مكتمل`,
+    secOf:       (a, b) => `القسم ${a} من ${b}`,
+    upNext:      s => `التالي: <strong>${s}</strong>`,
+    btnContinue: 'متابعة',
+    btnNextMod:  'الوحدة التالية →',
+    btnDone:     'اكتملت الدورة ✓',
+    gateTitle:   'افتح الوحدات من 2 إلى 6',
+    gateSub:     'أدخل بريدك الإلكتروني للوصول إلى الدورة الكاملة: خمس وحدات إضافية، وأنشطة، وأساليب تقديم، ومسار تعلم مخصص لك.',
+    gatePills:   ['M2 · الذكاء الاصطناعي في حياتك','M3 · فهم المخرجات','M4 · الإنصاف والضرر','M5 · الاستخدام المسؤول','M6 · مسيرة التعلم'],
+    namePh:      'اسمك',
+    emailPh:     'بريدك الإلكتروني',
+    btnUnlock:   'افتح الدورة الكاملة →',
+    gateNote:    'لا حاجة لإنشاء حساب. بريدك الإلكتروني يتيح لعباس متابعتك بموارد تناسب سياقك.',
+    unlocking:   'جارٍ الفتح...',
+    unlocked:    '✓ تم الفتح! جارٍ تحميل الدورة...',
+  }
+};
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let unlocked = sessionStorage.getItem('f01-unlocked') === '1';
+let activeMod = 0;
+let activeSec = 0;
+const done = {};
+const TOTAL_SECS = MODULES.reduce((a, m) => a + m.sections.length, 0);
+let lang = localStorage.getItem('rai-lang') || 'en';
+
+// ── Lang / Theme ──────────────────────────────────────────────────────────────
+function updateStaticUI() {
+  const u = UI[lang];
+  document.getElementById('sidebar-brand-txt').textContent  = u.brand;
+  document.getElementById('sidebar-course-txt').textContent = u.courseTitle;
+  document.getElementById('back-link').textContent          = u.backLink;
+  document.getElementById('topbar-back-btn').textContent    = u.topbarBack;
+  document.getElementById('gate-title').textContent         = u.gateTitle;
+  document.getElementById('gate-sub').textContent           = u.gateSub;
+  document.getElementById('gate-pills').innerHTML           = u.gatePills.map(p => `<span class="gate-mod-pill">${p}</span>`).join('');
+  document.getElementById('gate-name').placeholder          = u.namePh;
+  document.getElementById('gate-email').placeholder         = u.emailPh;
+  document.getElementById('btn-unlock').textContent         = u.btnUnlock;
+  document.getElementById('gate-note').textContent          = u.gateNote;
+}
+function toggleLang() {
+  lang = lang === 'en' ? 'ar' : 'en';
+  localStorage.setItem('rai-lang', lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir  = lang === 'ar' ? 'rtl' : 'ltr';
+  document.getElementById('rai-lang').textContent = lang === 'ar' ? 'EN' : 'AR';
+  updateStaticUI();
+  render();
+}
+function toggleTheme() {
+  const el = document.documentElement;
+  const t  = el.dataset.theme === 'light' ? 'dark' : 'light';
+  el.dataset.theme = t;
+  localStorage.setItem('rai-theme', t);
+  document.getElementById('rai-thm').textContent = t === 'dark' ? '☀' : '☾';
+}
+
+// ── Sidebar toggle (mobile) ───────────────────────────────────────────────────
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-backdrop').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.remove('show');
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function render() {
+  renderSidebar();
+  renderProgress();
+  renderContent();
+  renderActionBar();
+  renderTopbar();
+  renderOverallProgress();
+}
+
+function renderSidebar() {
+  document.getElementById('sidebar-nav').innerHTML = MODULES.map((m, i) => {
+    const isActive = i === activeMod;
+    const isLocked = !m.free && !unlocked;
+    const isDone   = done[i] && done[i].size === m.sections.length;
+    let cls = 'sidebar-module';
+    if (isActive) cls += ' active';
+    if (isLocked) cls += ' locked';
+    if (isDone)   cls += ' completed';
+    const title = lang === 'ar' ? (m.title_ar || m.title) : m.title;
+    return `<div class="${cls}" onclick="clickModule(${i})" role="button" tabindex="0">
+      <div class="sm-indicator">${isDone ? '✓' : ''}</div>
+      <div class="sm-info">
+        <div class="sm-code">${m.code}</div>
+        <div class="sm-title">${title}</div>
+      </div>
+      ${isLocked ? '<span class="sm-lock">🔒</span>' : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderProgress() {
+  const secs = MODULES[activeMod].sections;
+  document.getElementById('sec-progress').innerHTML =
+    secs.map((s, i) => {
+      let cls = 'sp-dot';
+      if (done[activeMod] && done[activeMod].has(i)) cls += ' done';
+      else if (i === activeSec) cls += ' active';
+      const lbl = lang === 'ar' ? (s.label_ar || s.label) : s.label;
+      return `<div class="${cls}" title="${lbl}" onclick="jumpSec(${i})"></div>`;
+    }).join('') +
+    `<span class="sp-label">${activeSec + 1} / ${secs.length} — ${lang === 'ar' ? (secs[activeSec].label_ar || secs[activeSec].label) : secs[activeSec].label}</span>`;
+}
+
+function renderContent() {
+  const sec  = MODULES[activeMod].sections[activeSec];
+  const area = document.getElementById('content-area');
+  area.className = 'content-inner fade-up';
+  void area.offsetWidth;
+  const eyebrow = lang === 'ar' ? (sec.eyebrow_ar || sec.eyebrow) : sec.eyebrow;
+  const heading = lang === 'ar' ? (sec.heading_ar || sec.heading) : sec.heading;
+  const html    = lang === 'ar' ? (sec.html_ar    || sec.html)    : sec.html;
+  area.innerHTML = `
+    <div class="sec-eyebrow">${eyebrow}</div>
+    <h1 class="sec-heading">${heading}</h1>
+    <div class="sec-divider"></div>
+    ${html}
+  `;
+  document.getElementById('content-scroll').scrollTop = 0;
+}
+
+function renderActionBar() {
+  const mod = MODULES[activeMod];
+  const sec = mod.sections[activeSec];
+  const btn = document.getElementById('btn-continue');
+  const isLastSec = activeSec === mod.sections.length - 1;
+  const isLastMod = activeMod === MODULES.length - 1;
+  const u = UI[lang];
+  const nextLabel = lang === 'ar' ? (sec.next_ar || sec.next) : sec.next;
+
+  document.getElementById('action-label').innerHTML =
+    nextLabel ? u.upNext(nextLabel) : '&nbsp;';
+
+  btn.className = 'btn-continue';
+  if (isLastSec && isLastMod) {
+    btn.textContent = u.btnDone;
+    btn.className += ' done-btn';
+    btn.disabled = false;
+  } else if (isLastSec) {
+    btn.textContent = u.btnNextMod;
+    btn.className += ' gold';
+    btn.disabled = false;
+  } else {
+    btn.textContent = u.btnContinue;
+    btn.disabled = false;
+  }
+}
+
+function renderTopbar() {
+  const mod   = MODULES[activeMod];
+  const title = lang === 'ar' ? (mod.title_ar || mod.title) : mod.title;
+  document.getElementById('topbar-crumb').innerHTML = `<strong>${mod.code}</strong> · ${title}`;
+  document.getElementById('topbar-page').textContent = UI[lang].secOf(activeSec + 1, mod.sections.length);
+}
+
+function renderOverallProgress() {
+  let doneSecs = 0;
+  MODULES.forEach((m, i) => { doneSecs += done[i] ? done[i].size : 0; });
+  const pct = Math.round(doneSecs / TOTAL_SECS * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = UI[lang].pctComplete(pct);
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+function handleContinue() {
+  if (!done[activeMod]) done[activeMod] = new Set();
+  done[activeMod].add(activeSec);
+
+  const mod = MODULES[activeMod];
+  const isLastSec = activeSec === mod.sections.length - 1;
+  const isLastMod = activeMod === MODULES.length - 1;
+
+  if (isLastSec && isLastMod) { render(); return; }
+
+  if (isLastSec) {
+    const nextMod = activeMod + 1;
+    if (!MODULES[nextMod].free && !unlocked) {
+      render();
+      document.getElementById('gate-overlay').classList.add('show');
+      return;
+    }
+    activeMod = nextMod;
+    activeSec = 0;
+  } else {
+    activeSec++;
+  }
+  render();
+}
+
+function clickModule(i) {
+  closeSidebar();
+  if (!MODULES[i].free && !unlocked) {
+    document.getElementById('gate-overlay').classList.add('show');
+    return;
+  }
+  activeMod = i;
+  activeSec = 0;
+  render();
+}
+
+function jumpSec(i) {
+  if (!MODULES[activeMod].free && !unlocked) return;
+  activeSec = i;
+  render();
+}
+
+// ── Gate ──────────────────────────────────────────────────────────────────────
+function closeGate() { document.getElementById('gate-overlay').classList.remove('show'); }
+
+function submitGate() {
+  const name  = document.getElementById('gate-name').value.trim();
+  const email = document.getElementById('gate-email').value.trim();
+  const btn   = document.getElementById('btn-unlock');
+  const msg   = document.getElementById('gate-msg');
+  if (!name || !email) {
+    document.getElementById('gate-name').style.borderColor  = name  ? '' : '#b91c1c';
+    document.getElementById('gate-email').style.borderColor = email ? '' : '#b91c1c';
+    return;
+  }
+  btn.textContent = UI[lang].unlocking;
+  btn.disabled = true;
+  fetch('https://formspree.io/f/xqegyzgd', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      _subject: '[RAI Courses] F-01 unlock — ' + name,
+      name, email, course: 'F-01 AI Literacy Foundations',
+      page_url: window.location.href, timestamp: new Date().toISOString(),
+    }),
+  }).finally(() => {
+    sessionStorage.setItem('f01-unlocked', '1');
+    unlocked = true;
+    msg.style.display = 'block';
+    msg.style.color = 'var(--green)';
+    msg.textContent = UI[lang].unlocked;
+    setTimeout(() => {
+      closeGate();
+      // If we just finished M1, go to M2
+      if (activeMod === 0 && activeSec === MODULES[0].sections.length - 1) {
+        activeMod = 1; activeSec = 0;
+      }
+      render();
+    }, 900);
+  });
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+document.getElementById('rai-lang').textContent = lang === 'ar' ? 'EN' : 'AR';
+document.documentElement.lang = lang;
+document.documentElement.dir  = lang === 'ar' ? 'rtl' : 'ltr';
+document.getElementById('rai-thm').textContent =
+  (localStorage.getItem('rai-theme') || 'light') === 'dark' ? '☀' : '☾';
+updateStaticUI();
+render();
+</script>
+</body>
+</html>
