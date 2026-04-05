@@ -122,11 +122,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-ui);min-heigh
   <span class="rai-topbar-brand">Responsible AI Toolkit</span>
   <div class="rai-topbar-right">
     <button id="rai-lang" class="rai-btn-small" onclick="(function(){var h=document.documentElement,n=h.lang==='ar'?'en':'ar';h.lang=n;h.dir=n==='ar'?'rtl':'ltr';localStorage.setItem('rai-lang',n);document.getElementById('rai-lang').textContent=n==='ar'?'EN':'AR';if(window.__raiSetLang)window.__raiSetLang(n);})()" >AR</button>
-    <button id="rai-thm" class="rai-btn-small" onclick="(function(){var e=document.documentElement,t=e.dataset.theme==='light'?'dark':'light';e.dataset.theme=t;localStorage.setItem('rai-theme',t);document.getElementById('rai-thm').textContent=t==='dark'?'Light':'Dark';})()">Dark</button>
+    <button id="rai-thm" class="rai-btn-small" onclick="(function(){var e=document.documentElement,t=e.dataset.theme==='light'?'dark':'light';e.dataset.theme=t;localStorage.setItem('rai-theme',t);document.getElementById('rai-thm').textContent=t==='dark'?'☀':'☾';})()">☾</button>
   </div>
 </div>
 <div id="root"></div>
-<script>(function(){var l=document.documentElement.lang;document.getElementById('rai-lang').textContent=l==='ar'?'EN':'AR';document.getElementById('rai-thm').textContent=document.documentElement.dataset.theme==='dark'?'Light':'Dark';})();</script>
+<script>(function(){var l=document.documentElement.lang;document.getElementById('rai-lang').textContent=l==='ar'?'EN':'AR';document.getElementById('rai-thm').textContent=document.documentElement.dataset.theme==='dark'?'☀':'☾';})();</script>
 <script type="text/babel">
 const { useState, useEffect, useMemo } = React;
 
